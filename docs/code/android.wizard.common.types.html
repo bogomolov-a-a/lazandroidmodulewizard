@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>android.wizard.common.types</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<h1 class="unit">Unit android.wizard.common.types</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+Forked from jmpessoa/lazarusandroidmodulewizard on github.
+
+<p>Contains common types for ide tools and project wizard packages.   </p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TApiInformation.html"><code>TApiInformation</code></a></td>
+<td class="itemdesc">Android manifest API version information</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TBuildSystemInformation.html"><code>TBuildSystemInformation</code></a></td>
+<td class="itemdesc">Build system information using for project</td>
+</tr>
+<tr class="list">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TCompilerArchitecture.html"><code>TCompilerArchitecture</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TGeneratedSourceInformation.html"><code>TGeneratedSourceInformation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TJdkInformation.html"><code>TJdkInformation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TNdkInformation.html"><code>TNdkInformation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TPluginCoordinates.html"><code>TPluginCoordinates</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TPluginInformation.html"><code>TPluginInformation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TProjectInformation.html"><code>TProjectInformation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TSdkInformation.html"><code>TSdkInformation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Packed Record&nbsp;<a class="bold" href="android.wizard.common.types.TSemanticVersion.html"><code>TSemanticVersion</code></a></td>
+<td class="itemdesc">About semantic versioning at <a href="https://semver.org/">https://semver.org/</a></td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="android.wizard.common.types.html#TBuildSystemType">TBuildSystemType</a></strong> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="android.wizard.common.types.html#TModuleType">TModuleType</a></strong> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="android.wizard.common.types.html#TSyntaxMode">TSyntaxMode</a></strong> = (...);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="android.wizard.common.types.html#SubDirectoryByModuleTypeArray">SubDirectoryByModuleTypeArray</a></strong>: array [Low(<a href="android.wizard.common.types.html#TModuleType">TModuleType</a>)..High(<a href="android.wizard.common.types.html#TModuleType">TModuleType</a>)] of string =
+    (
+    
+    'gdx',
+    
+    'gui',
+    
+    'nogui',
+    
+    'consoleApp',
+    
+    'genericLib'
+    );</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TBuildSystemType"></span><code><strong>TBuildSystemType</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Build system type for apk creating.</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="bstAnt">bstAnt</span>: <p class="hint_directive">Warning: this symbol is deprecated.</p> Use <a class="normal" href="android.wizard.common.types.html#bstGradle">bstGradle</a>. Don't use this.</li>
+<li>
+<span id="bstGradle">bstGradle</span>: Actual build system for android application</li>
+<li>
+<span id="bstMaven">bstMaven</span>: <p class="hint_directive">Warning: this symbol is deprecated.</p> Use <a class="normal" href="android.wizard.common.types.html#bstGradle">bstGradle</a>. Don't use this.</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TModuleType"></span><code><strong>TModuleType</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Application module type: game module, gui app, no gui app or console app For backward compatibility <a class="normal" href="android.wizard.common.types.html#mtGDX">mtGDX</a>=-1 and others order by id.  </p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="mtGDX">mtGDX = -1</span>: Not implement yet</li>
+<li>
+<span id="mtGUI">mtGUI = 0</span>: Basic android application with visual activity(ies)</li>
+<li>
+<span id="mtNOGUI">mtNOGUI = 1</span>: May be daemons? Not implement yet.</li>
+<li>
+<span id="mtCONSOLE_EXEC_APP">mtCONSOLE_EXEC_APP = 2</span>: Native console app. Write on FPC, for execute need 'Termux' and others.</li>
+<li>
+<span id="mtGENERIC_LIB">mtGENERIC_LIB = 3</span>: Native lib, may be used in another application types as 'so'</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TSyntaxMode"></span><code><strong>TSyntaxMode</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+moved from androidwizard_intf.pas</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="smDelphi">smDelphi</span></li>
+<li>
+<span id="smObjFpc">smObjFpc</span></li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SubDirectoryByModuleTypeArray"></span><code><strong>SubDirectoryByModuleTypeArray</strong>: array [Low(<a href="android.wizard.common.types.html#TModuleType">TModuleType</a>)..High(<a href="android.wizard.common.types.html#TModuleType">TModuleType</a>)] of string =
+    (
+    
+    'gdx',
+    
+    'gui',
+    
+    'nogui',
+    
+    'consoleApp',
+    
+    'genericLib'
+    );</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+For separating Java code by application types add specified directories with code, resources and others(for example, native declarations).  </p>
+</td></tr>
+</table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>bogomolov-a-a</li>
+</ul>
+<h2 class="created">Created</h2>
+<p>
+2021-07-10
+</p>
+<h2 class="modified">Last Modified</h2>
+<p>
+2021-07-17
+</p>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0</a>. </em>
+</span>
+</body></html>

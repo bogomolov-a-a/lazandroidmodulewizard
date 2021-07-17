@@ -1,0 +1,768 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<meta name="GENERATOR" content="PasDoc 0.16.0">
+</head><body>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetAbsolutePathForPackageResouces">
+<param name="Local" value="Android.Wizard.Project.Main.html#GetAbsolutePathForPackageResouces">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFiles">
+<param name="Local" value="ProjectWorkspaceMainForm.html#GetFiles">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GUI_ANDROID_ACTIVITY_FORM_NAME">
+<param name="Local" value="android.wizard.project.descriptor.gui.html#GUI_ANDROID_ACTIVITY_FORM_NAME">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IAndroidManifestFileBuilder">
+<param name="Local" value="Android.Wizard.Project.Main.IAndroidManifestFileBuilder.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildManifest">
+<param name="Local" value="Android.Wizard.Project.Main.IAndroidManifestFileBuilder.html#BuildManifest">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IBuildSystemBuildFileBuilder">
+<param name="Local" value="Android.Wizard.Project.Main.IBuildSystemBuildFileBuilder.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildAntProjectBuildXml">
+<param name="Local" value="Android.Wizard.Project.Main.IBuildSystemBuildFileBuilder.html#BuildAntProjectBuildXml">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildGradleBuildGradleFile">
+<param name="Local" value="Android.Wizard.Project.Main.IBuildSystemBuildFileBuilder.html#BuildGradleBuildGradleFile">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IJavaProjectFileBuilder">
+<param name="Local" value="android.wizard.project.descriptor.main.IJavaProjectFileBuilder.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildFiles">
+<param name="Local" value="android.wizard.project.descriptor.main.IJavaProjectFileBuilder.html#BuildFiles">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IJniPascalProjectFileBuilder">
+<param name="Local" value="android.wizard.project.descriptor.main.IJniPascalProjectFileBuilder.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildFiles">
+<param name="Local" value="android.wizard.project.descriptor.main.IJniPascalProjectFileBuilder.html#BuildFiles">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IModuleDependentFileBuilder">
+<param name="Local" value="Android.Wizard.Project.Main.IModuleDependentFileBuilder.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetModuleType">
+<param name="Local" value="Android.Wizard.Project.Main.IModuleDependentFileBuilder.html#GetModuleType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsAllCharNumber">
+<param name="Local" value="ProjectWorkspaceMainForm.html#IsAllCharNumber">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="JNI_PROJECT_PATH">
+<param name="Local" value="android.wizard.project.descriptor.main.html#JNI_PROJECT_PATH">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PROJECT_LAMW_CATEGORY_NAME">
+<param name="Local" value="android.wizard.project.descriptor.main.html#PROJECT_LAMW_CATEGORY_NAME">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ReplaceChar">
+<param name="Local" value="ProjectWorkspaceMainForm.html#ReplaceChar">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SplitStr">
+<param name="Local" value="ProjectWorkspaceMainForm.html#SplitStr">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SubDirectoryByModuleTypeArray">
+<param name="Local" value="android.wizard.common.types.html#SubDirectoryByModuleTypeArray">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TAndroidManifestBuilderFactory">
+<param name="Local" value="Android.Wizard.Project.Main.TAndroidManifestBuilderFactory.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CreateBuilder">
+<param name="Local" value="Android.Wizard.Project.Main.TAndroidManifestBuilderFactory.html#CreateBuilder">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TAndroidProjectDescriptorFactory">
+<param name="Local" value="android.wizard.project.descriptor.main.TAndroidProjectDescriptorFactory.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RegisterAndroidProjectDescriptor">
+<param name="Local" value="android.wizard.project.descriptor.main.TAndroidProjectDescriptorFactory.html#RegisterAndroidProjectDescriptor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TApiInformation">
+<param name="Local" value="android.wizard.common.types.TApiInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CompileApiVersion">
+<param name="Local" value="android.wizard.common.types.TApiInformation.html#CompileApiVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MinApiVersion">
+<param name="Local" value="android.wizard.common.types.TApiInformation.html#MinApiVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TargetApiVersion">
+<param name="Local" value="android.wizard.common.types.TApiInformation.html#TargetApiVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TBuildSystemBuildFileBuilderFactory">
+<param name="Local" value="Android.Wizard.Project.Main.TBuildSystemBuildFileBuilderFactory.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CreateBuilder">
+<param name="Local" value="Android.Wizard.Project.Main.TBuildSystemBuildFileBuilderFactory.html#CreateBuilder">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TBuildSystemInformation">
+<param name="Local" value="android.wizard.common.types.TBuildSystemInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BSType">
+<param name="Local" value="android.wizard.common.types.TBuildSystemInformation.html#BSType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToTool">
+<param name="Local" value="android.wizard.common.types.TBuildSystemInformation.html#PathToTool">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PluginInformation">
+<param name="Local" value="android.wizard.common.types.TBuildSystemInformation.html#PluginInformation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Version">
+<param name="Local" value="android.wizard.common.types.TBuildSystemInformation.html#Version">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TBuildSystemType">
+<param name="Local" value="android.wizard.common.types.html#TBuildSystemType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCompilerArchitecture">
+<param name="Local" value="android.wizard.common.types.TCompilerArchitecture.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FPUSet">
+<param name="Local" value="android.wizard.common.types.TCompilerArchitecture.html#FPUSet">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="InstructionSet">
+<param name="Local" value="android.wizard.common.types.TCompilerArchitecture.html#InstructionSet">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TGeneratedSourceInformation">
+<param name="Local" value="android.wizard.common.types.TGeneratedSourceInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsAppCompat">
+<param name="Local" value="android.wizard.common.types.TGeneratedSourceInformation.html#IsAppCompat">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PackageName">
+<param name="Local" value="android.wizard.common.types.TGeneratedSourceInformation.html#PackageName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ThemeName">
+<param name="Local" value="android.wizard.common.types.TGeneratedSourceInformation.html#ThemeName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TGUIAndroidModuleFactory">
+<param name="Local" value="android.wizard.project.descriptor.gui.TGUIAndroidModuleFactory.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RegisterGUIAndroidModuleResources">
+<param name="Local" value="android.wizard.project.descriptor.gui.TGUIAndroidModuleFactory.html#RegisterGUIAndroidModuleResources">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TJdkInformation">
+<param name="Local" value="android.wizard.common.types.TJdkInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToJdk">
+<param name="Local" value="android.wizard.common.types.TJdkInformation.html#PathToJdk">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Version">
+<param name="Local" value="android.wizard.common.types.TJdkInformation.html#Version">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TModuleType">
+<param name="Local" value="android.wizard.common.types.html#TModuleType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TNdkInformation">
+<param name="Local" value="android.wizard.common.types.TNdkInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NdkVersion">
+<param name="Local" value="android.wizard.common.types.TNdkInformation.html#NdkVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NdkVersionName">
+<param name="Local" value="android.wizard.common.types.TNdkInformation.html#NdkVersionName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToNdk">
+<param name="Local" value="android.wizard.common.types.TNdkInformation.html#PathToNdk">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TPluginCoordinates">
+<param name="Local" value="android.wizard.common.types.TPluginCoordinates.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ArtifactId">
+<param name="Local" value="android.wizard.common.types.TPluginCoordinates.html#ArtifactId">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GroupId">
+<param name="Local" value="android.wizard.common.types.TPluginCoordinates.html#GroupId">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TPluginInformation">
+<param name="Local" value="android.wizard.common.types.TPluginInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Coordinates">
+<param name="Local" value="android.wizard.common.types.TPluginInformation.html#Coordinates">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Version">
+<param name="Local" value="android.wizard.common.types.TPluginInformation.html#Version">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TProjectInformation">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ApiInformation">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#ApiInformation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildSystemInformation">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#BuildSystemInformation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CompilerArchitecture">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#CompilerArchitecture">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GeneratedSourceInformation">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#GeneratedSourceInformation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ModuleType">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#ModuleType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Name">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#Name">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SyntaxMode">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#SyntaxMode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Version">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#Version">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="VersionName">
+<param name="Local" value="android.wizard.common.types.TProjectInformation.html#VersionName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TrimChar">
+<param name="Local" value="ProjectWorkspaceMainForm.html#TrimChar">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TSdkInformation">
+<param name="Local" value="android.wizard.common.types.TSdkInformation.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildToolsVersion">
+<param name="Local" value="android.wizard.common.types.TSdkInformation.html#BuildToolsVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToSdk">
+<param name="Local" value="android.wizard.common.types.TSdkInformation.html#PathToSdk">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TSemanticVersion">
+<param name="Local" value="android.wizard.common.types.TSemanticVersion.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Major">
+<param name="Local" value="android.wizard.common.types.TSemanticVersion.html#Major">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Minor">
+<param name="Local" value="android.wizard.common.types.TSemanticVersion.html#Minor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Path">
+<param name="Local" value="android.wizard.common.types.TSemanticVersion.html#Path">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Revision">
+<param name="Local" value="android.wizard.common.types.TSemanticVersion.html#Revision">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TSyntaxMode">
+<param name="Local" value="android.wizard.common.types.html#TSyntaxMode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TWorkspaceProjectMainForm">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AndroidProjectName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#AndroidProjectName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AndroidTheme">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#AndroidTheme">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AndroidThemeColor">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#AndroidThemeColor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AntBuildMode">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#AntBuildMode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BitBtnCancel">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#BitBtnCancel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BitBtnOK">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#BitBtnOK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="BuildSystem">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#BuildSystem">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cbBuildSystem">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#cbBuildSystem">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cbBuildSystemCloseUp">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#cbBuildSystemCloseUp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxLibrary">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxLibrary">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxLibraryClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxLibraryClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxPIE">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxPIE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxPIEClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxPIEClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxSupport">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxSupport">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxSupportChange">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxSupportChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckBoxSupportClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#CheckBoxSupportClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ComboBoxTheme">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ComboBoxTheme">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ComboBoxThemeChange">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ComboBoxThemeChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ComboBoxThemeColor">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ComboBoxThemeColor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ComboBoxThemeColorChange">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ComboBoxThemeColorChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ComboSelectProjectName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ComboSelectProjectName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ComboSelectProjectNameKeyPress">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ComboSelectProjectNameKeyPress">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="EditPackagePrefaceName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#EditPackagePrefaceName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="EditPathToWorkspace">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#EditPathToWorkspace">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="EditPathToWorkspaceExit">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#EditPathToWorkspaceExit">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="edProjectName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#edProjectName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FormActivate">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#FormActivate">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FormClose">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#FormClose">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FormCreate">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#FormCreate">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FPUSet">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#FPUSet">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FullJavaSrcPath">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#FullJavaSrcPath">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetBuildTool">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetBuildTool">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetCodeNameByApi">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetCodeNameByApi">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetEventSignature">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetEventSignature">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFullJavaSrcPath">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetFullJavaSrcPath">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetMaxNdkPlatform">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetMaxNdkPlatform">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetMaxSdkPlatform">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetMaxSdkPlatform">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetNDKVersion">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetNDKVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetPrebuiltDirectory">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetPrebuiltDirectory">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetTextByListIndex">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GetTextByListIndex">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GradleVersion">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GradleVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GroupBox1">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GroupBox1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GroupBox2">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GroupBox2">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GroupBox3">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GroupBox3">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GroupBox4">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GroupBox4">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GroupBox5">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#GroupBox5">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Image1">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#Image1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ImageList1">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ImageList1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="InstructionSet">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#InstructionSet">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsLaz4Android">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#IsLaz4Android">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="JavaClassName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#JavaClassName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Label1">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#Label1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="LabelPathToWorkspace">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#LabelPathToWorkspace">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="LabelSelectProjectName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#LabelSelectProjectName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="LabelTheme">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#LabelTheme">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="LibraryChecked">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#LibraryChecked">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxMinSDK">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxMinSDK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxMinSDKChange">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxMinSDKChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxNdkPlatform">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxNdkPlatform">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxNdkPlatformChange">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxNdkPlatformChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxTargetAPI">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxTargetAPI">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxTargetAPIChange">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxTargetAPIChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ListBoxTargetAPICloseUp">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ListBoxTargetAPICloseUp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="LoadPathsSettings">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#LoadPathsSettings">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="LoadSettings">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#LoadSettings">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MainActivity">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#MainActivity">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MaxSdkPlatform">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#MaxSdkPlatform">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MinApi">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#MinApi">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ModuleType">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ModuleType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NDK">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#NDK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NdkApi">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#NdkApi">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NDKIndex">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#NDKIndex">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NDKVersion">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#NDKVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PackagePrefaceName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PackagePrefaceName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Panel1">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#Panel1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Panel2">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#Panel2">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PanelButtons">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PanelButtons">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PanelPlatform">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PanelPlatform">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PanelRadioGroup">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PanelRadioGroup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToAndroidNDK">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToAndroidNDK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToAndroidSDK">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToAndroidSDK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToAntBin">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToAntBin">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToGradle">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToGradle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToJavaJDK">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToJavaJDK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToJavaTemplates">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToJavaTemplates">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToSmartDesigner">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToSmartDesigner">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PathToWorkspace">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PathToWorkspace">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PieChecked">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PieChecked">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PrebuildOSYS">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#PrebuildOSYS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ProjectModel">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#ProjectModel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RGInstruction">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#RGInstruction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RGInstructionClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#RGInstructionClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SaveSettings">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SaveSettings">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SelDirDlgPathToWorkspace">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SelDirDlgPathToWorkspace">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SmallProjName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SmallProjName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpdBtnPathToWorkspace">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpdBtnPathToWorkspace">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpdBtnPathToWorkspaceClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpdBtnPathToWorkspaceClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpdBtnRefreshProjectName">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpdBtnRefreshProjectName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpdBtnRefreshProjectNameClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpdBtnRefreshProjectNameClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpeedButton1">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpeedButton1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpeedButton1Click">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpeedButton1Click">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpeedButtonHintTheme">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpeedButtonHintTheme">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpeedButtonHintThemeClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpeedButtonHintThemeClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SpeedButtonSDKPlusClick">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#SpeedButtonSDKPlusClick">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="StatusBarInfo">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#StatusBarInfo">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Support">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#Support">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TargetApi">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#TargetApi">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TouchtestEnabled">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#TouchtestEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TryGetNDKRelease">
+<param name="Local" value="ProjectWorkspaceMainForm.TWorkspaceProjectMainForm.html#TryGetNDKRelease">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="WorkspaceProjectMainForm">
+<param name="Local" value="ProjectWorkspaceMainForm.html#WorkspaceProjectMainForm">
+</object>
+</ul>
+</body></html>
