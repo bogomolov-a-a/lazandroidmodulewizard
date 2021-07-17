@@ -4,19 +4,18 @@
 
 unit LazAndroidWizardPack;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  AndroidWizard_intf, uformworkspace, uFormAndroidProject, uRegisterForm, 
-  FormPathMissing, uFormOSystem, uJavaParser, LamwDesigner, uFormSizeSelect, 
-  ImgCache, LamwSettings, SmartDesigner, AndroidThemes, jImageListEditDlg, 
-  NinePatchPNG, LazarusPackageIntf;
+  registerPackageUnit, android.wizard.common.types, android.wizard.project.descriptor.main, android.wizard.project.descriptor.gui, ProjectWorkspaceMainForm, 
+  LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
-  RegisterUnit('AndroidWizard_intf', @AndroidWizard_intf.Register);
+  RegisterUnit('registerPackageUnit', @registerPackageUnit.Register);
 end;
 
 initialization

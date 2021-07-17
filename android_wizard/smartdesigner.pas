@@ -4132,6 +4132,7 @@ end;
 
 initialization
   LamwSmartDesigner := TLamwSmartDesigner.Create;
+  LamwSmartDesigner.Init;
 
 finalization
   LamwSmartDesigner.Free;

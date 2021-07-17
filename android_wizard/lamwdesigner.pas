@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, FormEditingIntf, PropEdits,
   ComponentEditors, ProjectIntf, Laz2_DOM, AndroidWidget, Laz_And_Controls,
-  Dialogs, Forms, AndroidThemes, ImgCache,  LCLVersion, Math;
+  Dialogs, Forms, AndroidThemes, ImgCache, LCLVersion, Math;
 
 type
   TDraftWidget = class;
@@ -19,7 +19,7 @@ type
 
   TDraftControlHash = class
   private
-    FFreeLeft: Integer;
+    FFreeLeft: integer;
     FItems: array of record
       VisualControl: jVisualControlClass;
       Draft: TDraftWidgetClass;
@@ -27,25 +27,26 @@ type
     function Hash1(c: TClass): PtrUInt; inline;
     function Hash2(i: PtrUInt): PtrUInt; inline;
   public
-    constructor Create(MaxCapacity: Integer);
-    procedure Add(VisualControlClass: jVisualControlClass; DraftWidgetClass: TDraftWidgetClass);
+    constructor Create(MaxCapacity: integer);
+    procedure Add(VisualControlClass: jVisualControlClass;
+      DraftWidgetClass: TDraftWidgetClass);
     function Find(VisualControlClass: TClass): TDraftWidgetClass;
   end;
 
   { TAndroidWidgetMediator :: thanks to x2nie !}
 
-  TAndroidWidgetMediator = class(TDesignerMediator,IAndroidWidgetDesigner)
+  TAndroidWidgetMediator = class(TDesignerMediator, IAndroidWidgetDesigner)
   private
     FDefaultBrushColor: TColor;
     FDefaultPenColor: TColor;
     FDefaultFontColor: TColor;
     FImageCache: TImageCache;
-    FSizing: Boolean;
+    FSizing: boolean;
     FStarted, FDone, FCustomDialogs, FShownCustomDialogs: TFPList;
     FLastSelectedContainer: jVisualControl;
     FSelection: TFPList;
     FProjFile: TLazProjectFile;
-    FjControlDeleted: Boolean;
+    FjControlDeleted: boolean;
     FTheme: TAndroidTheme;
     FSplashExists: boolean;
 
@@ -58,10 +59,12 @@ type
 
   protected
     //procedure OnDesignerModified(Sender: TObject);
-    procedure OnDesignerModified(Sender: TObject{$If lcl_fullversion=1070000}; {%H-}PropName: ShortString{$ENDIF});
+    procedure OnDesignerModified(Sender: TObject{$If lcl_fullversion=1070000};
+    {%H-}PropName: ShortString{$ENDIF});
     procedure OnPersistentAdded(APersistent: TPersistent; {%H-}Select: boolean);
     //procedure OnPersistentDeleted;
-    procedure OnPersistentDeleted({$IF LCL_FULLVERSION >= 2010000}APersistent: TPersistent{$endif}); //thanks to @Coldzer0 !
+    procedure OnPersistentDeleted({$IF LCL_FULLVERSION >= 2010000}APersistent:
+      TPersistent{$endif}); //thanks to @Coldzer0 !
     procedure OnPersistentDeleting(APersistent: TPersistent);
     procedure OnSetSelection(const ASelection: TPersistentSelectionList);
     // tk
@@ -71,20 +74,26 @@ type
   public
 
     //needed by the lazarus form editor
-    class function CreateMediator(TheOwner, TheForm: TComponent): TDesignerMediator; override;
+    class function CreateMediator(TheOwner, TheForm: TComponent): TDesignerMediator;
+      override;
     class function FormClass: TComponentClass; override;
 
     procedure GetBounds(AComponent: TComponent; out CurBounds: TRect); override;
     procedure SetBounds(AComponent: TComponent; NewBounds: TRect); override;
-    procedure GetClientArea(AComponent: TComponent; out CurClientArea: TRect; out ScrollOffset: TPoint); override;
-    procedure InitComponent(AComponent, NewParent: TComponent; NewBounds: TRect); override;
+    procedure GetClientArea(AComponent: TComponent; out CurClientArea: TRect;
+      out ScrollOffset: TPoint); override;
+    procedure InitComponent(AComponent, NewParent: TComponent;
+      NewBounds: TRect); override;
     procedure Paint; override;
     function ComponentIsIcon(AComponent: TComponent): boolean; override;
-    function ComponentIsVisible(AComponent: TComponent): Boolean; override;
-    function ParentAcceptsChild(Parent: TComponent; Child: TComponentClass): boolean; override;
+    function ComponentIsVisible(AComponent: TComponent): boolean; override;
+    function ParentAcceptsChild(Parent: TComponent; Child: TComponentClass): boolean;
+      override;
     procedure UpdateTheme;
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; p: TPoint; var Handled: boolean); override;
-    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; p: TPoint; var Handled: boolean); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+      p: TPoint; var Handled: boolean); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
+      p: TPoint; var Handled: boolean); override;
     procedure MouseMove(Shift: TShiftState; p: TPoint; var Handled: boolean); override;
 
   public
@@ -100,7 +109,8 @@ type
     property AndroidTheme: TAndroidTheme read FTheme;
     property ImageCache: TImageCache read FImageCache;
   public
-    procedure GetObjInspNodeImageIndex(APersistent: TPersistent; var AIndex: integer); override;
+    procedure GetObjInspNodeImageIndex(APersistent: TPersistent;
+      var AIndex: integer); override;
   end;
 
 
@@ -115,18 +125,18 @@ type
     procedure SetColor(AColor: TARGBColorBridge);
     procedure SetFontColor(AColor: TARGBColorBridge);
     function Designer: TAndroidWidgetMediator;
-    function WrapContentHeightByChildren: Integer;
-    function WrapContentWidthByChildren: Integer;
+    function WrapContentHeightByChildren: integer;
+    function WrapContentWidthByChildren: integer;
   protected
     FAndroidWidget: TAndroidWidget;      // original
     FCanvas: TCanvas;                    // canvas to draw onto
     FLeftTop, FRightBottom: TPoint;      // layout
-    FMinWidth, FMinHeight: Integer;
+    FMinWidth, FMinHeight: integer;
     function GetParentBackgroundColor: TARGBColorBridge;
     function GetBackGroundColor: TColor;
     function DefaultTextColor: TColor; virtual;
-    function GetNewWidth: Integer;
-    function GetNewHeight: Integer;
+    function GetNewWidth: integer;
+    function GetNewHeight: integer;
     procedure SetBounds;
   public
     BackGroundColor: TColor;
@@ -395,9 +405,12 @@ type
     constructor Create(AWidget: TAndroidWidget; Canvas: TCanvas); override;
     procedure Draw; override;
 
-    property DropListTextColor: TARGBColorBridge read FDropListTextColor write SetDropListTextColor;
-    property DropListBackgroundColor: TARGBColorBridge  read FDropListBackgroundColor write SetDropListBackgroundColor;
-    property SelectedFontColor: TARGBColorBridge  read FSelectedFontColor write SetSelectedFontColor;
+    property DropListTextColor: TARGBColorBridge
+      read FDropListTextColor write SetDropListTextColor;
+    property DropListBackgroundColor: TARGBColorBridge
+      read FDropListBackgroundColor write SetDropListBackgroundColor;
+    property SelectedFontColor: TARGBColorBridge
+      read FSelectedFontColor write SetSelectedFontColor;
   end;
 
   { TDraftWebView }
@@ -486,21 +499,21 @@ type
 
   TDraftToolbar = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
-    { TDraftFrameLayout }
+  { TDraftFrameLayout }
 
   TDraftFrameLayout = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftZBarcodeScannerView }
 
   TDraftZBarcodeScannerView = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSFloatingButton }
@@ -533,41 +546,41 @@ type
 
   TDraftSToolbar = class(TDraftWidget)
   private
-   FImageLogo: TPortableNetworkGraphic;
-   FImageNavigation: TPortableNetworkGraphic;
-   function GetImageLogo: TPortableNetworkGraphic;
-   function GetImageNavigation: TPortableNetworkGraphic;
+    FImageLogo: TPortableNetworkGraphic;
+    FImageNavigation: TPortableNetworkGraphic;
+    function GetImageLogo: TPortableNetworkGraphic;
+    function GetImageNavigation: TPortableNetworkGraphic;
   public
-     constructor Create(AWidget: TAndroidWidget; Canvas: TCanvas); override;
-     procedure Draw; override;
-     procedure UpdateLayout; override;
+    constructor Create(AWidget: TAndroidWidget; Canvas: TCanvas); override;
+    procedure Draw; override;
+    procedure UpdateLayout; override;
   end;
 
   { TDraftSDrawerLayout }
 
   TDraftSDrawerLayout = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
-    { TDraftSNavigationView }
+  { TDraftSNavigationView }
 
   TDraftSNavigationView = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftLinearLayout }
 
   TDraftLinearLayout = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftCalendarView }
   TDraftCalendarView = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
 
@@ -575,21 +588,21 @@ type
 
   TDraftSAdMob = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSCardView }
 
   TDraftSCardView = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSRecyclerView }
 
   TDraftSRecyclerView = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSTextInput }
@@ -605,35 +618,35 @@ type
 
   TDraftSViewPager = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSAppBarLayout }
 
   TDraftSAppBarLayout = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSCollapsingToolbarLayout }
 
   TDraftSCollapsingToolbarLayout = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSTabLayout }
 
   TDraftSTabLayout = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSNestedScrollView }
 
   TDraftSNestedScrollView = class(TDraftWidget)
   public
-     procedure Draw; override;
+    procedure Draw; override;
   end;
 
   { TDraftSContinuousScrollableImageView }
@@ -656,9 +669,9 @@ type
     procedure Edit; override;
     function GetAttributes: TPropertyAttributes; override;
     procedure ListDrawValue(const CurValue: ansistring; Index: integer;
-      ACanvas: TCanvas; const ARect:TRect; AState: TPropEditDrawState); override;
+      ACanvas: TCanvas; const ARect: TRect; AState: TPropEditDrawState); override;
     procedure PropDrawValue(ACanvas: TCanvas; const ARect: TRect;
-      {%H-}AState: TPropEditDrawState); override;
+    {%H-}AState: TPropEditDrawState); override;
   end;
 
   { TAnchorPropertyEditor }
@@ -680,12 +693,12 @@ type
 
   TAndroidFormComponentEditor = class(TDefaultComponentEditor)
   private
-    procedure ChangeSize(AWidth, AHeight: Integer);
+    procedure ChangeSize(AWidth, AHeight: integer);
     procedure ShowSelectSizeDialog;
   public
-    procedure ExecuteVerb(Index: Integer); override;
-    function GetVerb(Index: Integer): string; override;
-    function GetVerbCount: Integer; override;
+    procedure ExecuteVerb(Index: integer); override;
+    function GetVerb(Index: integer): string; override;
+    function GetVerbCount: integer; override;
   end;
 
   { TAndroidFormSizePropertyEditor }
@@ -709,9 +722,9 @@ type
   TjImageListEditor = class(TComponentEditor)
   public
     procedure Edit; override;
-    procedure ExecuteVerb({%H-}Index: Integer); override;
-    function GetVerb({%H-}Index: Integer): string; override;
-    function GetVerbCount: Integer; override;
+    procedure ExecuteVerb({%H-}Index: integer); override;
+    function GetVerb({%H-}Index: integer): string; override;
+    function GetVerbCount: integer; override;
   end;
 
   { TImageIndexPropertyEditor }
@@ -728,8 +741,8 @@ type
     function GetAttributes: TPropertyAttributes; override;
     procedure GetValues(Proc: TGetStrProc); override;
     procedure SetValue(const NewValue: ansistring); override;
-    procedure ListDrawValue(const CurValue: ansistring; Index:integer;
-      ACanvas: TCanvas;  const ARect: TRect; AState: TPropEditDrawState); override;
+    procedure ListDrawValue(const CurValue: ansistring; Index: integer;
+      ACanvas: TCanvas; const ARect: TRect; AState: TPropEditDrawState); override;
   end;
 
   { TImageIdentifierPropertyEditor }
@@ -744,9 +757,15 @@ type
 
   TjCustomDialogComponentEditor = class(TComponentEditor)
   public
-    function GetVerbCount: Integer; override;
-    function GetVerb({%H-}Index: Integer): string; override;
-    procedure ExecuteVerb({%H-}Index: Integer); override;
+    function GetVerbCount: integer; override;
+    function GetVerb({%H-}Index: integer): string; override;
+    procedure ExecuteVerb({%H-}Index: integer); override;
+  end;
+
+  { TAndroidWidgetMediatorFactory }
+
+  TAndroidWidgetMediatorFactory = class
+    class procedure RegisterAndroidWidgetMediator();
   end;
 
 implementation
@@ -754,7 +773,7 @@ implementation
 uses
   LCLIntf, LCLType, strutils, ObjInspStrConsts, IDEMsgIntf, LazIDEIntf,
   IDEExternToolIntf, laz2_XMLRead, FileUtil, LazFileUtils, FPimage, typinfo,
-  uFormSizeSelect, LamwSettings, SmartDesigner, jImageListEditDlg, NinePatchPNG,
+  uFormSizeSelect, {LamwSettings, SmartDesigner,} jImageListEditDlg, NinePatchPNG,
   customdialog, togglebutton, switchbutton,
   Laz_And_GLESv1_Canvas, Laz_And_GLESv2_Canvas, gridview, Spinner, seekbar,
   radiogroup, ratingbar, digitalclock, analogclock, surfaceview,
@@ -770,19 +789,19 @@ uses
 const
   DrawableSearchPaths: array [0..4] of string = (
     'drawable-mdpi', 'drawable-ldpi', 'drawable-hdpi', 'drawable-xhdpi', 'drawable'
-  );
+    );
 
 var
   DraftClassesMap: TDraftControlHash;
 
-procedure GetRedGreenBlue(rgb: longInt; out Red, Green, Blue: word); inline;
+procedure GetRedGreenBlue(rgb: longint; out Red, Green, Blue: word); inline;
 begin
-  Red   := ( (rgb and $ff0000)  shr 16);
-  Red   := Red shl 8 or Red;
-  Green := ( (rgb and $ff00  )  shr  8);
+  Red := ((rgb and $ff0000) shr 16);
+  Red := Red shl 8 or Red;
+  Green := ((rgb and $ff00) shr 8);
   Green := Green shl 8 or Green;
-  Blue  := ( (rgb and $ff    )        );
-  Blue  := Blue shl 8 or Blue;
+  Blue := ((rgb and $ff));
+  Blue := Blue shl 8 or Blue;
 end;
 
 function ToTFPColor(colbrColor: TARGBColorBridge): TFPColor;
@@ -792,9 +811,9 @@ var
 begin
   index := Ord(colbrColor);
   GetRedGreenBlue(TFPColorBridgeArray[index], red, green, blue);
-  Result.Red   := red;
+  Result.Red := red;
   Result.Green := green;
-  Result.Blue  := blue;
+  Result.Blue := blue;
   Result.Alpha := AlphaOpaque;
 end;
 
@@ -804,26 +823,28 @@ begin
   Result := FPColorToTColor(ToTFPColor(colbrColor));
 end;
 
-function AndroidToLCLFontSize(asize: DWord; Default: Integer): Integer; inline;
+function AndroidToLCLFontSize(asize: DWord; Default: integer): integer; inline;
 begin
   case asize of
-  0: Result := Default;
-  1: Result := 1;
-  else Result := asize * 3 div 4;
+    0: Result := Default;
+    1: Result := 1;
+    else
+      Result := asize * 3 div 4;
   end;
 end;
 
-function BlendColors(c: TColor; alpha: Double; r, g, b: Byte): TColor; inline;
+function BlendColors(c: TColor; alpha: double; r, g, b: byte): TColor; inline;
 var
-  r1, g1, b1: Byte;
+  r1, g1, b1: byte;
 begin
   RedGreenBlue(ColorToRGB(c), r1, g1, b1);
-  Result := RGBToColor(Byte(Trunc(r1 * alpha + r * (1 - alpha))),
-                       Byte(Trunc(g1 * alpha + g * (1 - alpha))),
-                       Byte(Trunc(b1 * alpha + b * (1 - alpha))));
+  Result := RGBToColor(byte(Trunc(r1 * alpha + r * (1 - alpha))),
+    byte(Trunc(g1 * alpha + g * (1 - alpha))),
+    byte(Trunc(b1 * alpha + b * (1 - alpha))));
 end;
 
-procedure SetupFont(Font: TFont; FontSize, DefaultSize: Integer; FontFace: TTextTypeFace);
+procedure SetupFont(Font: TFont; FontSize, DefaultSize: integer;
+  FontFace: TTextTypeFace);
 begin
   Font.Size := AndroidToLCLFontSize(FontSize, DefaultSize);
   case FontFace of
@@ -840,6 +861,13 @@ begin
   DraftClassesMap.Add(AWidgetClass, ADraftClass);
 end;
 
+{ TAndroidWidgetMediatorFactory }
+
+class procedure TAndroidWidgetMediatorFactory.RegisterAndroidWidgetMediator();
+begin
+  FormEditingHook.RegisterDesignerMediator(TAndroidWidgetMediator);
+end;
+
 { TImageIdentifierPropertyEditor }
 
 function TImageIdentifierPropertyEditor.GetAttributes: TPropertyAttributes;
@@ -852,7 +880,7 @@ var
   o: TPersistent;
   d: TAndroidWidgetMediator;
   imgs, files: TStringList;
-  i, j: Integer;
+  i, j: integer;
 begin
   Proc('');
 
@@ -861,7 +889,8 @@ begin
   if not (o is TComponent) then
      Exit;
 
-  if not (o is TAndroidForm)  then  //so we can use for "jForm" BackgrounImageIdentifier property
+  if not (o is TAndroidForm) then
+    //so we can use for "jForm" BackgrounImageIdentifier property
   begin
     o := TComponent(o).Owner;
     if not (o is TAndroidForm) then
@@ -879,7 +908,8 @@ begin
       for i := Low(DrawableSearchPaths) to High(DrawableSearchPaths) do
       begin
         files.Clear;
-        FindAllFiles(files, d.ResDir + PathDelim + DrawableSearchPaths[i], '*.png;*.jpg', False);
+        FindAllFiles(files, d.ResDir + PathDelim + DrawableSearchPaths[i],
+          '*.png;*.jpg', False);
         for j := 0 to files.Count - 1 do
           imgs.Add(ExtractFileNameOnly(files[j]));
       end;
@@ -902,7 +932,8 @@ begin
   inherited Create(AWidget, Canvas);
   if Designer.AndroidTheme <> nil then
   begin
-    fname := Designer.AndroidTheme.FindDrawable([BaseStyle, DrawableDest], DrawableAttribs);
+    fname := Designer.AndroidTheme.FindDrawable([BaseStyle, DrawableDest],
+      DrawableAttribs);
     if fname <> '' then
       Drawable := Designer.ImageCache.GetImageAsPNG(fname);
   end;
@@ -910,12 +941,12 @@ end;
 
 { TjCustomDialogComponentEditor }
 
-function TjCustomDialogComponentEditor.GetVerbCount: Integer;
+function TjCustomDialogComponentEditor.GetVerbCount: integer;
 begin
   Result := 1;
 end;
 
-function TjCustomDialogComponentEditor.GetVerb(Index: Integer): string;
+function TjCustomDialogComponentEditor.GetVerb(Index: integer): string;
 begin
   with ((Component.Owner as TAndroidForm).Designer as TAndroidWidgetMediator) do
     if ComponentIsIcon(Self.Component) then
@@ -924,9 +955,9 @@ begin
       Result := 'Hide custom dialog';
 end;
 
-procedure TjCustomDialogComponentEditor.ExecuteVerb(Index: Integer);
+procedure TjCustomDialogComponentEditor.ExecuteVerb(Index: integer);
 var
-  i, maxH: Integer;
+  i, maxH: integer;
 begin
   with ((Component.Owner as TAndroidForm).Designer as TAndroidWidgetMediator) do
   begin
@@ -936,13 +967,15 @@ begin
       FShownCustomDialogs.Delete(i);
       TAndroidWidget(Component).Left := LeftFromDesignInfo(Component.DesignInfo);
       TAndroidWidget(Component).Top := TopFromDesignInfo(Component.DesignInfo);
-    end else begin
+    end
+    else
+    begin
       FShownCustomDialogs.Add(Component);
       with TAndroidWidget(Component) do
       begin
         Left := 5;
         Width := TAndroidForm(Owner).Width - 10;
-        jVisualControl(Component).LayoutParamWidth:= lpMatchParent; //jmpessoa
+        jVisualControl(Component).LayoutParamWidth := lpMatchParent; //jmpessoa
         maxH := 100;
         for i := 0 to ChildCount - 1 do
           with Children[i] do
@@ -950,7 +983,8 @@ begin
               maxH := Top + Height + MarginBottom;
         Height := maxH;
         Top := (TAndroidForm(Owner).Height - maxH) div 2;
-        if Top < 0 then Top := 0;
+        if Top < 0 then
+          Top := 0;
       end;
     end;
   end;
@@ -962,10 +996,11 @@ procedure TImageListPropertyEditor.GetValues(Proc: TGetStrProc);
 
   procedure TraverseComponents(Root: TComponent);
   var
-    i: Integer;
+    i: integer;
   begin
     for i := 0 to Root.ComponentCount - 1 do
-      if Root.Components[i] is jImageList then // in general "is GetTypeData(GetPropType)^.ClassType"
+      if Root.Components[i] is jImageList then
+        // in general "is GetTypeData(GetPropType)^.ClassType"
         Proc(Root.Components[i].Name);
   end;
 
@@ -1029,7 +1064,7 @@ end;
 
 procedure TImageIndexPropertyEditor.GetValues(Proc: TGetStrProc);
 var
-  i: Integer;
+  i: integer;
 begin
   if GetDefaultOrdValue <> NoDefaultValue then
     Proc(IntToStr(GetDefaultOrdValue));
@@ -1041,7 +1076,7 @@ end;
 procedure TImageIndexPropertyEditor.SetValue(const NewValue: ansistring);
 var
   Value: string;
-  i: Integer;
+  i: integer;
 begin
   Value := NewValue;
   i := Pos(' ', Value);
@@ -1051,13 +1086,12 @@ begin
 end;
 
 procedure TImageIndexPropertyEditor.ListDrawValue(const CurValue: ansistring;
-  Index: integer; ACanvas: TCanvas; const ARect: TRect;
-  AState: TPropEditDrawState);
+  Index: integer; ACanvas: TCanvas; const ARect: TRect; AState: TPropEditDrawState);
 var
   R: TRect;
   OldColor: TColor;
   bmp: TBitmap;
-  x: Integer;
+  x: integer;
 begin
   if GetDefaultOrdValue <> NoDefaultValue then
     Dec(Index);
@@ -1073,11 +1107,11 @@ begin
     ACanvas.FillRect(R);
     ACanvas.Brush.Color := OldColor;
   end;
-  if Assigned(FImages) and Assigned(FImageCache)
-  and (Index >= 0) and (Index < FImages.Images.Count) then
+  if Assigned(FImages) and Assigned(FImageCache) and (Index >= 0) and
+    (Index < FImages.Images.Count) then
   begin
     bmp := FImageCache.GetImageAsBMP(FAssetsDir + FImages.Images[Index]);
-    ACanvas.StretchDraw(Rect(R.Left+1, R.Top+1, R.Left+x+1, R.Top+x+1), bmp);
+    ACanvas.StretchDraw(Rect(R.Left + 1, R.Top + 1, R.Left + x + 1, R.Top + x + 1), bmp);
   end;
   R.Left := R.Left + x + 3;
   inherited ListDrawValue(CurValue, Index, ACanvas, R, AState);
@@ -1095,13 +1129,14 @@ begin
   try
     o := TComponent(GetComponent).Owner;
     if not (o is TAndroidForm) then
-      raise Exception.CreateFmt('%s owner is not TAndroidForm', [TComponent(GetComponent).Name]);
+      raise Exception.CreateFmt('%s owner is not TAndroidForm',
+        [TComponent(GetComponent).Name]);
     d := TAndroidForm(o).Designer as TAndroidWidgetMediator;
     fn := d.AssetsDir;
-    TheDialog := TjImagesEditorDlg.Create(Application, jImageList(GetComponent).Images,
-      fn, d.ImageCache);
+    TheDialog := TjImagesEditorDlg.Create(Application,
+      jImageList(GetComponent).Images, fn, d.ImageCache);
     try
-      if TheDialog.ShowModal = mrOK then
+      if TheDialog.ShowModal = mrOk then
       begin
         jImageList(GetComponent).Images.Assign(TheDialog.ImageList);
         Modified;
@@ -1115,17 +1150,17 @@ begin
   end;
 end;
 
-procedure TjImageListEditor.ExecuteVerb(Index: Integer);
+procedure TjImageListEditor.ExecuteVerb(Index: integer);
 begin
   Edit;
 end;
 
-function TjImageListEditor.GetVerb(Index: Integer): string;
+function TjImageListEditor.GetVerb(Index: integer): string;
 begin
   Result := 'jImages Editor...';
 end;
 
-function TjImageListEditor.GetVerbCount: Integer;
+function TjImageListEditor.GetVerbCount: integer;
 begin
   Result := 1;
 end;
@@ -1143,7 +1178,8 @@ begin
   try
     o := TComponent(GetComponent(0)).Owner;
     if not (o is TAndroidForm) then
-      raise Exception.CreateFmt('%s owner is not TAndroidForm', [TComponent(GetComponent(0)).Name]);
+      raise Exception.CreateFmt('%s owner is not TAndroidForm',
+        [TComponent(GetComponent(0)).Name]);
     d := TAndroidForm(o).Designer as TAndroidWidgetMediator;
     pr := LazarusIDE.GetProjectFileWithRootComponent(o);
     if pr = nil then
@@ -1155,7 +1191,7 @@ begin
     TheDialog := TjImagesEditorDlg.Create(Application, TStrings(GetObjectValue),
       fn, d.ImageCache);
     try
-      if TheDialog.ShowModal = mrOK then
+      if TheDialog.ShowModal = mrOk then
         SetPtrValue(TheDialog.ImageList);
     finally
       TheDialog.Free;
@@ -1176,11 +1212,11 @@ end;
 procedure TAndroidFormSizePropertyEditor.Edit;
 begin
   with TAndroidFormComponentEditor.Create(GetComponent(0) as TComponent, nil) do
-  try
-    ShowSelectSizeDialog
-  finally
-    Free
-  end;
+    try
+      ShowSelectSizeDialog
+    finally
+      Free
+    end;
 end;
 
 function TAndroidFormSizePropertyEditor.GetAttributes: TPropertyAttributes;
@@ -1190,7 +1226,7 @@ end;
 
 { TAndroidFormComponentEditor }
 
-procedure TAndroidFormComponentEditor.ChangeSize(AWidth, AHeight: Integer);
+procedure TAndroidFormComponentEditor.ChangeSize(AWidth, AHeight: integer);
 begin
   with jForm(Component) do
   begin
@@ -1204,60 +1240,62 @@ end;
 procedure TAndroidFormComponentEditor.ShowSelectSizeDialog;
 begin
   with TfrmFormSizeSelect.Create(nil) do
-  try
-    with jForm(Component) do
-      SetInitSize(Width, Height);
-    if ShowModal = mrOk then
-      ChangeSize(seWidth.Value, seHeight.Value);
-  finally
-    Free
-  end;
+    try
+      with jForm(Component) do
+        SetInitSize(Width, Height);
+      if ShowModal = mrOk then
+        ChangeSize(seWidth.Value, seHeight.Value);
+    finally
+      Free
+    end;
 end;
 
-procedure TAndroidFormComponentEditor.ExecuteVerb(Index: Integer);
+procedure TAndroidFormComponentEditor.ExecuteVerb(Index: integer);
 var
   pr: TLazProjectFile;
 begin
   case Index of
-  0: // Rotate
-    with jForm(Component) do
-      ChangeSize(Height, Width);
-  1: ShowSelectSizeDialog; // Select size
-  2: begin
-       pr := LazarusIDE.GetProjectFileWithRootComponent(Component);
-       if pr <> nil then
-         pr.CustomData['DisableLayout'] :=
-           BoolToStr(not SameText(pr.CustomData['DisableLayout'], 'True'),
-                     'True', 'False');
-     end;
-  else
-    inherited ExecuteVerb(Index);
+    0: // Rotate
+      with jForm(Component) do
+        ChangeSize(Height, Width);
+    1: ShowSelectSizeDialog; // Select size
+    2:
+    begin
+      pr := LazarusIDE.GetProjectFileWithRootComponent(Component);
+      if pr <> nil then
+        pr.CustomData['DisableLayout'] :=
+          BoolToStr(not SameText(pr.CustomData['DisableLayout'], 'True'),
+          'True', 'False');
+    end;
+    else
+      inherited ExecuteVerb(Index);
   end;
 end;
 
-function TAndroidFormComponentEditor.GetVerb(Index: Integer): string;
+function TAndroidFormComponentEditor.GetVerb(Index: integer): string;
 var
   pr: TLazProjectFile;
 begin
   case Index of
-  0: Result := 'Rotate';
-  1: Result := 'Select size...';
-  2: begin
-       pr := LazarusIDE.GetProjectFileWithRootComponent(Component);
-       if pr = nil then
-         Result := '[--------------]'
-       else
-       if not SameText(pr.CustomData['DisableLayout'], 'True') then
-         Result := 'Disable design-time layout'
-       else
-         Result := 'Enable design-time layout';
-     end;
-  else
-    Result := inherited;
-  end
+    0: Result := 'Rotate';
+    1: Result := 'Select size...';
+    2:
+    begin
+      pr := LazarusIDE.GetProjectFileWithRootComponent(Component);
+      if pr = nil then
+        Result := '[--------------]'
+      else
+      if not SameText(pr.CustomData['DisableLayout'], 'True') then
+        Result := 'Disable design-time layout'
+      else
+        Result := 'Enable design-time layout';
+    end;
+    else
+      Result := inherited;
+  end;
 end;
 
-function TAndroidFormComponentEditor.GetVerbCount: Integer;
+function TAndroidFormComponentEditor.GetVerbCount: integer;
 begin
   Result := 3;
 end;
@@ -1266,7 +1304,7 @@ end;
 
 procedure TAnchorPropertyEditor.GetValues(Proc: TGetStrProc);
 var
-  i, j: Integer;
+  i, j: integer;
   p: TAndroidWidget;
   sl: TStringList;
 begin
@@ -1284,7 +1322,8 @@ begin
     for i := 0 to PropCount - 1 do
     begin
       j := sl.IndexOf(TComponent(GetComponent(i)).Name);
-      if j >= 0 then sl.Delete(j);
+      if j >= 0 then
+        sl.Delete(j);
     end;
     for i := 0 to sl.Count - 1 do
       Proc(sl[i]);
@@ -1301,16 +1340,17 @@ begin
   begin
     if jPanel(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jPanel(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
 end;
 
 
-{ TDraftCaptionPanel }  //experimental!
+{ TDraftCaptionPanel }//experimental!
 
 procedure TDraftCaptionPanel.Draw;
 begin
@@ -1318,9 +1358,10 @@ begin
   begin
     if jCaptionPanel(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jCaptionPanel(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1334,9 +1375,10 @@ begin
   begin
     if jToolbar(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jToolbar(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1350,15 +1392,16 @@ begin
   begin
     if jFrameLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jFrameLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
 end;
 
- { TDraftZBarcodeScannerView }
+{ TDraftZBarcodeScannerView }
 
 procedure TDraftZBarcodeScannerView.Draw;
 begin
@@ -1366,9 +1409,10 @@ begin
   begin
     if jZBarcodeScannerView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jZBarcodeScannerView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1382,9 +1426,10 @@ begin
   begin
     if jsBottomNavigationView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsBottomNavigationView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1398,9 +1443,10 @@ begin
   begin
     if jsCoordinatorLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsCoordinatorLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1417,10 +1463,12 @@ begin
     begin
       if LogoIconIdentifier <> '' then
       begin
-        FImageLogo := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(LogoIconIdentifier));
+        FImageLogo := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(LogoIconIdentifier));
         Result := FImageLogo;
-      end else
-      Result := nil;
+      end
+      else
+        Result := nil;
     end;
 end;
 
@@ -1433,10 +1481,12 @@ begin
     begin
       if NavigationIconIdentifier <> '' then
       begin
-        FImageNavigation := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(NavigationIconIdentifier));
+        FImageNavigation := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(NavigationIconIdentifier));
         Result := FImageNavigation;
-      end else
-      Result := nil;
+      end
+      else
+        Result := nil;
     end;
 end;
 
@@ -1463,12 +1513,12 @@ begin
 
     if jsToolbar(FAndroidWidget).BackgroundColor <> colbrDefault then
     begin
-      Brush.Color := ToTColor(jsToolbar(FAndroidWidget).BackgroundColor)
+      Brush.Color := ToTColor(jsToolbar(FAndroidWidget).BackgroundColor);
     end
     else
     begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
 
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
@@ -1506,9 +1556,10 @@ begin
   begin
     if jsNavigationView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsNavigationView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1522,9 +1573,10 @@ begin
   begin
     if jsDrawerLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsDrawerLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1538,9 +1590,10 @@ begin
   begin
     if jLinearLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jLinearLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1554,24 +1607,26 @@ begin
   begin
     if jCalendarView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jCalendarView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
 end;
 
-  { TDraftSAdMob }
+{ TDraftSAdMob }
 procedure TDraftSAdMob.Draw;
 begin
   with Fcanvas do
   begin
     if jsAdMob(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsAdMob(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1585,9 +1640,10 @@ begin
   begin
     if jsCardView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsCardView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1601,9 +1657,10 @@ begin
   begin
     if jsRecyclerView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsRecyclerView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1617,9 +1674,10 @@ begin
   begin
     if jsViewPager(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsViewPager(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1633,9 +1691,10 @@ begin
   begin
     if jsCollapsingToolbarLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsCollapsingToolbarLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1649,9 +1708,10 @@ begin
   begin
     if jsTabLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsTabLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1665,9 +1725,10 @@ begin
   begin
     if jsAppBarLayout(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsAppBarLayout(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1679,9 +1740,10 @@ begin
   begin
     if jsNestedScrollView(FAndroidWidget).BackgroundColor <> colbrDefault then
       Brush.Color := ToTColor(jsNestedScrollView(FAndroidWidget).BackgroundColor)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
   end;
@@ -1699,7 +1761,7 @@ begin
   Result := (i + 7) mod PtrUInt(Length(FItems));
 end;
 
-constructor TDraftControlHash.Create(MaxCapacity: Integer);
+constructor TDraftControlHash.Create(MaxCapacity: integer);
 begin
   SetLength(FItems, MaxCapacity);
   FFreeLeft := MaxCapacity;
@@ -1724,15 +1786,18 @@ begin
 end;
 
 function TDraftControlHash.Find(VisualControlClass: TClass): TDraftWidgetClass;
-var i: PtrUInt;
+var
+  i: PtrUInt;
 begin
   Result := nil;
   i := Hash1(VisualControlClass);
-  if FItems[i].VisualControl = nil then Exit;
+  if FItems[i].VisualControl = nil then
+    Exit;
   while FItems[i].VisualControl <> VisualControlClass do
   begin
     i := Hash2(i);
-    if FItems[i].VisualControl = nil then Exit;
+    if FItems[i].VisualControl = nil then
+      Exit;
   end;
   Result := FItems[i].Draft;
 end;
@@ -1741,49 +1806,49 @@ end;
 
 procedure TARGBColorBridgePropertyEditor.Edit;
 var
-  r1, g1, b1, r2, g2, b2: Byte;
+  r1, g1, b1, r2, g2, b2: byte;
   i, nearest: TARGBColorBridge;
-  d, diff: Integer;
+  d, diff: integer;
 begin
   with TColorDialog.Create(nil) do
-  try
-    Color := ToTColor(TARGBColorBridge(GetOrdValue));
-    if Execute then
-    begin
-      RedGreenBlue(Color, r1, g1, b1);
-      i := Low(TARGBColorBridge);
-      RedGreenBlue(ToTColor(i), r2, g2, b2);
-      diff := Sqr(r1 - r2) + Sqr(g1 - g2) + Sqr(b1 - b2);
-      nearest := i;
-      if diff > 0 then
-        for i := Succ(i) to High(TARGBColorBridge) do
-        begin
-          RedGreenBlue(ToTColor(i), r2, g2, b2);
-          d := Sqr(r1 - r2) + Sqr(g1 - g2) + Sqr(b1 - b2);
-          if diff > d then
+    try
+      Color := ToTColor(TARGBColorBridge(GetOrdValue));
+      if Execute then
+      begin
+        RedGreenBlue(Color, r1, g1, b1);
+        i := Low(TARGBColorBridge);
+        RedGreenBlue(ToTColor(i), r2, g2, b2);
+        diff := Sqr(r1 - r2) + Sqr(g1 - g2) + Sqr(b1 - b2);
+        nearest := i;
+        if diff > 0 then
+          for i := Succ(i) to High(TARGBColorBridge) do
           begin
-            diff := d;
-            nearest := i;
-            if diff = 0 then Break;
+            RedGreenBlue(ToTColor(i), r2, g2, b2);
+            d := Sqr(r1 - r2) + Sqr(g1 - g2) + Sqr(b1 - b2);
+            if diff > d then
+            begin
+              diff := d;
+              nearest := i;
+              if diff = 0 then
+                Break;
+            end;
           end;
-        end;
-      SetOrdValue(Ord(nearest));
+        SetOrdValue(Ord(nearest));
+      end;
+    finally
+      Free;
     end;
-  finally
-    Free;
-  end;
 end;
 
 function TARGBColorBridgePropertyEditor.GetAttributes: TPropertyAttributes;
 begin
-  Result := [paMultiSelect,paValueList,paCustomDrawn,paDialog];
+  Result := [paMultiSelect, paValueList, paCustomDrawn, paDialog];
 end;
 
 procedure TARGBColorBridgePropertyEditor.ListDrawValue(const CurValue: ansistring;
-  Index: integer; ACanvas: TCanvas; const ARect: TRect;
-  AState: TPropEditDrawState);
+  Index: integer; ACanvas: TCanvas; const ARect: TRect; AState: TPropEditDrawState);
 var
-  h: Integer;
+  h: integer;
   r: TRect;
   bc: TColor;
 begin
@@ -1800,10 +1865,14 @@ begin
     if (TARGBColorBridge(Index) in [colbrDefault, colbrCustom]) then
     begin
       InflateRect(r, -1, -1);
-      MoveTo(r.Left, r.Top); LineTo(r.Right, r.Bottom);
-      MoveTo(r.Right - 1, r.Top); LineTo(r.Left - 1, r.Bottom);
+      MoveTo(r.Left, r.Top);
+      LineTo(r.Right, r.Bottom);
+      MoveTo(r.Right - 1, r.Top);
+      LineTo(r.Left - 1, r.Bottom);
       Pen.Color := bc;
-    end else begin
+    end
+    else
+    begin
       Pen.Color := bc;
       bc := Brush.Color;
       Brush.Color := ToTColor(TARGBColorBridge(Index));
@@ -1821,7 +1890,7 @@ procedure TARGBColorBridgePropertyEditor.PropDrawValue(ACanvas: TCanvas;
   const ARect: TRect; AState: TPropEditDrawState);
 var
   s: string;
-  i: Integer;
+  i: integer;
 begin
   s := GetVisualValue;
   for i := 0 to Ord(High(TARGBColorBridge)) do
@@ -1873,7 +1942,8 @@ begin
   if LazarusIDE <> nil then
     LazarusIDE.RemoveAllHandlersOfObject(Self);
 
-  if Assigned(AndroidForm) then AndroidForm.Designer := nil;
+  if Assigned(AndroidForm) then
+    AndroidForm.Designer := nil;
 
   FImageCache.Free;
   FStarted.Free;
@@ -1886,34 +1956,37 @@ begin
 end;
 
 //procedure TAndroidWidgetMediator.OnDesignerModified(Sender: TObject);
-procedure TAndroidWidgetMediator.OnDesignerModified(Sender: TObject{$If lcl_fullversion=1070000}; {%H-}PropName: ShortString{$ENDIF});
+procedure TAndroidWidgetMediator.OnDesignerModified(Sender:
+  TObject{$If lcl_fullversion=1070000}; {%H-}PropName: ShortString{$ENDIF});
 var
   Instance: TPersistent;
-  InvalidateNeeded: Boolean;
-  i: Integer;
+  InvalidateNeeded: boolean;
+  i: integer;
 begin
-  if not (Sender is TPropertyEditor) or (LCLForm = nil) then Exit;
+  if not (Sender is TPropertyEditor) or (LCLForm = nil) then
+    Exit;
   InvalidateNeeded := False;
   for i := 0 to TPropertyEditor(Sender).PropCount - 1 do
   begin
     Instance := TPropertyEditor(Sender).GetComponent(i);
-    if (Instance = AndroidForm) and (AndroidForm.ActivityMode in [actMain, actSplash]) and FProjFile.IsPartOfProject then
+    if (Instance = AndroidForm) and (AndroidForm.ActivityMode in
+      [actMain, actSplash]) and FProjFile.IsPartOfProject then
     begin
 
-      FSplashExists:= False;           //try Dio Affriza suggestion!
+      FSplashExists := False;           //try Dio Affriza suggestion!
       if AndroidForm.ActivityMode = actSplash then
       begin
-        FSplashExists:= True;
-        LamwSmartDesigner.UpdateProjectStartModule(AndroidForm.Name, AndroidForm.ModuleType)
+        FSplashExists := True;
+        // LamwSmartDesigner.UpdateProjectStartModule(AndroidForm.Name, AndroidForm.ModuleType)
       end;
 
-      if not FSplashExists then
-        LamwSmartDesigner.UpdateProjectStartModule(AndroidForm.Name, AndroidForm.ModuleType);
+      //if not FSplashExists then
+      //  LamwSmartDesigner.UpdateProjectStartModule(AndroidForm.Name, AndroidForm.ModuleType);
 
     end;
 
-    if (Instance = AndroidForm) or (Instance is jVisualControl)
-    and (jVisualControl(Instance).Owner = AndroidForm) then
+    if (Instance = AndroidForm) or (Instance is jVisualControl) and
+      (jVisualControl(Instance).Owner = AndroidForm) then
     begin
       InvalidateNeeded := True;
       Break;
@@ -1923,12 +1996,11 @@ begin
     LCLForm.Invalidate;
 end;
 
-procedure TAndroidWidgetMediator.OnPersistentAdded(APersistent: TPersistent; {%H-}Select: boolean);
+procedure TAndroidWidgetMediator.OnPersistentAdded(APersistent: TPersistent;
+  {%H-}Select: boolean);
 begin
-  if (APersistent is jVisualControl)
-  and (jVisualControl(APersistent).Parent = nil)
-  and (jVisualControl(APersistent).Owner = AndroidForm)
-  then
+  if (APersistent is jVisualControl) and (jVisualControl(APersistent).Parent = nil) and
+    (jVisualControl(APersistent).Owner = AndroidForm) then
     if Assigned(FLastSelectedContainer) then
       jVisualControl(APersistent).Parent := FLastSelectedContainer
     else
@@ -1936,14 +2008,16 @@ begin
 
   //smart designer helpers
   if (APersistent is jControl) and (jControl(APersistent).Owner = AndroidForm) then
-      UpdateJControlsList
-  else UpdateFCLControlsList;
+    UpdateJControlsList
+  else
+    UpdateFCLControlsList;
 
 end;
 
-procedure TAndroidWidgetMediator.OnSetSelection(const ASelection: TPersistentSelectionList);
+procedure TAndroidWidgetMediator.OnSetSelection(
+  const ASelection: TPersistentSelectionList);
 var
-  i: Integer;
+  i: integer;
 begin
   FLastSelectedContainer := nil;
   if (ASelection.Count = 1) and (ASelection[0] is jVisualControl) then
@@ -1974,47 +2048,49 @@ end;
 
 function TAndroidWidgetMediator.GetAndroidForm: TAndroidForm; //jForm;
 begin
-   Result := TAndroidForm(Root); //jForms
+  Result := TAndroidForm(Root); //jForms
 end;
 
 procedure TAndroidWidgetMediator.InitSmartDesignerHelpers;
 begin
-  if (FProjFile<>nil) and FProjFile.IsPartOfProject
-      and not FProjFile.CustomData.Contains('jControls') then
-        UpdateJControlsList;
+  if (FProjFile <> nil) and FProjFile.IsPartOfProject and not
+    FProjFile.CustomData.Contains('jControls') then
+    UpdateJControlsList;
 end;
 
 procedure TAndroidWidgetMediator.OnPersistentDeleting(APersistent: TPersistent);
 begin
-  FjControlDeleted := (APersistent is jControl)
-    and (Root <> nil) and (TComponent(APersistent).Owner = Root);
+  FjControlDeleted := (APersistent is jControl) and (Root <> nil) and
+    (TComponent(APersistent).Owner = Root);
 
   if FjControlDeleted then
     FShownCustomDialogs.Remove(APersistent)
-  else UpdateFCLControlsList;
+  else
+    UpdateFCLControlsList;
 end;
 
 procedure TAndroidWidgetMediator.UpdateJControlsList;
 begin
-  LamwSmartDesigner.UpdateJControls(FProjFile, AndroidForm);
+  //  LamwSmartDesigner.UpdateJControls(FProjFile, AndroidForm);
 end;
 
 procedure TAndroidWidgetMediator.UpdateFCLControlsList;
 begin
-  LamwSmartDesigner.UpdateFCLControls(FProjFile, AndroidForm);
+  //  LamwSmartDesigner.UpdateFCLControls(FProjFile, AndroidForm);
 end;
 
-class function TAndroidWidgetMediator.CreateMediator(TheOwner, TheForm: TComponent): TDesignerMediator;
+class function TAndroidWidgetMediator.CreateMediator(TheOwner, TheForm: TComponent):
+TDesignerMediator;
 var
   Mediator: TAndroidWidgetMediator;
-  i: Integer;
+  i: integer;
 begin
   Result := inherited CreateMediator(TheOwner, nil);
 
   Mediator := TAndroidWidgetMediator(Result);
 
   Mediator.Root := TheForm;
-  Mediator.AndroidForm.Designer:= Mediator;
+  Mediator.AndroidForm.Designer := Mediator;
 
   Mediator.UpdateTheme;
   Mediator.FProjFile := LazarusIDE.GetProjectFileWithRootComponent(TheForm);
@@ -2041,30 +2117,36 @@ begin
     w := TAndroidWidget(AComponent);
     if ComponentIsIcon(AComponent) then
       CurBounds := Bounds(LeftFromDesignInfo(w.DesignInfo),
-                          TopFromDesignInfo(w.DesignInfo), 28, 28)
+        TopFromDesignInfo(w.DesignInfo), 28, 28)
     else
       CurBounds := Bounds(w.Left, w.Top, w.Width, w.Height);
-  end else inherited GetBounds(AComponent,CurBounds);
+  end
+  else
+    inherited GetBounds(AComponent, CurBounds);
 end;
 
 // procedure TAndroidWidgetMediator.OnPersistentDeleted(APersistent: TPersistent);
-procedure TAndroidWidgetMediator.OnPersistentDeleted({$IF LCL_FULLVERSION >= 2010000}APersistent: TPersistent{$endif});
+procedure TAndroidWidgetMediator.OnPersistentDeleted(
+{$IF LCL_FULLVERSION >= 2010000}APersistent: TPersistent{$endif});
 begin
   if FjControlDeleted then
     UpdateJControlsList;
 end;
 
-procedure TAndroidWidgetMediator.InvalidateRect(Sender: TObject; ARect: TRect; Erase: boolean);
+procedure TAndroidWidgetMediator.InvalidateRect(Sender: TObject;
+  ARect: TRect; Erase: boolean);
 begin
-  if (LCLForm=nil) or (not LCLForm.HandleAllocated) then exit;
-  LCLIntf.InvalidateRect(LCLForm.Handle,@ARect,Erase);
+  if (LCLForm = nil) or (not LCLForm.HandleAllocated) then
+    exit;
+  LCLIntf.InvalidateRect(LCLForm.Handle, @ARect, Erase);
 end;
 
 function TAndroidWidgetMediator.RootDir: string;
 begin
   if FProjFile = nil then
     raise Exception.CreateFmt('Project file for %s is not available!', [Root.Name]);
-  Result := ExtractFilePath(TLazProject(FProjFile.GetFileOwner).MainFile.GetFullFilename);
+  Result := ExtractFilePath(TLazProject(
+    FProjFile.GetFileOwner).MainFile.GetFullFilename);
   Result := Copy(Result, 1, RPosEx(PathDelim, Result, Length(Result) - 1));
 end;
 
@@ -2083,25 +2165,28 @@ const
   ResExts: array [0..1] of string = ('.png', '.jpg');
 var
   AResDir: string;
-  i, j: Integer;
+  i, j: integer;
 begin
   AResDir := ResDir;
   for i := Low(DrawableSearchPaths) to High(DrawableSearchPaths) do
     for j := Low(ResExts) to High(ResExts) do
     begin
-      Result := AResDir + DrawableSearchPaths[i] + PathDelim
-        + AResourceName + ResExts[j];
-      if FileExists(Result) then Exit;
+      Result := AResDir + DrawableSearchPaths[i] + PathDelim +
+        AResourceName + ResExts[j];
+      if FileExists(Result) then
+        Exit;
     end;
   Result := '';
 end;
 
-procedure TAndroidWidgetMediator.GetObjInspNodeImageIndex(APersistent: TPersistent; var AIndex: integer);
+procedure TAndroidWidgetMediator.GetObjInspNodeImageIndex(APersistent: TPersistent;
+  var AIndex: integer);
 begin
-  if (APersistent is TAndroidWidget) and (TAndroidWidget(APersistent).AcceptChildrenAtDesignTime) then
-    AIndex:= FormEditingHook.GetCurrentObjectInspector.ComponentTree.ImgIndexBox
+  if (APersistent is TAndroidWidget) and
+    (TAndroidWidget(APersistent).AcceptChildrenAtDesignTime) then
+    AIndex := FormEditingHook.GetCurrentObjectInspector.ComponentTree.ImgIndexBox
   else if (APersistent is TAndroidWidget) then
-    AIndex:= FormEditingHook.GetCurrentObjectInspector.ComponentTree.ImgIndexControl
+    AIndex := FormEditingHook.GetCurrentObjectInspector.ComponentTree.ImgIndexControl
   else
     inherited GetObjInspNodeImageIndex(APersistent, AIndex);
 end;
@@ -2110,45 +2195,50 @@ procedure TAndroidWidgetMediator.SetBounds(AComponent: TComponent; NewBounds: TR
 begin
   if AComponent is TAndroidWidget then
   begin
-    TAndroidWidget(AComponent).SetBounds(NewBounds.Left,NewBounds.Top,
-      NewBounds.Right-NewBounds.Left,NewBounds.Bottom-NewBounds.Top);
+    TAndroidWidget(AComponent).SetBounds(NewBounds.Left, NewBounds.Top,
+      NewBounds.Right - NewBounds.Left, NewBounds.Bottom - NewBounds.Top);
     if ComponentIsIcon(AComponent) then
       with TAndroidWidget(AComponent) do
         DesignInfo := LeftTopToDesignInfo(NewBounds.Left, NewBounds.Top);
-  end else inherited SetBounds(AComponent,NewBounds);
+  end
+  else
+    inherited SetBounds(AComponent, NewBounds);
 end;
 
-procedure TAndroidWidgetMediator.GetClientArea(AComponent: TComponent; out
-  CurClientArea: TRect; out ScrollOffset: TPoint);
+procedure TAndroidWidgetMediator.GetClientArea(AComponent: TComponent;
+  out CurClientArea: TRect; out ScrollOffset: TPoint);
 var
   Widget: TAndroidWidget;
 begin
   if (AComponent is TAndroidWidget) and not ComponentIsIcon(AComponent) then
   begin
-    Widget:=TAndroidWidget(AComponent);
-    CurClientArea:=Rect(0, 0, Widget.Width, Widget.Height);
-    ScrollOffset:=Point(0, 0);
+    Widget := TAndroidWidget(AComponent);
+    CurClientArea := Rect(0, 0, Widget.Width, Widget.Height);
+    ScrollOffset := Point(0, 0);
   end
-  else inherited GetClientArea(AComponent, CurClientArea, ScrollOffset);
+  else
+    inherited GetClientArea(AComponent, CurClientArea, ScrollOffset);
 end;
 
-procedure TAndroidWidgetMediator.InitComponent(AComponent, NewParent: TComponent; NewBounds: TRect);
+procedure TAndroidWidgetMediator.InitComponent(AComponent, NewParent: TComponent;
+  NewBounds: TRect);
 begin
   if AComponent <> AndroidForm then // to preserve jForm size
   begin
     if AComponent is TAndroidWidget then
     begin
       with NewBounds do
-        if (Right - Left = 50) and (Bottom - Top = 50) then // ugly check, but IDE makes 50x50 default size for non TControl
+        if (Right - Left = 50) and (Bottom - Top = 50) then
+          // ugly check, but IDE makes 50x50 default size for non TControl
         begin
           // restore default size
           Right := Left + TAndroidWidget(AComponent).Width;
-          Bottom := Top + TAndroidWidget(AComponent).Height
+          Bottom := Top + TAndroidWidget(AComponent).Height;
         end;
     end;
     inherited InitComponent(AComponent, NewParent, NewBounds);
-    if (AComponent is jVisualControl)
-    and Assigned(jVisualControl(AComponent).Parent) then
+    if (AComponent is jVisualControl) and
+      Assigned(jVisualControl(AComponent).Parent) then
       with jVisualControl(AComponent) do
       begin
         if not (LayoutParamWidth in [lpWrapContent, lpExact, lpUseWeight]) then
@@ -2161,11 +2251,11 @@ end;
 
 procedure TAndroidWidgetMediator.Paint;
 var
-  CanUpdateLayout: Boolean;
+  CanUpdateLayout: boolean;
 
   procedure PaintWidget(AWidget: TAndroidWidget);
   var
-    i: Integer;
+    i: integer;
     Child: TAndroidWidget;
     fpcolor: TFPColor;
     fWidget: TDraftWidget;
@@ -2177,7 +2267,8 @@ var
     strImage: string;
   begin
 
-    if FDone.IndexOf(AWidget) >= 0 then Exit;
+    if FDone.IndexOf(AWidget) >= 0 then
+      Exit;
     if FStarted.IndexOf(AWidget) >= 0 then
     begin
       jVisualControl(AWidget).Anchor := nil;
@@ -2185,13 +2276,14 @@ var
       Abort;
     end;
     FStarted.Add(AWidget);
-    with LCLForm.Canvas do begin
+    with LCLForm.Canvas do
+    begin
       //fill background
-      Brush.Style:= bsSolid;
-      Brush.Color:= Self.FDefaultBrushColor;
-      Pen.Color:= Self.FDefaultPenColor;      //MedGray...
-      saveColor:= Pen.Color;
-      Font.Color:= Self.FDefaultFontColor;
+      Brush.Style := bsSolid;
+      Brush.Color := Self.FDefaultBrushColor;
+      Pen.Color := Self.FDefaultPenColor;      //MedGray...
+      saveColor := Pen.Color;
+      Font.Color := Self.FDefaultFontColor;
 
       if AWidget is jVisualControl then
         with jVisualControl(AWidget) do
@@ -2211,43 +2303,45 @@ var
       begin
         if jForm(AWidget).BackgroundColor <> colbrDefault then
         begin
-          fpcolor:= ToTFPColor(jForm(AWidget).BackgroundColor);
-          Brush.Color:= FPColorToTColor(fpcolor);
+          fpcolor := ToTFPColor(jForm(AWidget).BackgroundColor);
+          Brush.Color := FPColorToTColor(fpcolor);
           //Rectangle(0,0,AWidget.Width,AWidget.Height); // outer frame
         end
         else
         begin
           Brush.Color := FDefaultBrushColor;
-          GradientFill(Rect(0,0,AWidget.Width,AWidget.Height),
+          GradientFill(Rect(0, 0, AWidget.Width, AWidget.Height),
             BlendColors(FDefaultBrushColor, 0.92, 0, 0, 0),
-            BlendColors(FDefaultBrushColor, 0.81, 255, 255, 255),gdVertical);
-            Pen.Color:= clDkGray;
+            BlendColors(FDefaultBrushColor, 0.81, 255, 255, 255), gdVertical);
+          Pen.Color := clDkGray;
         end;
 
-        saveW:= Pen.Width;
-        Pen.Width:= 10;
-        Rectangle(0,0,AWidget.Width,AWidget.Height); // outer frame
-        Pen.Width:= saveW;
-        Pen.Color:= saveColor;
+        saveW := Pen.Width;
+        Pen.Width := 10;
+        Rectangle(0, 0, AWidget.Width, AWidget.Height); // outer frame
+        Pen.Width := saveW;
+        Pen.Color := saveColor;
 
-        strImage:= jForm(AWidget).BackgroundImageIdentifier;
+        strImage := jForm(AWidget).BackgroundImageIdentifier;
         if strImage <> '' then
         begin
-           dsgnMediator := TAndroidForm(AWidget).Designer as TAndroidWidgetMediator;
-           fbkImage:= dsgnMediator.ImageCache.GetImageAsPNG(dsgnMediator.FindDrawable(strImage));
-           //StretchDraw(Rect(0,0,AWidget.Width,AWidget.Height), fbkImage);
-           Draw(0, 0, fbkImage);
+          dsgnMediator := TAndroidForm(AWidget).Designer as TAndroidWidgetMediator;
+          fbkImage := dsgnMediator.ImageCache.GetImageAsPNG(
+            dsgnMediator.FindDrawable(strImage));
+          //StretchDraw(Rect(0,0,AWidget.Width,AWidget.Height), fbkImage);
+          Draw(0, 0, fbkImage);
         end;
 
-      end else
-      // generic
+      end
+      else
+        // generic
       begin
         fWidgetClass := DraftClassesMap.Find(AWidget.ClassType);
         if Assigned(fWidgetClass) then
         begin
           fWidget := fWidgetClass.Create(AWidget, LCLForm.Canvas);
-          if CanUpdateLayout
-          and (not FSizing or (FSelection.IndexOf(AWidget) < 0)) then
+          if CanUpdateLayout and
+            (not FSizing or (FSelection.IndexOf(AWidget) < 0)) then
             fWidget.UpdateLayout;
           fWidget.Draw;
           fWidget.Free;
@@ -2255,12 +2349,12 @@ var
         // default drawing: rect with Text
         else if (AWidget is jVisualControl) then
         begin
-          Brush.Color:= Self.FDefaultBrushColor;
-          FillRect(0,0,AWidget.Width,AWidget.Height);
-          Rectangle(0,0,AWidget.Width,AWidget.Height);    // outer frame
+          Brush.Color := Self.FDefaultBrushColor;
+          FillRect(0, 0, AWidget.Width, AWidget.Height);
+          Rectangle(0, 0, AWidget.Width, AWidget.Height);    // outer frame
           //generic
-          Font.Color:= clMedGray;
-          TextOut(5,4,AWidget.Text);
+          Font.Color := clMedGray;
+          TextOut(5, 4, AWidget.Text);
         end;
 
       end;
@@ -2269,21 +2363,22 @@ var
       begin       //inner rect...
         if not (AWidget is jForm) then
         begin
-          Pen.Color:= clSilver;
+          Pen.Color := clSilver;
           Frame(2, 2, AWidget.Width - 2, AWidget.Height - 2); // inner frame
         end;
       end;
 
       // children
-      if AWidget.ChildCount>0 then
+      if AWidget.ChildCount > 0 then
       begin
         SaveHandleState;
         // clip client area
-        if IntersectClipRect(Handle, 0, 0, AWidget.Width, AWidget.Height)<>NullRegion then
+        if IntersectClipRect(Handle, 0, 0, AWidget.Width, AWidget.Height) <>
+          NullRegion then
         begin
-          for i:=0 to AWidget.ChildCount-1 do
+          for i := 0 to AWidget.ChildCount - 1 do
           begin
-            Child:=AWidget.Children[i];
+            Child := AWidget.Children[i];
             if Child is jCustomDialog then
             begin
               if not ComponentIsIcon(Child) then
@@ -2292,9 +2387,9 @@ var
             end;
             SaveHandleState;
             // clip child area
-            MoveWindowOrgEx(Handle,Child.Left,Child.Top);
-            if IntersectClipRect(Handle,0,0,Child.Width,Child.Height)<>NullRegion then
-               PaintWidget(Child);
+            MoveWindowOrgEx(Handle, Child.Left, Child.Top);
+            if IntersectClipRect(Handle, 0, 0, Child.Width, Child.Height) <> NullRegion then
+              PaintWidget(Child);
             RestoreHandleState;
           end;
         end;
@@ -2307,24 +2402,25 @@ var
 
   procedure PaintCustomDialog(cd: jCustomDialog);
   var
-     i: Integer;
+    i: integer;
     Child: TAndroidWidget;
   begin
-    with LCLForm.Canvas do begin
+    with LCLForm.Canvas do
+    begin
       SaveHandleState;
       if cd.BackgroundColor <> colbrDefault then
-        Brush.Color:= FPColorToTColor(ToTFPColor(cd.BackgroundColor))
+        Brush.Color := FPColorToTColor(ToTFPColor(cd.BackgroundColor))
       else
-        Brush.Color:= FDefaultBrushColor;
-      MoveWindowOrgEx(Handle,cd.Left,cd.Top);
+        Brush.Color := FDefaultBrushColor;
+      MoveWindowOrgEx(Handle, cd.Left, cd.Top);
       IntersectClipRect(Handle, 0, 0, cd.Width, cd.Height);
       Brush.Style := bsSolid;
       Rectangle(0, 0, cd.Width, cd.Height);    // outer frame
       Brush.Style := bsClear;
       Font.Color := clMedGray;
       TextOut(6, 4, cd.Text);
-      Pen.Color:= clSilver; //clWhite;
-      Frame(4, 4, cd.Width-4, cd.Height-4); // inner frame
+      Pen.Color := clSilver; //clWhite;
+      Frame(4, 4, cd.Width - 4, cd.Height - 4); // inner frame
 
       // children
       if cd.ChildCount > 0 then
@@ -2334,7 +2430,8 @@ var
           Child := cd.Children[i];
           // clip child area
           MoveWindowOrgEx(Handle, Child.Left, Child.Top);
-          if IntersectClipRect(Handle, 0, 0, Child.Width, Child.Height) <> NullRegion then
+          if IntersectClipRect(Handle, 0, 0, Child.Width, Child.Height) <>
+            NullRegion then
             PaintWidget(Child);
           RestoreHandleState;
         end;
@@ -2343,10 +2440,10 @@ var
   end;
 
 var
-  i: Integer;
+  i: integer;
 begin
-  CanUpdateLayout := (FProjFile = nil)
-    or not SameText(FProjFile.CustomData['DisableLayout'], 'True');
+  CanUpdateLayout := (FProjFile = nil) or not
+    SameText(FProjFile.CustomData['DisableLayout'], 'True');
   FStarted.Clear;
   FDone.Clear;
   FCustomDialogs.Clear; // jCustomDialogs are drawn after all other components
@@ -2360,27 +2457,27 @@ end;
 
 function TAndroidWidgetMediator.ComponentIsIcon(AComponent: TComponent): boolean;
 begin
-  Result := not (AComponent is TAndroidWidget)
-    or (AComponent is jCustomDialog)
-       and (FShownCustomDialogs.IndexOf(AComponent) < 0);
+  Result := not (AComponent is TAndroidWidget) or
+    (AComponent is jCustomDialog) and (FShownCustomDialogs.IndexOf(AComponent) < 0);
 end;
 
-function TAndroidWidgetMediator.ComponentIsVisible(AComponent: TComponent): Boolean;
+function TAndroidWidgetMediator.ComponentIsVisible(AComponent: TComponent): boolean;
 begin
   Result := inherited ComponentIsVisible(AComponent);
   while Result and (AComponent is jVisualControl) do
   begin
     AComponent := jVisualControl(AComponent).Parent;
     if AComponent is jCustomDialog then
-      Result := not ComponentIsIcon(AComponent)
+      Result := not ComponentIsIcon(AComponent);
   end;
 end;
 
-function TAndroidWidgetMediator.ParentAcceptsChild(Parent: TComponent; Child: TComponentClass): boolean;
+function TAndroidWidgetMediator.ParentAcceptsChild(Parent: TComponent;
+  Child: TComponentClass): boolean;
 begin
-  Result:=(Parent is TAndroidWidget) and
-          (Child.InheritsFrom(TAndroidWidget)) and
-          (TAndroidWidget(Parent).AcceptChildrenAtDesignTime);
+  Result := (Parent is TAndroidWidget) and
+    (Child.InheritsFrom(TAndroidWidget)) and
+    (TAndroidWidget(Parent).AcceptChildrenAtDesignTime);
 end;
 
 procedure TAndroidWidgetMediator.UpdateTheme;
@@ -2397,8 +2494,8 @@ begin
         fn := LazarusIDE.ActiveProject.MainFile.GetFullFilename
       else
         fn := proj.GetFullFilename;
-      if (Pos(PathDelim + 'jni' + PathDelim, fn) = 0)
-      and (proj.GetFileOwner is TLazProject) then
+      if (Pos(PathDelim + 'jni' + PathDelim, fn) = 0) and
+        (proj.GetFileOwner is TLazProject) then
       begin // main file is not saved yet => get path of first module
         proj := TLazProject(proj.GetFileOwner).Files[1];
         fn := proj.GetFullFilename;
@@ -2410,7 +2507,8 @@ begin
       begin
         FDefaultBrushColor := FTheme.GetColorDef('colorBackground', clWhite);
         FDefaultFontColor := FTheme.GetColorDef('textColorPrimary', clBlack);
-        if Assigned(LCLForm) then LCLForm.Invalidate;
+        if Assigned(LCLForm) then
+          LCLForm.Invalidate;
       end;
     end;
   except
@@ -2436,7 +2534,8 @@ end;
 procedure TAndroidWidgetMediator.MouseMove(Shift: TShiftState; p: TPoint;
   var Handled: boolean);
 begin
-  if ssLeft in Shift then FSizing := True;
+  if ssLeft in Shift then
+    FSizing := True;
   inherited MouseMove(Shift, p, Handled);
 end;
 
@@ -2445,10 +2544,10 @@ end;
 constructor TDraftWidget.Create(AWidget: TAndroidWidget; Canvas: TCanvas);
 var
   x: TLayoutParams;
-  y, z, FnewW, FnewH: Integer;
+  y, z, FnewW, FnewH: integer;
 begin
-  TextColor:= clNone;
-  BackGroundColor:= clNone;
+  TextColor := clNone;
+  BackGroundColor := clNone;
   FAndroidWidget := AWidget;
   FCanvas := Canvas;
   FColor := colbrDefault;
@@ -2460,8 +2559,7 @@ begin
     FMinWidth := 0;
     FMinHeight := 0;
     with Designer do
-      if FSizing and (FSelection.IndexOf(AWidget) >= 0)
-      and (Parent <> nil) then
+      if FSizing and (FSelection.IndexOf(AWidget) >= 0) and (Parent <> nil) then
       begin
         if not (LayoutParamWidth in [lpWrapContent, lpExact, lpUseWeight]) then
         begin
@@ -2505,9 +2603,10 @@ begin
   begin
     if Color <> colbrDefault then
       Brush.Color := ToTColor(Color)
-    else begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+    else
+    begin
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
     TextOut(12, 9, FAndroidWidget.Text);
@@ -2516,7 +2615,7 @@ end;
 
 procedure TDraftWidget.UpdateLayout;
 var
-  FnewW, FnewH: Integer;
+  FnewW, FnewH: integer;
 begin
   with jVisualControl(FAndroidWidget) do
   begin
@@ -2536,11 +2635,14 @@ begin
           if ChildCount > 0 then
           begin
             FnewW := WrapContentWidthByChildren;
-            if FMinWidth < FnewW then FMinWidth := FnewW;
+            if FMinWidth < FnewW then
+              FMinWidth := FnewW;
           end;
-        else begin
+        else
+        begin
           FnewW := GetLayoutParamsByParent2(Parent, lpWidth, sdW);
-          if FMinWidth < FnewW then FMinWidth := FnewW;
+          if FMinWidth < FnewW then
+            FMinWidth := FnewW;
         end;
       end;
       case lpHeight of
@@ -2555,11 +2657,14 @@ begin
           if ChildCount > 0 then
           begin
             FnewH := WrapContentHeightByChildren;
-            if FMinHeight < FnewH then FMinHeight := FnewH;
+            if FMinHeight < FnewH then
+              FMinHeight := FnewH;
           end;
-        else begin
+        else
+        begin
           FnewH := GetLayoutParamsByParent2(Parent, lpHeight, sdH);
-          if FMinHeight < FnewH then FMinHeight := FnewH;
+          if FMinHeight < FnewH then
+            FMinHeight := FnewH;
         end;
       end;
     end;
@@ -2586,8 +2691,8 @@ begin
       if raToLeftOf in PosRelativeToAnchor then
         FRightBottom.x := Anchor.Left - Anchor.MarginLeft - MarginRight;
       { TODO: other combinations raToStartOf, raAlignStart, raAlignEnd }
-      if ([raBelow, raAlignBottom] * PosRelativeToAnchor <> [])
-      and Assigned(Parent) and (rpBottom in PosRelativeToParent) then
+      if ([raBelow, raAlignBottom] * PosRelativeToAnchor <> []) and
+        Assigned(Parent) and (rpBottom in PosRelativeToParent) then
         FRightBottom.y := Parent.Height - MarginBottom;
     end;
     if Assigned(Parent) then
@@ -2638,16 +2743,18 @@ var
   t: TAndroidWidget;
 begin
   Result := nil;
-  if FAndroidWidget = nil then Exit;
+  if FAndroidWidget = nil then
+    Exit;
   t := FAndroidWidget;
-  while Assigned(t.Parent) do t := t.Parent;
+  while Assigned(t.Parent) do
+    t := t.Parent;
   if t is TAndroidForm then
     Result := TAndroidForm(t).Designer as TAndroidWidgetMediator;
 end;
 
-function TDraftWidget.WrapContentWidthByChildren: Integer;
+function TDraftWidget.WrapContentWidthByChildren: integer;
 var
-  i, t: Integer;
+  i, t: integer;
 begin
   with jVisualControl(FAndroidWidget) do
   begin
@@ -2658,14 +2765,15 @@ begin
         if LayoutParamWidth = lpMatchParent then
           lpWidth := lpMatchParent;
         t := Left + Width + MarginRight;
-        if t > Result then Result := t;
+        if t > Result then
+          Result := t;
       end;
   end;
 end;
 
-function TDraftWidget.WrapContentHeightByChildren: Integer;
+function TDraftWidget.WrapContentHeightByChildren: integer;
 var
-  i, t: Integer;
+  i, t: integer;
 begin
   with jVisualControl(FAndroidWidget) do
   begin
@@ -2676,7 +2784,8 @@ begin
         if (LayoutParamHeight = lpMatchParent) then
           lpHeight := lpMatchParent;
         t := Top + Height + MarginBottom;
-        if t > Result then Result := t;
+        if t > Result then
+          Result := t;
       end;
   end;
 end;
@@ -2687,11 +2796,13 @@ begin
   if FAndroidWidget.Parent is jPanel then
   begin
     Result := jPanel(FAndroidWidget.Parent).BackgroundColor;
-  end else
+  end
+  else
   if FAndroidWidget.Parent is jCustomDialog then
   begin
     Result := jCustomDialog(FAndroidWidget.Parent).BackgroundColor;
-  end else
+  end
+  else
     Result := Color;
 end;
 
@@ -2707,7 +2818,8 @@ begin
     while (Result = clNone) and (w is jVisualControl) do
     begin
       d := DraftClassesMap.Find(w.ClassType);
-      if d = nil then Break;
+      if d = nil then
+        Break;
       with d.Create(w, FCanvas) do
       begin
         Result := BackGroundColor;
@@ -2715,8 +2827,8 @@ begin
         Free;
       end;
     end;
-    if (Result = clNone) and (w is jForm)
-    and (jForm(w).BackgroundColor <> colbrDefault) then
+    if (Result = clNone) and (w is jForm) and
+      (jForm(w).BackgroundColor <> colbrDefault) then
       Result := ToTColor(jForm(w).BackgroundColor)
     else
       Result := Designer.FDefaultBrushColor;
@@ -2734,18 +2846,20 @@ begin
     if t <> nil then
     begin
       a := 'android:state_enabled=' + IfThen(FAndroidWidget.Enabled, '!false', 'false');
-      if t.TryGetColor([BaseStyle, 'android:textColor'], a, Result) then Exit;
-      if t.TryGetColor([BaseStyle,
-                       'android:textAppearance',
-                       'android:textColor'], a, Result) then Exit;
-      if t.TryGetColor(['textAppearance',
-                        'android:textColor'], a, Result) then Exit;
+      if t.TryGetColor([BaseStyle, 'android:textColor'], a, Result) then
+        Exit;
+      if t.TryGetColor([BaseStyle, 'android:textAppearance',
+        'android:textColor'], a, Result) then
+        Exit;
+      if t.TryGetColor(['textAppearance', 'android:textColor'],
+        a, Result) then
+        Exit;
     end;
   end;
   Result := Designer.FDefaultFontColor;
 end;
 
-function TDraftWidget.GetNewWidth: Integer;
+function TDraftWidget.GetNewWidth: integer;
 begin
   if (FLeftTop.x >= 0) and (FRightBottom.x >= 0) then
     Result := FRightBottom.x - FLeftTop.x
@@ -2758,7 +2872,7 @@ begin
     Result := FMinWidth;
 end;
 
-function TDraftWidget.GetNewHeight: Integer;
+function TDraftWidget.GetNewHeight: integer;
 begin
   if (FLeftTop.y >= 0) and (FRightBottom.y >= 0) then
     Result := FRightBottom.y - FLeftTop.y
@@ -2773,7 +2887,7 @@ end;
 
 procedure TDraftWidget.SetBounds;
 var
-  newWidth, newHeight: Integer;
+  newWidth, newHeight: integer;
 begin
   newWidth := GetNewWidth;
   newHeight := GetNewHeight;
@@ -2800,7 +2914,8 @@ constructor TDraftButton.Create(AWidget: TAndroidWidget; Canvas: TCanvas);
 begin
   BaseStyle := 'buttonStyle';
   DrawableDest := 'android:background';
-  DrawableAttribs := 'android:state_enabled=' + IfThen(jButton(AWidget).Enabled, 'true', 'false');
+  DrawableAttribs := 'android:state_enabled=' +
+    IfThen(jButton(AWidget).Enabled, 'true', 'false');
   inherited;
   Color := jButton(AWidget).BackgroundColor;
   FontColor := jButton(AWidget).FontColor;
@@ -2810,7 +2925,7 @@ procedure TDraftButton.Draw;
 var
   r: TRect;
   ts: TTextStyle;
-  lastFontSize: Integer;
+  lastFontSize: integer;
   auxText: string;
 begin
   with Fcanvas do
@@ -2827,9 +2942,11 @@ begin
         FillRect(r)
       else
         StretchDraw(r, Drawable);
-    end else begin
+    end
+    else
+    begin
       if BackGroundColor = clNone then
-        Brush.Color := BlendColors(GetBackgroundColor, 2/5, 153, 153, 153);
+        Brush.Color := BlendColors(GetBackgroundColor, 2 / 5, 153, 153, 153);
       FillRect(r);
 
       //outer frame
@@ -2848,11 +2965,11 @@ begin
     ts.Layout := tlCenter;
     ts.Alignment := Classes.taCenter;
 
-    auxText:= FAndroidWidget.Text;
+    auxText := FAndroidWidget.Text;
 
     if jButton(FAndroidWidget).AllCaps then
     begin
-       auxText:= UpperCase(auxText);
+      auxText := UpperCase(auxText);
     end;
 
     TextRect(r, r.Left, r.Top, auxText, ts);
@@ -2862,12 +2979,11 @@ end;
 
 procedure TDraftButton.UpdateLayout;
 var
-  lastSize: Integer;
+  lastSize: integer;
   lastStyle: TFontStyles;
 begin
   with jButton(FAndroidWidget), FCanvas do
-    if (LayoutParamHeight = lpWrapContent)
-    or (LayoutParamWidth = lpWrapContent) then
+    if (LayoutParamHeight = lpWrapContent) or (LayoutParamWidth = lpWrapContent) then
     begin
       lastSize := Font.Size;
       lastStyle := Font.Style;
@@ -2882,7 +2998,7 @@ begin
             with T9PatchPNG(Drawable).Padding do
               FMinWidth := FMinWidth + Left + Right
           else
-            FMinWidth := FMinWidth + 14 + 13
+            FMinWidth := FMinWidth + 14 + 13;
         end;
         if LayoutParamHeight = lpWrapContent then
         begin
@@ -2891,7 +3007,7 @@ begin
             with T9PatchPNG(Drawable).Padding do
               FMinHeight := FMinHeight + Top + Bottom + 11
           else
-            FMinHeight := FMinHeight + 14 + 13
+            FMinHeight := FMinHeight + 14 + 13;
         end;
       end;
 
@@ -2915,7 +3031,7 @@ end;
 
 procedure TDraftTextView.Draw;
 var
-  lastSize: Integer;
+  lastSize: integer;
   fs: TFontStyles;
   auxText: string;
 begin
@@ -2933,11 +3049,11 @@ begin
     else
       Brush.Style := bsClear;
 
-    auxText:= jTextView(FAndroidWidget).Text;
+    auxText := jTextView(FAndroidWidget).Text;
 
     if jTextView(FAndroidWidget).AllCaps then
     begin
-       auxText:= UpperCase(auxText);
+      auxText := UpperCase(auxText);
     end;
 
     Font.Color := TextColor;
@@ -2950,12 +3066,11 @@ end;
 
 procedure TDraftTextView.UpdateLayout;
 var
-  lastSize: Integer;
+  lastSize: integer;
   lastStyle: TFontStyles;
 begin
   with jTextView(FAndroidWidget), FCanvas do
-    if (LayoutParamWidth = lpWrapContent)
-    or (LayoutParamHeight = lpWrapContent) then
+    if (LayoutParamWidth = lpWrapContent) or (LayoutParamHeight = lpWrapContent) then
     begin
       lastSize := Font.Size;
       lastStyle := Font.Style;
@@ -2982,9 +3097,10 @@ begin
   BaseStyle := 'editTextStyle';
   DrawableDest := 'android:background';
   DrawableAttribs :=
-    'android:state_focused=true;' +
-    'android:state_enabled=' + IfThen(jEditText(AWidget).Enabled, 'true', '!true') + ';' +
-    'android:state_multiline=' + IfThen(jEditText(AWidget).MaxLines > 1, 'true', '!true');
+    'android:state_focused=true;' + 'android:state_enabled=' +
+    IfThen(jEditText(AWidget).Enabled, 'true', '!true') + ';' +
+    'android:state_multiline=' + IfThen(jEditText(AWidget).MaxLines >
+    1, 'true', '!true');
   inherited;
   Color := jEditText(AWidget).BackgroundColor;
   if Color = colbrDefault then
@@ -2994,7 +3110,7 @@ end;
 
 procedure TDraftEditText.Draw;
 var
-  ls: Integer;
+  ls: integer;
   r: TRect;
   auxText: string;
 begin
@@ -3005,14 +3121,16 @@ begin
     if BackGroundColor <> clNone then
     begin
       Brush.Color := BackGroundColor;
-      FillRect(r)
-    end else
+      FillRect(r);
+    end
+    else
     begin
       if Drawable <> nil then
         StretchDraw(r, Drawable)
-      else begin
+      else
+      begin
         Brush.Style := bsClear;
-        Pen.Color := RGBToColor(175,175,175);
+        Pen.Color := RGBToColor(175, 175, 175);
         with r do
         begin
           MoveTo(4, Bottom - 8);
@@ -3023,7 +3141,7 @@ begin
       end;
     end;
 
-    auxText:= jEditText(FAndroidWidget).Text;
+    auxText := jEditText(FAndroidWidget).Text;
 
     Font.Color := TextColor;
     Brush.Style := bsClear;
@@ -3036,13 +3154,14 @@ end;
 
 procedure TDraftEditText.UpdateLayout;
 var
-  fs: Integer;
+  fs: integer;
 begin
   with jEditText(FAndroidWidget) do
     if LayoutParamHeight = lpWrapContent then
     begin
       fs := FontSize;
-      if fs = 0 then fs := 18;
+      if fs = 0 then
+        fs := 18;
       FMinHeight := 29 + (fs - 10) * 4 div 3; // todo: multiline
     end;
   inherited;
@@ -3060,7 +3179,7 @@ end;
 
 procedure TDraftSTextInput.Draw;
 var
-  ls: Integer;
+  ls: integer;
 begin
   with FCanvas do
   begin
@@ -3068,7 +3187,8 @@ begin
     begin
       Brush.Color := BackGroundColor;
       FillRect(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);
-    end else
+    end
+    else
       Brush.Style := bsClear;
     Font.Color := TextColor;
 
@@ -3079,7 +3199,7 @@ begin
 
     if BackgroundColor = clNone then
     begin
-      Pen.Color := RGBToColor(175,175,175);
+      Pen.Color := RGBToColor(175, 175, 175);
       with FAndroidWidget do
       begin
         MoveTo(4, Height - 8);
@@ -3093,13 +3213,14 @@ end;
 
 procedure TDraftSTextInput.UpdateLayout;
 var
-  fs: Integer;
+  fs: integer;
 begin
   with jsTextInput(FAndroidWidget) do
     if LayoutParamHeight = lpWrapContent then
     begin
       fs := FontSize;
-      if fs = 0 then fs := 18;
+      if fs = 0 then
+        fs := 18;
       FMinHeight := 29 + (fs - 10) * 4 div 3; // todo: multiline
     end;
   inherited UpdateLayout;
@@ -3117,7 +3238,7 @@ end;
 
 procedure TDraftAutoTextView.Draw;
 var
-  ls: Integer;
+  ls: integer;
 begin
   with FCanvas do
   begin
@@ -3125,7 +3246,8 @@ begin
     begin
       Brush.Color := BackGroundColor;
       FillRect(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);
-    end else
+    end
+    else
       Brush.Style := bsClear;
     Font.Color := TextColor;
 
@@ -3136,7 +3258,7 @@ begin
 
     if BackgroundColor = clNone then
     begin
-      Pen.Color := RGBToColor(175,175,175);
+      Pen.Color := RGBToColor(175, 175, 175);
       with FAndroidWidget do
       begin
         MoveTo(4, Height - 8);
@@ -3150,13 +3272,14 @@ end;
 
 procedure TDraftAutoTextView.UpdateLayout;
 var
-  fs: Integer;
+  fs: integer;
 begin
   with jAutoTextView(FAndroidWidget) do
     if LayoutParamHeight = lpWrapContent then
     begin
       fs := FontSize;
-      if fs = 0 then fs := 18;
+      if fs = 0 then
+        fs := 18;
       FMinHeight := 29 + (fs - 10) * 4 div 3; // todo: multiline
     end;
   inherited UpdateLayout;
@@ -3174,7 +3297,7 @@ end;
 
 procedure TDraftComboEditText.Draw;
 var
-  ls: Integer;
+  ls: integer;
 begin
   with FCanvas do
   begin
@@ -3182,7 +3305,8 @@ begin
     begin
       Brush.Color := BackGroundColor;
       FillRect(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);
-    end else
+    end
+    else
       Brush.Style := bsClear;
     Font.Color := TextColor;
 
@@ -3193,7 +3317,7 @@ begin
 
     if BackgroundColor = clNone then
     begin
-      Pen.Color := RGBToColor(175,175,175);
+      Pen.Color := RGBToColor(175, 175, 175);
       with FAndroidWidget do
       begin
         MoveTo(4, Height - 8);
@@ -3207,13 +3331,14 @@ end;
 
 procedure TDraftComboEditText.UpdateLayout;
 var
-  fs: Integer;
+  fs: integer;
 begin
   with jComboEditText(FAndroidWidget) do
     if LayoutParamHeight = lpWrapContent then
     begin
       fs := FontSize;
-      if fs = 0 then fs := 18;
+      if fs = 0 then
+        fs := 18;
       FMinHeight := 29 + (fs - 10) * 4 div 3; // todo: multiline
     end;
   inherited UpdateLayout;
@@ -3232,7 +3357,7 @@ end;
 
 procedure TDraftSearchView.Draw;
 var
-  ls: Integer;
+  ls: integer;
 begin
   with FCanvas do
   begin
@@ -3240,7 +3365,8 @@ begin
     begin
       Brush.Color := BackGroundColor;
       FillRect(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);
-    end else
+    end
+    else
       Brush.Style := bsClear;
     Font.Color := TextColor;
 
@@ -3251,7 +3377,7 @@ begin
 
     if BackgroundColor = clNone then
     begin
-      Pen.Color := RGBToColor(175,175,175);
+      Pen.Color := RGBToColor(175, 175, 175);
       with FAndroidWidget do
       begin
         MoveTo(4, Height - 8);
@@ -3265,7 +3391,7 @@ end;
 
 procedure TDraftSearchView.UpdateLayout;
 //var
-  //fs: Integer;
+//fs: Integer;
 begin
   with jSearchView(FAndroidWidget) do
     if LayoutParamHeight = lpWrapContent then
@@ -3286,8 +3412,8 @@ begin
   BaseStyle := 'checkboxStyle';
   DrawableDest := 'android:button';
   DrawableAttribs :=
-    'android:state_enabled=' + IfThen(jCheckBox(AWidget).Enabled, 'true', 'false') + ';' +
-    'android:state_checked=' + IfThen(jCheckBox(AWidget).Checked, 'true', 'false');
+    'android:state_enabled=' + IfThen(jCheckBox(AWidget).Enabled, 'true', 'false') +
+    ';' + 'android:state_checked=' + IfThen(jCheckBox(AWidget).Checked, 'true', 'false');
   inherited;
   Color := jCheckBox(AWidget).BackgroundColor;
   FontColor := jCheckBox(AWidget).FontColor;
@@ -3295,7 +3421,7 @@ end;
 
 procedure TDraftCheckBox.Draw;
 var
-  lastSize, ps: Integer;
+  lastSize, ps: integer;
 begin
   with Fcanvas do
   begin
@@ -3307,17 +3433,19 @@ begin
 
     if Drawable <> nil then
     begin
-      Draw(0, 0, Drawable)
-    end else begin
+      Draw(0, 0, Drawable);
+    end
+    else
+    begin
       Brush.Color := clWhite;
       Brush.Style := bsClear;
-      Pen.Color := RGBToColor($A1,$A1,$A1);
+      Pen.Color := RGBToColor($A1, $A1, $A1);
       Rectangle(8, 8, 24, 24);
       if jCheckBox(FAndroidWidget).Checked then
       begin
         lastSize := Pen.Width;
         Pen.Width := 4;
-        Pen.Color := RGBToColor($44,$B3,$DD);
+        Pen.Color := RGBToColor($44, $B3, $DD);
         MoveTo(12, 13);
         LineTo(16, 18);
         LineTo(26, 7);
@@ -3337,7 +3465,7 @@ end;
 
 procedure TDraftCheckBox.UpdateLayout;
 var
-  ls, ps: Integer;
+  ls, ps: integer;
 begin
   with jCheckBox(FAndroidWidget) do
   begin
@@ -3362,8 +3490,8 @@ begin
   BaseStyle := 'radioButtonStyle';
   DrawableDest := 'android:button';
   DrawableAttribs :=
-    'android:state_enabled=' + IfThen(jCheckBox(AWidget).Enabled, 'true', 'false') + ';' +
-    'android:state_checked=' + IfThen(jCheckBox(AWidget).Checked, 'true', 'false');
+    'android:state_enabled=' + IfThen(jCheckBox(AWidget).Enabled, 'true', 'false') +
+    ';' + 'android:state_checked=' + IfThen(jCheckBox(AWidget).Checked, 'true', 'false');
   inherited;
   Color := jRadioButton(AWidget).BackgroundColor;
   FontColor := jRadioButton(AWidget).FontColor;
@@ -3371,7 +3499,7 @@ end;
 
 procedure TDraftRadioButton.Draw;
 var
-  lastSize: Integer;
+  lastSize: integer;
 begin
   with Fcanvas do
   begin
@@ -3383,14 +3511,15 @@ begin
 
     if Drawable <> nil then
       Draw(0, 0, Drawable)
-    else begin
+    else
+    begin
       Brush.Style := bsClear;
-      Pen.Color := RGBToColor(155,155,155);
+      Pen.Color := RGBToColor(155, 155, 155);
       Ellipse(7, 6, 25, 24);
       if jRadioButton(FAndroidWidget).Checked then
       begin
-        Brush.Color := RGBToColor(0,$99,$CC);
-        Ellipse(7+3, 6+3, 25-3, 24-3);
+        Brush.Color := RGBToColor(0, $99, $CC);
+        Ellipse(7 + 3, 6 + 3, 25 - 3, 24 - 3);
       end;
     end;
 
@@ -3405,7 +3534,7 @@ end;
 
 procedure TDraftRadioButton.UpdateLayout;
 var
-  ps, ls: Integer;
+  ps, ls: integer;
 begin
   with jRadioButton(FAndroidWidget) do
   begin
@@ -3443,21 +3572,21 @@ var
 begin
   with Fcanvas do
   begin
-    Brush.Color := RGBToColor($ad,$ad,$ad);
+    Brush.Color := RGBToColor($ad, $ad, $ad);
     r := Rect(0, 10, Self.Width, 13);
     FillRect(r);
-    Brush.Color := RGBToColor($44,$B3,$DD);
+    Brush.Color := RGBToColor($44, $B3, $DD);
     r.Top := 9;
     r.Bottom := 12;
     if jProgressBar(FAndroidWidget).Max <= 0 then
       jProgressBar(FAndroidWidget).Max := 100;
-    x := Self.Width * jProgressBar(FAndroidWidget).Progress
-         div jProgressBar(FAndroidWidget).Max;
+    x := Self.Width * jProgressBar(FAndroidWidget).Progress div
+      jProgressBar(FAndroidWidget).Max;
     { "inverse" does not work... yet?
     if not (jProgressBar(FAndroidWidget).Style
             in [cjProgressBarStyleInverse, cjProgressBarStyleLargeInverse])
     then}
-      r.Right := x
+    r.Right := x
     {else begin
       r.Right := Self.Width;
       r.Left := Self.Width - x;
@@ -3495,10 +3624,10 @@ var
 begin
   with Fcanvas do
   begin
-    Brush.Color := RGBToColor($ad,$ad,$ad);
+    Brush.Color := RGBToColor($ad, $ad, $ad);
     r := Rect(0, 10, Self.Width, 13);
     FillRect(r);
-    Brush.Color := RGBToColor($44,$B3,$DD);
+    Brush.Color := RGBToColor($44, $B3, $DD);
     r.Top := 9;
     r.Bottom := 12;
     if jSeekBar(FAndroidWidget).Max <= 0 then
@@ -3508,14 +3637,14 @@ begin
     if not (jProgressBar(FAndroidWidget).Style
             in [cjProgressBarStyleInverse, cjProgressBarStyleLargeInverse])
     then}
-      r.Right := x;
+    r.Right := x;
     {else begin
       r.Right := Self.Width;
       r.Left := Self.Width - x;
     end};
     FillRect(r);
-    Brush.Color := RGBToColor($ff,$ff,$00);
-    Ellipse(Rect(x, 6, x+12 , 18));
+    Brush.Color := RGBToColor($ff, $ff, $00);
+    Ellipse(Rect(x, 6, x + 12, 18));
   end;
 end;
 
@@ -3536,11 +3665,11 @@ begin
   Color := jListView(AWidget).BackgroundColor;
   FontColor := jListView(AWidget).FontColor; //colbrBlack;
 
-  FDrfItems:= TStringList.Create;
+  FDrfItems := TStringList.Create;
 
-  FDrfItems.Text:= jListView(AWidget).Items.Text;
+  FDrfItems.Text := jListView(AWidget).Items.Text;
 
-  FDrfCount:=  jListView(AWidget).Items.Count;
+  FDrfCount := jListView(AWidget).Items.Count;
 
   if jListView(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
@@ -3550,54 +3679,58 @@ function TDraftListView.GetImage: TPortableNetworkGraphic;
 begin
   if FImage <> nil then
   begin
-    Result := FImage
+    Result := FImage;
   end
   else
     with jListView(FAndroidWidget) do
     begin
       if ImageItemIdentifier <> '' then
       begin
-        FImage:= Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(ImageItemIdentifier));
-        Result:= FImage;
-      end else Result := nil;
+        FImage := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(ImageItemIdentifier));
+        Result := FImage;
+      end
+      else
+        Result := nil;
     end;
 end;
 
 procedure TDraftListView.Draw;
 var
-  i, k,  count: integer;
+  i, k, Count: integer;
   r: TRect;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clActiveCaption;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clActiveCaption;
 
-  if  Self.BackGroundColor = clNone then Fcanvas.Brush.Style:= bsClear;
+  if Self.BackGroundColor = clNone then
+    Fcanvas.Brush.Style := bsClear;
 
-  Fcanvas.FillRect(0,0,Self.Width,Self.Height);
-      // outer frame
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);
+  Fcanvas.FillRect(0, 0, Self.Width, Self.Height);
+  // outer frame
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);
 
-  count:= FDrfItems.Count;
+  Count := FDrfItems.Count;
 
-  Fcanvas.Pen.Color:= clSilver;
-  Fcanvas.Font.Color:= Self.TextColor;
+  Fcanvas.Pen.Color := clSilver;
+  Fcanvas.Font.Color := Self.TextColor;
 
-  k:= Trunc(Self.Height/30);
+  k := Trunc(Self.Height / 30);
 
-  for i:= 1 to k-1 do
+  for i := 1 to k - 1 do
   begin
-    Fcanvas.MoveTo(Self.Width, {x2} Self.MarginTop+i*30); {y1}
-    Fcanvas.LineTo(0,Self.MarginTop+i*30);  {x1, y1}
-    if i <= count then
+    Fcanvas.MoveTo(Self.Width, {x2} Self.MarginTop + i * 30); {y1}
+    Fcanvas.LineTo(0, Self.MarginTop + i * 30);  {x1, y1}
+    if i <= Count then
     begin
-       if GetImage <> nil then
-       begin
-           r := Rect(5, 3 + Self.MarginTop+(i-1)*30, 24, Self.MarginTop+(i-1)*30 + 24);
-           Fcanvas.StretchDraw(r, GetImage);
-           Fcanvas.TextOut(40, 3 + Self.MarginTop+(i-1)*30, FDrfItems.Strings[i-1]);
-       end
-       else
-          Fcanvas.TextOut(5, 3 + Self.MarginTop+(i-1)*30, FDrfItems.Strings[i-1]);
+      if GetImage <> nil then
+      begin
+        r := Rect(5, 3 + Self.MarginTop + (i - 1) * 30, 24, Self.MarginTop + (i - 1) * 30 + 24);
+        Fcanvas.StretchDraw(r, GetImage);
+        Fcanvas.TextOut(40, 3 + Self.MarginTop + (i - 1) * 30, FDrfItems.Strings[i - 1]);
+      end
+      else
+        Fcanvas.TextOut(5, 3 + Self.MarginTop + (i - 1) * 30, FDrfItems.Strings[i - 1]);
     end;
   end;
 
@@ -3605,7 +3738,7 @@ begin
   //canvas.Font.Color:= Self.TextColor;
   //canvas.TextOut(5,4, txt);
 
-  Fcanvas.Brush.Style:= bsSolid;
+  Fcanvas.Brush.Style := bsSolid;
 
 end;
 
@@ -3632,24 +3765,25 @@ procedure TDraftExpandableListView.Draw;
 var
   i, k: integer;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clActiveCaption;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clActiveCaption;
 
-  if  Self.BackGroundColor = clNone then Fcanvas.Brush.Style:= bsClear;
+  if Self.BackGroundColor = clNone then
+    Fcanvas.Brush.Style := bsClear;
 
-  Fcanvas.FillRect(0,0,Self.Width,Self.Height);
-      // outer frame
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);
+  Fcanvas.FillRect(0, 0, Self.Width, Self.Height);
+  // outer frame
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);
 
-  Fcanvas.Pen.Color:= clSilver;
-  k:= Trunc(Self.Height/30);
-  for i:= 1 to k-1 do
+  Fcanvas.Pen.Color := clSilver;
+  k := Trunc(Self.Height / 30);
+  for i := 1 to k - 1 do
   begin
-    Fcanvas.MoveTo(Self.Width{-Self.MarginRight+10}, {x2} Self.MarginTop+i*30); {y1}
-    Fcanvas.LineTo(0,Self.MarginTop+i*30);  {x1, y1}
+    Fcanvas.MoveTo(Self.Width{-Self.MarginRight+10}, {x2} Self.MarginTop + i * 30); {y1}
+    Fcanvas.LineTo(0, Self.MarginTop + i * 30);  {x1, y1}
   end;
 
-  Fcanvas.Brush.Style:= bsSolid;
+  Fcanvas.Brush.Style := bsSolid;
   //canvas.Brush.Style:= bsClear;
   //canvas.Font.Color:= Self.TextColor;
   //canvas.TextOut(5,4, txt);
@@ -3667,15 +3801,19 @@ begin
     begin
       if ImageUpIdentifier <> '' then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(ImageUpIdentifier));
+        FImage := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(ImageUpIdentifier));
         Result := FImage;
-      end else
-      if (Images <> nil)
-      and (IndexImageUp >= 0) and (IndexImageUp < Images.Count) then
+      end
+      else
+      if (Images <> nil) and (IndexImageUp >= 0) and
+        (IndexImageUp < Images.Count) then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.AssetsDir + Images.Images[IndexImageUp]);
+        FImage := Designer.ImageCache.GetImageAsPNG(Designer.AssetsDir +
+          Images.Images[IndexImageUp]);
         Result := FImage;
-      end else
+      end
+      else
         Result := nil;
     end;
 end;
@@ -3685,7 +3823,7 @@ begin
   inherited;
 
   Color := jImageBtn(AWidget).BackgroundColor;
-  FontColor:= colbrGray;
+  FontColor := colbrGray;
 
   if jImageBtn(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
@@ -3698,37 +3836,37 @@ var
 begin
 
   if Color <> colbrDefault then
-     Fcanvas.Brush.Color := ToTColor(Color)
+    Fcanvas.Brush.Color := ToTColor(Color)
   else
   begin
-     Fcanvas.Brush.Color:= clNone;
-     Fcanvas.Brush.Style:= bsClear;
+    Fcanvas.Brush.Color := clNone;
+    Fcanvas.Brush.Style := bsClear;
   end;
 
   if GetImage <> nil then
   begin
 
-    w:= Trunc(FImage.Width/3);
-    h:= Trunc(FImage.Height/3);
+    w := Trunc(FImage.Width / 3);
+    h := Trunc(FImage.Height / 3);
 
-    w:= Max(w,h);
-    h:= w;
+    w := Max(w, h);
+    h := w;
 
     if w < 64 then
     begin
-      w:= 64;
-      h:= 64;
+      w := 64;
+      h := 64;
     end;
 
-    Fcanvas.RoundRect(0, 0, w+8, h+8, 12, 12);    // outer frame
+    Fcanvas.RoundRect(0, 0, w + 8, h + 8, 12, 12);    // outer frame
 
-    r:= Rect(4, 4, w+4, h+4);
+    r := Rect(4, 4, w + 4, h + 4);
     Fcanvas.StretchDraw(r, GetImage);
   end
   else
   begin
-    Fcanvas.RoundRect(0, 0, 72, 72, 12,12);  //outer frame
-    Fcanvas.Ellipse(4,4,68,68);            //inner
+    Fcanvas.RoundRect(0, 0, 72, 72, 12, 12);  //outer frame
+    Fcanvas.Ellipse(4, 4, 68, 68);            //inner
   end;
 
 end;
@@ -3738,20 +3876,20 @@ var
   im: TPortableNetworkGraphic;
 begin
   im := GetImage;
-  if im <> nil  then
+  if im <> nil then
     with jImageBtn(FAndroidWidget) do
     begin
 
-      FMinWidth:= Trunc(FImage.Width/3);
-      FMinHeight:= Trunc(FImage.Height/3);
+      FMinWidth := Trunc(FImage.Width / 3);
+      FMinHeight := Trunc(FImage.Height / 3);
 
-      FMinWidth:= Max(FMinWidth,FMinHeight) + 8;
-      FMinHeight:= FMinWidth;
+      FMinWidth := Max(FMinWidth, FMinHeight) + 8;
+      FMinHeight := FMinWidth;
 
       if FMinWidth < 72 then
       begin
-        FMinWidth:= 72;
-        FMinHeight:= FMinWidth;
+        FMinWidth := 72;
+        FMinHeight := FMinWidth;
       end;
 
     end;
@@ -3769,15 +3907,18 @@ begin
     begin
       if ImageIdentifier <> '' then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(ImageIdentifier));
+        FImage := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(ImageIdentifier));
         Result := FImage;
-      end else
-      if (Images <> nil)
-      and (ImageIndex >= 0) and (ImageIndex < Images.Count) then
+      end
+      else
+      if (Images <> nil) and (ImageIndex >= 0) and (ImageIndex < Images.Count) then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.AssetsDir + Images.Images[ImageIndex]);
+        FImage := Designer.ImageCache.GetImageAsPNG(Designer.AssetsDir +
+          Images.Images[ImageIndex]);
         Result := FImage;
-      end else
+      end
+      else
         Result := nil;
     end;
 end;
@@ -3787,8 +3928,8 @@ begin
   inherited;
 
   Color := jImageView(AWidget).BackgroundColor;
-  FontColor:= colbrGray;
-  BackGroundColor:= clActiveCaption; //clMenuHighlight;
+  FontColor := colbrGray;
+  BackGroundColor := clActiveCaption; //clMenuHighlight;
 
   if jImageView(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
@@ -3800,25 +3941,25 @@ var
 begin
 
   if Color <> colbrDefault then
-     Fcanvas.Brush.Color := ToTColor(Color)
+    Fcanvas.Brush.Color := ToTColor(Color)
   else
   begin
-     Fcanvas.Brush.Color:= clNone;
-     Fcanvas.Brush.Style:= bsClear;
+    Fcanvas.Brush.Color := clNone;
+    Fcanvas.Brush.Style := bsClear;
   end;
 
   if GetImage <> nil then
   begin
-    Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
-    Fcanvas.RoundRect(4, 4, Self.Width-4, Self.Height-4, 12,12);  //inner frame
+    Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
+    Fcanvas.RoundRect(4, 4, Self.Width - 4, Self.Height - 4, 12, 12);  //inner frame
     //r:= Rect(6, 6, Self.Width-6,Self.Height-6);
-    r:= Rect(6, 6, FMinWidth-6, FMinHeight-6);
+    r := Rect(6, 6, FMinWidth - 6, FMinHeight - 6);
     Fcanvas.StretchDraw(r, GetImage);
   end
   else
   begin
-    Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
-    Fcanvas.RoundRect(4, 4, Self.Width-4, Self.Height-4, 12,12);  //inner frame
+    Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
+    Fcanvas.RoundRect(4, 4, Self.Width - 4, Self.Height - 4, 12, 12);  //inner frame
   end;
 
 end;
@@ -3835,18 +3976,20 @@ begin
     with jImageView(FAndroidWidget) do  //jsContinuousScrollableImageView
     begin
 
-        if FImage.Width > Self.Width then
-           FMinWidth:= Self.Width
-        else
-           FMinWidth:= FImage.Width;
+      if FImage.Width > Self.Width then
+        FMinWidth := Self.Width
+      else
+        FMinWidth := FImage.Width;
 
-        aspectratio    := FImage.Width/FImage.Height;
-        adjustedheight := Trunc(FMinWidth/aspectratio);
+      aspectratio := FImage.Width / FImage.Height;
+      adjustedheight := Trunc(FMinWidth / aspectratio);
 
-        FMinHeight:= adjustedheight;
+      FMinHeight := adjustedheight;
 
-        if FMinWidth < 32 then FMinWidth:= 32;
-        if FMinHeight < 32 then FMinHeight:= 32;
+      if FMinWidth < 32 then
+        FMinWidth := 32;
+      if FMinHeight < 32 then
+        FMinHeight := 32;
 
     end;
   end;
@@ -3866,7 +4009,8 @@ begin
     begin
       if ImageIdentifier <> '' then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(ImageIdentifier));
+        FImage := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(ImageIdentifier));
         Result := FImage;
       end
       {else
@@ -3885,8 +4029,8 @@ begin
   inherited;
 
   Color := jZoomableImageView(AWidget).BackgroundColor;
-  FontColor:= colbrGray;
-  BackGroundColor:= clActiveCaption; //clMenuHighlight;
+  FontColor := colbrGray;
+  BackGroundColor := clActiveCaption; //clMenuHighlight;
 
   if jZoomableImageView(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
@@ -3898,25 +4042,25 @@ var
 begin
 
   if Color <> colbrDefault then
-     Fcanvas.Brush.Color := ToTColor(Color)
+    Fcanvas.Brush.Color := ToTColor(Color)
   else
   begin
-     Fcanvas.Brush.Color:= clNone;
-     Fcanvas.Brush.Style:= bsClear;
+    Fcanvas.Brush.Color := clNone;
+    Fcanvas.Brush.Style := bsClear;
   end;
 
   if GetImage <> nil then
   begin
-    Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
-    Fcanvas.RoundRect(4, 4, Self.Width-4, Self.Height-4, 12,12);  //inner frame
+    Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
+    Fcanvas.RoundRect(4, 4, Self.Width - 4, Self.Height - 4, 12, 12);  //inner frame
     //r:= Rect(6, 6, Self.Width-6,Self.Height-6);
-    r:= Rect(6, 6, FMinWidth-6, FMinHeight-6);
+    r := Rect(6, 6, FMinWidth - 6, FMinHeight - 6);
     Fcanvas.StretchDraw(r, GetImage);
   end
   else
   begin
-    Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
-    Fcanvas.RoundRect(4, 4, Self.Width-4, Self.Height-4, 12,12);  //inner frame
+    Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
+    Fcanvas.RoundRect(4, 4, Self.Width - 4, Self.Height - 4, 12, 12);  //inner frame
   end;
 
 end;
@@ -3933,24 +4077,26 @@ begin
     with jZoomableImageView(FAndroidWidget) do //jsContinuousScrollableImageView
     begin
 
-        if FImage.Width > Self.Width then
-          FMinWidth:= Self.Width
-        else
-          FMinWidth:= FImage.Width;
+      if FImage.Width > Self.Width then
+        FMinWidth := Self.Width
+      else
+        FMinWidth := FImage.Width;
 
-        aspectratio:= FImage.Width/FImage.Height;
-        adjustedheight:= Trunc(FMinWidth/aspectratio);
+      aspectratio := FImage.Width / FImage.Height;
+      adjustedheight := Trunc(FMinWidth / aspectratio);
 
-        if adjustedheight < 200 then
-           FMinHeight:= adjustedheight
-        else
-           FMinHeight:= 200;
+      if adjustedheight < 200 then
+        FMinHeight := adjustedheight
+      else
+        FMinHeight := 200;
 
-        //FMinWidth:= Min(FMinWidth,FImage.Width) + 8;
-        //FMinHeight:= Min(FMinHeight,FImage.Height) + 8;
+      //FMinWidth:= Min(FMinWidth,FImage.Width) + 8;
+      //FMinHeight:= Min(FMinHeight,FImage.Height) + 8;
 
-        if FMinWidth < 72 then FMinWidth:= 72;
-        if FMinHeight < 72 then FMinHeight:= 72;
+      if FMinWidth < 72 then
+        FMinWidth := 72;
+      if FMinHeight < 72 then
+        FMinHeight := 72;
 
     end;
   end;
@@ -3970,10 +4116,12 @@ begin
     begin
       if ImageIdentifier <> '' then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(ImageIdentifier));
+        FImage := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(ImageIdentifier));
         Result := FImage;
-      end else
-      Result := nil;
+      end
+      else
+        Result := nil;
     end;
 end;
 
@@ -3982,8 +4130,8 @@ begin
   inherited;
 
   Color := jsFloatingButton(AWidget).BackgroundColor;
-  FontColor:= colbrGray;
-  BackGroundColor:= clActiveCaption; //clMenuHighlight;
+  FontColor := colbrGray;
+  BackGroundColor := clActiveCaption; //clMenuHighlight;
 
   if jsFloatingButton(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
@@ -3997,12 +4145,12 @@ begin
   begin
     if jsFloatingButton(FAndroidWidget).BackgroundColor <> colbrDefault then
     begin
-      Brush.Color := ToTColor(jsFloatingButton(FAndroidWidget).BackgroundColor)
+      Brush.Color := ToTColor(jsFloatingButton(FAndroidWidget).BackgroundColor);
     end
     else
     begin
-      Brush.Color:= clNone;
-      Brush.Style:= bsClear;
+      Brush.Color := clNone;
+      Brush.Style := bsClear;
     end;
     //Rectangle(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
     Ellipse(0, 0, FAndroidWidget.Width, FAndroidWidget.Height);    // outer frame
@@ -4026,7 +4174,7 @@ function TDraftSContinuousScrollableImageView.GetImage: TPortableNetworkGraphic;
 begin
   if FImage <> nil then
   begin
-    Result := FImage
+    Result := FImage;
   end
   else
   begin
@@ -4034,20 +4182,23 @@ begin
     begin
       if ImageIdentifier <> '' then
       begin
-        FImage := Designer.ImageCache.GetImageAsPNG(Designer.FindDrawable(ImageIdentifier));
+        FImage := Designer.ImageCache.GetImageAsPNG(
+          Designer.FindDrawable(ImageIdentifier));
         Result := FImage;
       end
-      else Result := nil;
+      else
+        Result := nil;
     end;
   end;
 end;
 
-constructor TDraftSContinuousScrollableImageView.Create(AWidget: TAndroidWidget; Canvas: TCanvas);
+constructor TDraftSContinuousScrollableImageView.Create(AWidget: TAndroidWidget;
+  Canvas: TCanvas);
 begin
   inherited;
   Color := jsContinuousScrollableImageView(AWidget).BackgroundColor;
-  FontColor:= colbrGray;
-  BackGroundColor:= clActiveCaption; //clMenuHighlight;
+  FontColor := colbrGray;
+  BackGroundColor := clActiveCaption; //clMenuHighlight;
   if jsContinuousScrollableImageView(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
 end;
@@ -4058,25 +4209,25 @@ var
 begin
 
   if Color <> colbrDefault then
-     Fcanvas.Brush.Color := ToTColor(Color)
+    Fcanvas.Brush.Color := ToTColor(Color)
   else
   begin
-     Fcanvas.Brush.Color:= clNone;
-     Fcanvas.Brush.Style:= bsClear;
+    Fcanvas.Brush.Color := clNone;
+    Fcanvas.Brush.Style := bsClear;
   end;
 
   if GetImage <> nil then
   begin
-    Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
-    Fcanvas.RoundRect(4, 4, Self.Width-4, Self.Height-4, 12,12);  //inner frame
+    Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
+    Fcanvas.RoundRect(4, 4, Self.Width - 4, Self.Height - 4, 12, 12);  //inner frame
     //r:= Rect(6, 6, Self.Width-6,Self.Height-6);
-    r:= Rect(6, 6, FMinWidth-6, FMinHeight-6);
+    r := Rect(6, 6, FMinWidth - 6, FMinHeight - 6);
     Fcanvas.StretchDraw(r, GetImage);
   end
   else
   begin
-    Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
-    Fcanvas.RoundRect(4, 4, Self.Width-4, Self.Height-4, 12,12);  //inner frame
+    Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
+    Fcanvas.RoundRect(4, 4, Self.Width - 4, Self.Height - 4, 12, 12);  //inner frame
   end;
 
 end;
@@ -4093,25 +4244,26 @@ begin
     with jsContinuousScrollableImageView(FAndroidWidget) do
     begin
 
-        if FImage.Width > Self.Width then
-          FMinWidth:= Self.Width
-        else
-          FMinWidth:= FImage.Width;
+      if FImage.Width > Self.Width then
+        FMinWidth := Self.Width
+      else
+        FMinWidth := FImage.Width;
 
-        aspectratio:= FImage.Width/FImage.Height;
-        adjustedheight:= Trunc(FMinWidth/aspectratio);
+      aspectratio := FImage.Width / FImage.Height;
+      adjustedheight := Trunc(FMinWidth / aspectratio);
 
-        if adjustedheight < 200 then
-           FMinHeight:= adjustedheight
-        else
-           FMinHeight:= 200;
+      if adjustedheight < 200 then
+        FMinHeight := adjustedheight
+      else
+        FMinHeight := 200;
 
-        //FMinWidth:= Min(FMinWidth,FImage.Width) + 8;
-        //FMinHeight:= Min(FMinHeight,FImage.Height) + 8;
+      //FMinWidth:= Min(FMinWidth,FImage.Width) + 8;
+      //FMinHeight:= Min(FMinHeight,FImage.Height) + 8;
 
-        if FMinWidth < 72 then FMinWidth:= 72;
-        if FMinHeight < 72 then FMinHeight:= 72;
-
+      if FMinWidth < 72 then
+        FMinWidth := 72;
+      if FMinHeight < 72 then
+        FMinHeight := 72;
 
     end;
   end;
@@ -4222,37 +4374,39 @@ end;
 
 procedure TDraftSpinner.SetDropListBackgroundColor(Acolor: TARGBColorBridge);
 begin
-  FDropListBackgroundColor:= Acolor;
+  FDropListBackgroundColor := Acolor;
   if Acolor <> colbrDefault then
-    DropListColor:= ToTColor(Acolor)
+    DropListColor := ToTColor(Acolor)
   else
-    DropListColor:= clNone;
+    DropListColor := clNone;
 end;
 
 procedure TDraftSpinner.SetDropListTextColor(Acolor: TARGBColorBridge);
 var
   fpColor: TFPColor;
 begin
-  FDropListTextColor:= Acolor;
+  FDropListTextColor := Acolor;
   if Acolor <> colbrDefault then
   begin
-    fpColor:= ToTFPColor(Acolor);
-    DropListFontColor:= FPColorToTColor(fpColor);
+    fpColor := ToTFPColor(Acolor);
+    DropListFontColor := FPColorToTColor(fpColor);
   end
-  else DropListFontColor:= clNone;
+  else
+    DropListFontColor := clNone;
 end;
 
 procedure TDraftSpinner.SetSelectedFontColor(Acolor: TARGBColorBridge);
 var
   fpColor: TFPColor;
 begin
-  FSelectedFontColor:= Acolor;
+  FSelectedFontColor := Acolor;
   if Acolor <> colbrDefault then
   begin
-    fpColor:= ToTFPColor(Acolor);
-    SelectedTextColor:= FPColorToTColor(fpColor);
+    fpColor := ToTFPColor(Acolor);
+    SelectedTextColor := FPColorToTColor(fpColor);
   end
-  else SelectedTextColor:= clNone;
+  else
+    SelectedTextColor := clNone;
 end;
 
 procedure TDraftSpinner.Draw;
@@ -4260,51 +4414,51 @@ var
   r: TRect;
   saveColor: TColor;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= Self.DropListColor;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := Self.DropListColor;
 
   if DropListColor = clNone then
-     Fcanvas.Pen.Color:= clMedGray;
+    Fcanvas.Pen.Color := clMedGray;
 
   if BackGroundColor = clNone then
-     Fcanvas.Brush.Color:= clWhite;
+    Fcanvas.Brush.Color := clWhite;
 
   r := Rect(0, 0, Self.Width, Self.Height);
   Fcanvas.FillRect(r);
-      // outer frame
+  // outer frame
   Fcanvas.Rectangle(r);
 
   InflateRect(r, -1, -1);
   Fcanvas.Rectangle(r);
 
-  Fcanvas.Brush.Color:= Self.DropListColor; //clActiveCaption;
+  Fcanvas.Brush.Color := Self.DropListColor; //clActiveCaption;
 
   if DropListColor = clNone then
-     Fcanvas.Brush.Color:= clSilver;
+    Fcanvas.Brush.Color := clSilver;
 
-  Fcanvas.Rectangle(Self.Width-47,0+7,Self.Width-7,Self.Height-7);
+  Fcanvas.Rectangle(Self.Width - 47, 0 + 7, Self.Width - 7, Self.Height - 7);
 
-  saveColor:= Fcanvas.Brush.Color;
+  saveColor := Fcanvas.Brush.Color;
 
-  Fcanvas.Brush.Style:= bsClear;
-  Fcanvas.Pen.Color:= clWhite;
+  Fcanvas.Brush.Style := bsClear;
+  Fcanvas.Pen.Color := clWhite;
 
-  Fcanvas.Rectangle(Self.Width-48,0+6,Self.Width-6,Self.Height-6);
+  Fcanvas.Rectangle(Self.Width - 48, 0 + 6, Self.Width - 6, Self.Height - 6);
 
-  Fcanvas.Pen.Color:= Self.DropListFontColor;
+  Fcanvas.Pen.Color := Self.DropListFontColor;
 
   if saveColor <> clBlack then
-     Fcanvas.Pen.Color:= clBlack
+    Fcanvas.Pen.Color := clBlack
   else
-     Fcanvas.Pen.Color:= clSilver;
+    Fcanvas.Pen.Color := clSilver;
 
-  Fcanvas.Line(Self.Width-42, 12,Self.Width-11, 12);
-  Fcanvas.Line(Self.Width-42-1, 12,Self.Width-42+31 div 2, Self.Height-12);
-  Fcanvas.Line(Self.Width-42+31 div 2,Self.Height-12,Self.Width-11,12);
+  Fcanvas.Line(Self.Width - 42, 12, Self.Width - 11, 12);
+  Fcanvas.Line(Self.Width - 42 - 1, 12, Self.Width - 42 + 31 div 2, Self.Height - 12);
+  Fcanvas.Line(Self.Width - 42 + 31 div 2, Self.Height - 12, Self.Width - 11, 12);
 
-  Fcanvas.Font.Color:= Self.SelectedTextColor;
+  Fcanvas.Font.Color := Self.SelectedTextColor;
   if SelectedTextColor = clNone then
-     Fcanvas.Font.Color:= clMedGray;
+    Fcanvas.Font.Color := clMedGray;
 
   //Fcanvas.TextOut(5,4,txt);
 end;
@@ -4324,25 +4478,27 @@ end;
 
 procedure TDraftWebView.Draw;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clTeal; //clGreen;//clActiveCaption;
-  Fcanvas.FillRect(0,0,Self.Width,Self.Height);
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clTeal; //clGreen;//clActiveCaption;
+  Fcanvas.FillRect(0, 0, Self.Width, Self.Height);
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
 
-  Fcanvas.Brush.Color:= clWhite;
-  Fcanvas.Pen.Color:= clMoneyGreen;//clActiveCaption;
+  Fcanvas.Brush.Color := clWhite;
+  Fcanvas.Pen.Color := clMoneyGreen;//clActiveCaption;
 
-  Fcanvas.FillRect(5,5,Self.Width-5,25);
-  Fcanvas.Rectangle(5,5,Self.Width-5,25);
+  Fcanvas.FillRect(5, 5, Self.Width - 5, 25);
+  Fcanvas.Rectangle(5, 5, Self.Width - 5, 25);
 
-  Fcanvas.FillRect (5,30,Trunc(Self.Width/2)-5,Self.Height-5);
-  Fcanvas.Rectangle(5,30,Trunc(Self.Width/2)-5,Self.Height-5);
+  Fcanvas.FillRect(5, 30, Trunc(Self.Width / 2) - 5, Self.Height - 5);
+  Fcanvas.Rectangle(5, 30, Trunc(Self.Width / 2) - 5, Self.Height - 5);
 
-  Fcanvas.FillRect (Trunc(Self.Width/2),30,Self.Width-5,Trunc(0.5*Self.Height));
-  Fcanvas.Rectangle(Trunc(Self.Width/2),30,Self.Width-5,Trunc(0.5*Self.Height));
+  Fcanvas.FillRect(Trunc(Self.Width / 2), 30, Self.Width - 5, Trunc(0.5 * Self.Height));
+  Fcanvas.Rectangle(Trunc(Self.Width / 2), 30, Self.Width - 5, Trunc(0.5 * Self.Height));
 
-  Fcanvas.FillRect (Trunc(Self.Width/2),Trunc(0.5*Self.Height)+5,Self.Width-5,Self.Height-5);
-  Fcanvas.Rectangle(Trunc(Self.Width/2),Trunc(0.5*Self.Height)+5,Self.Width-5,Self.Height-5);
+  Fcanvas.FillRect(Trunc(Self.Width / 2), Trunc(0.5 * Self.Height) + 5,
+    Self.Width - 5, Self.Height - 5);
+  Fcanvas.Rectangle(Trunc(Self.Width / 2), Trunc(0.5 * Self.Height) + 5,
+    Self.Width - 5, Self.Height - 5);
 end;
 
 { TDraftScrollView }
@@ -4359,33 +4515,34 @@ end;
 
 procedure TDraftScrollView.Draw;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clMedGray; //clGreen;//clActiveCaption;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clMedGray; //clGreen;//clActiveCaption;
 
-  if Self.BackGroundColor = clNone then Fcanvas.Brush.Style:= bsClear;
+  if Self.BackGroundColor = clNone then
+    Fcanvas.Brush.Style := bsClear;
 
-  Fcanvas.FillRect(0,0,Self.Width,Self.Height);
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
+  Fcanvas.FillRect(0, 0, Self.Width, Self.Height);
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
 
-  Fcanvas.Brush.Style:= bsSolid;
-  Fcanvas.Brush.Color:= clWhite;
-  Fcanvas.FillRect(Self.Width-20,5,Self.Width-5,Self.Height-5);
+  Fcanvas.Brush.Style := bsSolid;
+  Fcanvas.Brush.Color := clWhite;
+  Fcanvas.FillRect(Self.Width - 20, 5, Self.Width - 5, Self.Height - 5);
 
-  Fcanvas.Brush.Color:= clMedGray; //Self.BackGroundColor;
-  Fcanvas.FillRect(Self.Width-20+5,5+25,Self.Width-5-5,Self.Height-5-25);
+  Fcanvas.Brush.Color := clMedGray; //Self.BackGroundColor;
+  Fcanvas.FillRect(Self.Width - 20 + 5, 5 + 25, Self.Width - 5 - 5, Self.Height - 5 - 25);
 
-  Fcanvas.Pen.Color:= clMedGray; //clGreen;//clActiveCaption;
-  Fcanvas.Frame(Self.Width-20,5,Self.Width-5,Self.Height-5);
+  Fcanvas.Pen.Color := clMedGray; //clGreen;//clActiveCaption;
+  Fcanvas.Frame(Self.Width - 20, 5, Self.Width - 5, Self.Height - 5);
 
-  Fcanvas.Pen.Color:= clBlack; //clGreen;//clActiveCaption;
-  Fcanvas.MoveTo(Self.Width-5-1,5+1);
-  Fcanvas.LineTo(Self.Width-20+1,5+1);
-  Fcanvas.LineTo(Self.Width-20+1,Self.Height-5-1);
+  Fcanvas.Pen.Color := clBlack; //clGreen;//clActiveCaption;
+  Fcanvas.MoveTo(Self.Width - 5 - 1, 5 + 1);
+  Fcanvas.LineTo(Self.Width - 20 + 1, 5 + 1);
+  Fcanvas.LineTo(Self.Width - 20 + 1, Self.Height - 5 - 1);
 
-  Fcanvas.Pen.Color:= clWindowFrame; //clGreen;//clActiveCaption;
-  Fcanvas.MoveTo(Self.Width-5-5,5+25+1);
-  Fcanvas.LineTo(Self.Width-5-5,Self.Height-5-25);
-  Fcanvas.LineTo(Self.Width-20+5,Self.Height-5-25);
+  Fcanvas.Pen.Color := clWindowFrame; //clGreen;//clActiveCaption;
+  Fcanvas.MoveTo(Self.Width - 5 - 5, 5 + 25 + 1);
+  Fcanvas.LineTo(Self.Width - 5 - 5, Self.Height - 5 - 25);
+  Fcanvas.LineTo(Self.Width - 20 + 5, Self.Height - 5 - 25);
 end;
 
 { TDraftHorizontalScrollView }
@@ -4402,12 +4559,13 @@ end;
 
 procedure TDraftHorizontalScrollView.Draw;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clMedGray;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clMedGray;
 
-  if Self.BackGroundColor = clNone then Fcanvas.Brush.Style:= bsClear;
+  if Self.BackGroundColor = clNone then
+    Fcanvas.Brush.Style := bsClear;
 
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
   Fcanvas.TextOut(12, 9, jHorizontalScrollView(FAndroidWidget).Text);
 
 (*  TODO :: Horizontal!
@@ -4448,12 +4606,13 @@ end;
 
 procedure TDraftRadioGroup.Draw;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clMedGray; //clGreen;//clActiveCaption;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clMedGray; //clGreen;//clActiveCaption;
 
-  if Self.BackGroundColor = clNone then Fcanvas.Brush.Style:= bsClear;
+  if Self.BackGroundColor = clNone then
+    Fcanvas.Brush.Style := bsClear;
 
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);  // outer frame
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);  // outer frame
 
   Fcanvas.TextOut(12, 9, jRadioGroup(FAndroidWidget).Text);
 end;
@@ -4472,15 +4631,15 @@ end;
 
 procedure TDraftRatingBar.Draw;
 
-  procedure DrawStar(cx, cy: Integer);
+  procedure DrawStar(cx, cy: integer);
   const
     R1 = 18.8;
     R2 = 8.4;
   var
-    i: Integer;
+    i: integer;
     p: array of TPoint;
   begin
-    SetLength(p, 5*2);
+    SetLength(p, 5 * 2);
     for i := 0 to 4 do
     begin
       with p[i * 2] do
@@ -4503,22 +4662,22 @@ procedure TDraftRatingBar.Draw;
     begin
       Style := psSolid;
       Width := 1;
-      Color := BlendColors(BackGroundColor, 62/114, 2, 2, 2);
+      Color := BlendColors(BackGroundColor, 62 / 114, 2, 2, 2);
     end;
     FCanvas.Polygon(p);
   end;
 
 var
-  i: Integer;
+  i: integer;
 begin
   with Fcanvas do
   begin
     Brush.Color := BackGroundColor;
     if BackGroundColor <> clNone then
-      FillRect(0, 0, Self.Width, Self.Height)
+      FillRect(0, 0, Self.Width, Self.Height);
   end;
   for i := 0 to jRatingBar(FAndroidWidget).NumStars - 1 do
-    DrawStar(24 + 48 * i, 6 + 19)
+    DrawStar(24 + 48 * i, 6 + 19);
 end;
 
 procedure TDraftRatingBar.UpdateLayout;
@@ -4562,11 +4721,12 @@ end;
 constructor TDraftToggleButton.Create(AWidget: TAndroidWidget; Canvas: TCanvas);
 begin
   inherited;
-  BackGroundColor := clActiveCaption;; //clMenuHighlight;
+  BackGroundColor := clActiveCaption;
+  ; //clMenuHighlight;
   Color := jToggleButton(AWidget).BackgroundColor;
   FontColor := colbrGray;
 
-  FOnOff := jToggleButton(AWidget).State <> tsOff
+  FOnOff := jToggleButton(AWidget).State <> tsOff;
   {
   if jToggleButton(AWidget).BackgroundColor = colbrDefault then
     if AWidget.Parent is jPanel then
@@ -4582,55 +4742,55 @@ end;
 
 procedure TDraftToggleButton.Draw;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clWhite;
-  Fcanvas.Font.Color:= Self.TextColor;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clWhite;
+  Fcanvas.Font.Color := Self.TextColor;
 
   if Self.BackGroundColor = clNone then
-     Fcanvas.Brush.Color:= clSilver; //clMedGray;
+    Fcanvas.Brush.Color := clSilver; //clMedGray;
 
   if Self.TextColor = clNone then
-      Fcanvas.Font.Color:= clBlack;
+    Fcanvas.Font.Color := clBlack;
 
-  Fcanvas.FillRect(0,0,Self.Width,Self.Height);
-      // outer frame
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);
+  Fcanvas.FillRect(0, 0, Self.Width, Self.Height);
+  // outer frame
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);
 
-  Fcanvas.Pen.Color:= clWindowFrame;
+  Fcanvas.Pen.Color := clWindowFrame;
   if Self.FOnOff = True then  //on
   begin
 
-    Fcanvas.Brush.Style:= bsSolid;
-    Fcanvas.Brush.Color:= clSkyBlue;
-    Fcanvas.FillRect(Self.MarginRight-4,
-                    Self.MarginTop-3,
-                    Self.Width-Self.MarginLeft+2,
-                    Self.Height-Self.MarginBottom+3);
+    Fcanvas.Brush.Style := bsSolid;
+    Fcanvas.Brush.Color := clSkyBlue;
+    Fcanvas.FillRect(Self.MarginRight - 4,
+      Self.MarginTop - 3,
+      Self.Width - Self.MarginLeft + 2,
+      Self.Height - Self.MarginBottom + 3);
 
-    Fcanvas.Brush.Style:= bsClear;
-    Fcanvas.Pen.Color:= clWindowFrame;
+    Fcanvas.Brush.Style := bsClear;
+    Fcanvas.Pen.Color := clWindowFrame;
 
-     Fcanvas.Line(Self.Width-Self.MarginRight+3, {x2}
-             Self.MarginTop-3,  {y1}
-             Self.Width-Self.MarginRight+3,  {x2}
-             Self.Height-Self.MarginBottom+3); {y2}
+    Fcanvas.Line(Self.Width - Self.MarginRight + 3, {x2}
+      Self.MarginTop - 3,  {y1}
+      Self.Width - Self.MarginRight + 3,  {x2}
+      Self.Height - Self.MarginBottom + 3); {y2}
 
-     Fcanvas.Line(Self.Width-Self.MarginRight+3, {x2}
-             Self.Height-Self.MarginBottom+3,{y2}
-             Self.MarginLeft-4,                {x1}
-             Self.Height-Self.MarginBottom+3);  {y2}
+    Fcanvas.Line(Self.Width - Self.MarginRight + 3, {x2}
+      Self.Height - Self.MarginBottom + 3,{y2}
+      Self.MarginLeft - 4,                {x1}
+      Self.Height - Self.MarginBottom + 3);  {y2}
 
 
-     Fcanvas.Pen.Color:= clWhite;
-     Fcanvas.Line(Self.MarginLeft-4, {x1}
-                   Self.MarginTop-3,  {y1}
-                   Self.MarginLeft-4, {x1}
-                   Self.Height-Self.MarginBottom+3); {y2}
+    Fcanvas.Pen.Color := clWhite;
+    Fcanvas.Line(Self.MarginLeft - 4, {x1}
+      Self.MarginTop - 3,  {y1}
+      Self.MarginLeft - 4, {x1}
+      Self.Height - Self.MarginBottom + 3); {y2}
 
-     Fcanvas.Line(Self.Width-Self.MarginRight+3, {x2}
-                Self.MarginTop-3,  {y1}
-                Self.MarginLeft-4, {x1}
-                Self.MarginTop-3);{y1}
+    Fcanvas.Line(Self.Width - Self.MarginRight + 3, {x2}
+      Self.MarginTop - 3,  {y1}
+      Self.MarginLeft - 4, {x1}
+      Self.MarginTop - 3);{y1}
   end
   else  //off
   begin
@@ -4643,32 +4803,31 @@ begin
                     Self.Height-Self.MarginBottom+3);
 
     *)
-    Fcanvas.Brush.Style:= bsClear;
-    Fcanvas.Pen.Color:= clWindowFrame;
+    Fcanvas.Brush.Style := bsClear;
+    Fcanvas.Pen.Color := clWindowFrame;
 
     //V
-    Fcanvas.Line(Self.MarginLeft-4, {x1}
-               Self.MarginTop-3,  {y1}
-               Self.MarginLeft-4, {x1}
-               Self.Height-Self.MarginBottom+3); {y2}
+    Fcanvas.Line(Self.MarginLeft - 4, {x1}
+      Self.MarginTop - 3,  {y1}
+      Self.MarginLeft - 4, {x1}
+      Self.Height - Self.MarginBottom + 3); {y2}
 
-     //H
-    Fcanvas.Line(Self.Width-Self.MarginRight+3, {x2}
-            Self.MarginTop-3,  {y1}
-            Self.MarginLeft-4, {x1}
-            Self.MarginTop-3);{y1}
+    //H
+    Fcanvas.Line(Self.Width - Self.MarginRight + 3, {x2}
+      Self.MarginTop - 3,  {y1}
+      Self.MarginLeft - 4, {x1}
+      Self.MarginTop - 3);{y1}
 
-    Fcanvas.Pen.Color:= clWhite;
-    Fcanvas.Line(Self.Width-Self.MarginRight+3, {x2}
-            Self.MarginTop-3,  {y1}
-            Self.Width-Self.MarginRight+3,  {x2}
-            Self.Height-Self.MarginBottom+3); {y2}
+    Fcanvas.Pen.Color := clWhite;
+    Fcanvas.Line(Self.Width - Self.MarginRight + 3, {x2}
+      Self.MarginTop - 3,  {y1}
+      Self.Width - Self.MarginRight + 3,  {x2}
+      Self.Height - Self.MarginBottom + 3); {y2}
 
-    Fcanvas.Line(Self.Width-Self.MarginRight+3, {x2}
-            Self.Height-Self.MarginBottom+3,{y2}
-            Self.MarginLeft-4,                {x1}
-            Self.Height-Self.MarginBottom+3);  {y2}
-
+    Fcanvas.Line(Self.Width - Self.MarginRight + 3, {x2}
+      Self.Height - Self.MarginBottom + 3,{y2}
+      Self.MarginLeft - 4,                {x1}
+      Self.Height - Self.MarginBottom + 3);  {y2}
 
   end;
 end;
@@ -4677,7 +4836,7 @@ end;
 
 procedure TDraftSwitchButton.Draw;
 var
-  x, y, z, i, ps: Integer;
+  x, y, z, i, ps: integer;
   r, rb: TRect;
   ts: TTextStyle;
   s: string;
@@ -4686,23 +4845,26 @@ begin
   begin
     if BackGroundColor = clNone then
       BackGroundColor := GetBackGroundColor
-    else begin
+    else
+    begin
       Brush.Color := BackGroundColor;
       FillRect(0, 0, Self.Width, Self.Height);
     end;
     x := Self.Height div 2 - 12;
-    Brush.Color := BlendColors(BackGroundColor, 0.7, 153,153,153);
+    Brush.Color := BlendColors(BackGroundColor, 0.7, 153, 153, 153);
     ps := Font.Size;
     Font.Size := 10;
     with jSwitchButton(FAndroidWidget) do
     begin
       y := TextWidth(TextOn);
       z := TextWidth(TextOff);
-      if y < z then y := z;
+      if y < z then
+        y := z;
       y := y + 22; // button width
 
       i := 2 * (y + 2);
-      if i < 92 then i := 92;
+      if i < 92 then
+        i := 92;
       z := Self.Width - 2 - i;
       rb := Rect(z, x, z + i, x + 24);
 
@@ -4710,12 +4872,14 @@ begin
       if State = tsOff then
       begin
         z := rb.Left + 1;
-        Brush.Color := BlendColors(Self.BackgroundColor, 0.414, 153,153,153);
-        Font.Color := RGBToColor(234,234,234);
+        Brush.Color := BlendColors(Self.BackgroundColor, 0.414, 153, 153, 153);
+        Font.Color := RGBToColor(234, 234, 234);
         s := TextOff;
-      end else begin
+      end
+      else
+      begin
         z := rb.Right - 1 - y;
-        Brush.Color := BlendColors(Self.BackgroundColor, 0.14, 11,153,200);
+        Brush.Color := BlendColors(Self.BackgroundColor, 0.14, 11, 153, 200);
         Font.Color := clWhite;
         s := TextOn;
       end;
@@ -4732,7 +4896,7 @@ end;
 
 procedure TDraftSwitchButton.UpdateLayout;
 var
-  ps, x, y: Integer;
+  ps, x, y: integer;
 begin
   FMinHeight := 28;
   with jSwitchButton(FAndroidWidget) do
@@ -4744,15 +4908,17 @@ begin
         Font.Size := 10;
         x := TextWidth(TextOn);
         y := TextWidth(TextOff);
-        if y > x then x := y;
+        if y > x then
+          x := y;
         x := 2 * (x + 22 + 2);
-        if x < 92 then x := 92;
+        if x < 92 then
+          x := 92;
         x := x + 4;
         FMinWidth := x;
         Font.Size := ps;
       end;
     if LayoutParamHeight = lpWrapContent then
-      FMinHeight := 28
+      FMinHeight := 28;
   end;
   inherited;
 end;
@@ -4771,31 +4937,32 @@ procedure TDraftGridView.Draw;
 var
   i, k: integer;
 begin
-  Fcanvas.Brush.Color:= Self.BackGroundColor;
-  Fcanvas.Pen.Color:= clActiveCaption;
+  Fcanvas.Brush.Color := Self.BackGroundColor;
+  Fcanvas.Pen.Color := clActiveCaption;
 
-  if  Self.BackGroundColor = clNone then Fcanvas.Brush.Style:= bsClear;
+  if Self.BackGroundColor = clNone then
+    Fcanvas.Brush.Style := bsClear;
 
-  Fcanvas.FillRect(0,0,Self.Width,Self.Height);
+  Fcanvas.FillRect(0, 0, Self.Width, Self.Height);
   // outer frame
-  Fcanvas.Rectangle(0,0,Self.Width,Self.Height);
-  Fcanvas.Brush.Style:= bsSolid;
-  Fcanvas.Pen.Color:= clSilver;
+  Fcanvas.Rectangle(0, 0, Self.Width, Self.Height);
+  Fcanvas.Brush.Style := bsSolid;
+  Fcanvas.Pen.Color := clSilver;
 
   //H lines
-  k:= Trunc((Self.Height-Self.MarginTop-Self.MarginBottom)/70);
-  for i:= 1 to k do
+  k := Trunc((Self.Height - Self.MarginTop - Self.MarginBottom) / 70);
+  for i := 1 to k do
   begin
-    Fcanvas.MoveTo(Self.Width-Self.MarginRight+10, {x2} Self.MarginTop+i*70); {y1}
-    Fcanvas.LineTo(Self.MarginLeft-10,Self.MarginTop+i*70);  {x1, y1}
+    Fcanvas.MoveTo(Self.Width - Self.MarginRight + 10, {x2} Self.MarginTop + i * 70); {y1}
+    Fcanvas.LineTo(Self.MarginLeft - 10, Self.MarginTop + i * 70);  {x1, y1}
   end;
 
   //V  lines
-  k:= Trunc((Self.Width-Self.MarginLeft-Self.MarginRight)/70);
-  for i:= 1 to k do
+  k := Trunc((Self.Width - Self.MarginLeft - Self.MarginRight) / 70);
+  for i := 1 to k do
   begin
-    Fcanvas.MoveTo((Self.MarginLeft-10)+i*70, Self.MarginTop-10);  {x1, y1}
-    Fcanvas.LineTo((Self.MarginLeft-10)+i*70, Self.Height); {y1}
+    Fcanvas.MoveTo((Self.MarginLeft - 10) + i * 70, Self.MarginTop - 10);  {x1, y1}
+    Fcanvas.LineTo((Self.MarginLeft - 10) + i * 70, Self.Height); {y1}
   end;
 end;
 
@@ -4806,22 +4973,22 @@ begin
   inherited;
   Color := jView(AWidget).BackgroundColor;
 
-  FontColor:= colbrGray;
-  BackGroundColor:= clActiveCaption; //clMenuHighlight;
+  FontColor := colbrGray;
+  BackGroundColor := clActiveCaption; //clMenuHighlight;
 
   if jView(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
 end;
 
-   { TDraftTreeListView }
+{ TDraftTreeListView }
 
 constructor TDraftTreeListView.Create(AWidget: TAndroidWidget; Canvas: TCanvas);
 begin
   inherited;
   Color := jTreeListView(AWidget).BackgroundColor;
 
-  FontColor:= colbrGray;
-  BackGroundColor:= clActiveCaption; //clMenuHighlight;
+  FontColor := colbrGray;
+  BackGroundColor := clActiveCaption; //clMenuHighlight;
 
   if jTreeListView(AWidget).BackgroundColor = colbrDefault then
     Color := GetParentBackgroundColor;
@@ -4830,27 +4997,44 @@ end;
 
 initialization
   DraftClassesMap := TDraftControlHash.Create(64); // should be power of 2 for efficiency
-  RegisterPropertyEditor(TypeInfo(TARGBColorBridge), nil, '', TARGBColorBridgePropertyEditor);
-  RegisterPropertyEditor(TypeInfo(jVisualControl), jVisualControl, 'Anchor', TAnchorPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TARGBColorBridge), nil, '',
+    TARGBColorBridgePropertyEditor);
+  RegisterPropertyEditor(TypeInfo(jVisualControl), jVisualControl,
+    'Anchor', TAnchorPropertyEditor);
   RegisterComponentEditor(jForm, TAndroidFormComponentEditor);
-  RegisterPropertyEditor(TypeInfo(Integer), jForm, 'Width', TAndroidFormSizePropertyEditor);
-  RegisterPropertyEditor(TypeInfo(Integer), jForm, 'Height', TAndroidFormSizePropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TStrings), jImageList, 'Images', TjImageListImagesEditor);
+  RegisterPropertyEditor(TypeInfo(integer), jForm, 'Width',
+    TAndroidFormSizePropertyEditor);
+  RegisterPropertyEditor(TypeInfo(integer), jForm, 'Height',
+    TAndroidFormSizePropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TStrings), jImageList, 'Images',
+    TjImageListImagesEditor);
   RegisterComponentEditor(jImageList, TjImageListEditor);
   RegisterComponentEditor(jCustomDialog, TjCustomDialogComponentEditor);
-  RegisterPropertyEditor(TypeInfo(TImageListIndex), jControl, '', TImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TImageListIndex), jControl, '',
+    TImageIndexPropertyEditor);
   RegisterPropertyEditor(TypeInfo(jImageList), nil, '', TImageListPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jImageBtn, 'ImageUpIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jImageBtn, 'ImageDownIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jImageView, 'ImageIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jZoomableImageView, 'ImageIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jListView, 'ImageItemIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jForm, 'BackgroundImageIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jBitmap, 'ImageIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jsFloatingButton, 'ImageIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jsContinuousScrollableImageView, 'ImageIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jsToolbar, 'LogoIconIdentifier', TImageIdentifierPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(string), jsToolbar, 'NavigationIconIdentifier', TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jImageBtn, 'ImageUpIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jImageBtn, 'ImageDownIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jImageView, 'ImageIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jZoomableImageView,
+    'ImageIdentifier', TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jListView, 'ImageItemIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jForm, 'BackgroundImageIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jBitmap, 'ImageIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jsFloatingButton,
+    'ImageIdentifier', TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jsContinuousScrollableImageView,
+    'ImageIdentifier', TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jsToolbar, 'LogoIconIdentifier',
+    TImageIdentifierPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(string), jsToolbar, 'NavigationIconIdentifier',
+    TImageIdentifierPropertyEditor);
 
   RegisterPropertyEditor(TypeInfo(string), jsNavigationView, 'HeaderBackgroundImageIdentifier', TImageIdentifierPropertyEditor);
   RegisterPropertyEditor(TypeInfo(string), jsNavigationView, 'HeaderLogoImageIdentifier', TImageIdentifierPropertyEditor);
@@ -4880,7 +5064,7 @@ initialization
   RegisterAndroidWidgetDraftClass(jImageView, TDraftImageView);
   RegisterAndroidWidgetDraftClass(jZoomableImageView, TDraftZoomableImageView);
   RegisterAndroidWidgetDraftClass(jSurfaceView, TDraftSurfaceView);
- // RegisterAndroidWidgetDraftClass(jGL2SurfaceView, TDraftGL2SurfaceView);
+  // RegisterAndroidWidgetDraftClass(jGL2SurfaceView, TDraftGL2SurfaceView);
   RegisterAndroidWidgetDraftClass(jCustomCamera, TDraftCustomCamera);
   RegisterAndroidWidgetDraftClass(jWebView, TDraftWebView);
   RegisterAndroidWidgetDraftClass(jScrollView, TDraftScrollView);
@@ -4927,15 +5111,16 @@ initialization
   RegisterAndroidWidgetDraftClass(jsTabLayout, TDraftSTabLayout);
   RegisterAndroidWidgetDraftClass(jsAppBarLayout, TDraftSAppBarLayout);
 
-  RegisterAndroidWidgetDraftClass(jsCollapsingToolbarLayout, TDraftSCollapsingToolbarLayout);
+  RegisterAndroidWidgetDraftClass(jsCollapsingToolbarLayout,
+    TDraftSCollapsingToolbarLayout);
   RegisterAndroidWidgetDraftClass(jsNestedScrollView, TDraftSNestedScrollView);
   RegisterAndroidWidgetDraftClass(jsAdMob, TDraftSAdMob);
 
-  RegisterAndroidWidgetDraftClass(jsContinuousScrollableImageView, TDraftSContinuousScrollableImageView);
+  RegisterAndroidWidgetDraftClass(jsContinuousScrollableImageView,
+    TDraftSContinuousScrollableImageView);
   RegisterAndroidWidgetDraftClass(jcOpenMapView, TDraftCOpenMapView);
   RegisterAndroidWidgetDraftClass(jcSignaturePad, TDraftCSignaturePad);
 
 finalization
   DraftClassesMap.Free;
 end.
-

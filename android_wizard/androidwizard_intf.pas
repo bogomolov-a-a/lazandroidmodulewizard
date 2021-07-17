@@ -6,13 +6,10 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Controls, Forms, Dialogs, Graphics, laz2_XMLRead, Laz2_DOM,
-  LCLProc, LCLType, LCLIntf, LazIDEIntf, ProjectIntf, FormEditingIntf,
-  uFormAndroidProject, uformworkspace, FPimage, AndroidWidget, gdxform;
+  LCLProc, LCLType, LCLIntf, LazIDEIntf, FormEditingIntf,
+  uFormAndroidProject, uformworkspace, FPimage,  gdxform;
 
 type
-
-  TAndroidModule = class(jForm)            //support to Android Bridges [components]
-  end;
 
   TGdxModule = class(jGdxForm)            //support to Android libGDX [components]
   end;
@@ -22,100 +19,6 @@ type
 
 
   TAndroidConsoleDataForm = class(TDataModule) // executable console app
-  end;
-
-  { TAndroidProjectDescriptor }
-
-  TAndroidProjectDescriptor = class(TProjectDescriptor)
-   private
-     FPascalJNIInterfaceCode: string;
-     FJavaClassName: string;
-     FPathToClassName: string;
-     FPathToJNIFolder: string;
-     //FPathToNdkPlatforms: string; {C:\adt32\ndk\platforms\android-14\arch-arm\usr\lib}
-     //FPathToNdkToolchains: string;
-     {C:\adt32\ndk7\toolchains\arm-linux-androideabi-4.4.3\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.4.3}
-     FInstructionSet: string;    {ArmV6}
-     FFPUSet: string;            {Soft}
-
-     FPathToJavaTemplates: string;
-     FPathToSmartDesigner: string;
-     FAndroidProjectName: string;
-     FModuleType: integer;     {-1: Gdx 0: GUI; 1: NoGUI; 2: NoGUI EXE Console; }
-     FSyntaxMode: TSyntaxMode;   {}
-
-     FPieChecked: boolean;
-     FLibraryChecked: boolean; //raw .so
-
-     FPathToJavaJDK: string;
-     FPathToAndroidSDK: string;  //Included TrailingPathDelimiter
-     FPathToAndroidNDK: string;   //Included TrailingPathDelimiter
-     FNDK: string; //alias  '>11'etc..
-     FNDKIndex: integer; {index 3/r10e , index  4/11x, index 5/12...21, index 6/22....}
-     FNDKVersion: integer; //18
-
-     FPathToAntBin: string;
-     FPathToGradle: string;
-
-     FProjectModel: string;
-     FPackagePrefaceName: string;
-     FMinApi: string;
-     FTargetApi: string;
-
-     FSupport: boolean;
-
-     FTouchtestEnabled: string;
-     FAntBuildMode: string;
-     FMainActivity: string;
-     FPathToJavaSrc: string;
-     //FAndroidNDKPlatform: string;
-     FNdkApi: string;
-
-     FPrebuildOSys: string;
-
-     FFullPackageName: string;
-     FFullJavaSrcPath: string;
-     FSmallProjName:  string; //ex. 'AppDemo1'
-     FGradleVersion: string;
-
-     FAndroidTheme: string;
-     FAndroidThemeColor: string;       //new
-     FAndroidTemplateTheme: string;  //new
-
-     FBuildSystem: string;
-     FMaxSdkPlatform: integer;
-     FCandidateSdkBuild: string;
-     FIniFileName: string;
-     FIniFileSection: string;
-
-     function SettingsFilename: string;
-     function TryNewJNIAndroidInterfaceCode(projectType: integer): boolean; //0: GUI  project --- 1:NoGUI project
-     function GetPathToJNIFolder(fullPath: string): string;
-     function GetWorkSpaceFromForm(projectType: integer; out outTag: integer): boolean;
-     function GetAppName(className: string): string;
-
-     function GetFolderFromApi(api: integer): string;
-
-     function GetPluginVersion(buildTool: string): string;
-     function GetBuildTool(sdkApi: integer): string;
-     function HasBuildTools(platform: integer;  out outBuildTool: string): boolean;
-     function TryGradleCompatibility(plugin: string; gradleVers: string; out outGradleVer: string) : boolean;
-     function TryPluginCompatibility(gradleVers: string): string;
-     function GetVerAsNumber(aVers: string): integer;
-
-     function DoNewPathToJavaTemplate(): string;
-     function GetPathToSmartDesigner(): string;
-     procedure WriteIniString(Key, Value: string);
-     function TryUndoFakeVersion(grVer: string): string;
-     function IsTemplateProject(tryTheme: string; out outAndroidTheme: string): boolean;
-
-   public
-     constructor Create; override;
-     function GetLocalizedName: string; override;
-     function GetLocalizedDescription: string; override;
-     function DoInitDescriptor: TModalResult; override;
-     function InitProject(AProject: TLazProject): TModalResult; override;
-     function CreateStartFiles(AProject: TLazProject): TModalResult; override;
   end;
 
   { TAndroidGUIProjectDescriptor }
@@ -140,7 +43,8 @@ type
 
   {TAndroidNoGUIExeProjectDescriptor}
 
-  TAndroidNoGUIExeProjectDescriptor = class(TAndroidProjectDescriptor)   //console executable App
+  TAndroidNoGUIExeProjectDescriptor = class(TAndroidProjectDescriptor)
+    //console executable App
   public
     constructor Create; override;
     function GetLocalizedName: string; override;
@@ -148,37 +52,8 @@ type
     function DoInitDescriptor: TModalResult; override;
   end;
 
-  TAndroidFileDescPascalUnitWithResource = class(TFileDescPascalUnitWithResource)
-  private
+
     //
-  public
-    SyntaxMode: TSyntaxMode; {mdDelphi, mdObjFpc}
-    PathToJNIFolder: string;
-    ModuleType: integer;   //-1:gdx 0: GUI; 1: No GUI ; 2: console executable App; 3: generic library
-
-    AndroidTheme: string;
-
-    SmallProjName: string;
-
-    constructor Create; override;
-
-    function CreateSource(const Filename     : string;
-                          const SourceName   : string;
-                          const ResourceName : string): string; override;
-
-    function GetInterfaceUsesSection: string; override;
-
-    function GetInterfaceSource(const Filename     : string;
-                                const SourceName   : string;
-                                const ResourceName : string): string; override;
-
-    function GetResourceType: TResourceType; override;
-    function GetLocalizedName: string; override;
-    function GetLocalizedDescription: string; override;
-    function GetImplementationSource(const Filename     : string;
-                                     const SourceName   : string;
-                                     const ResourceName : string): string; override;
-  end;
 
 
   TAndroidFileDescPascalUnitWithResourceGDX = class(TFileDescPascalUnitWithResource)
@@ -187,7 +62,8 @@ type
   public
     SyntaxMode: TSyntaxMode; {mdDelphi, mdObjFpc}
     PathToJNIFolder: string;
-    ModuleType: integer;   //-1:gdx 0: GUI; 1: No GUI ; 2: console executable App; 3: generic library
+    : integer;
+    //-1:gdx 0: GUI; 1: No GUI ; 2: console executable App; 3: generic library
 
    //FSmallProjName: string;
 
@@ -213,57 +89,15 @@ type
 
    function IsAllCharNumber(pcString: PChar): Boolean;
 
-var
-  AndroidProjectDescriptor: TAndroidProjectDescriptor;
-
-  AndroidFileDescriptor: TAndroidFileDescPascalUnitWithResource;  //GUI
-  AndroidFileDescriptorGDX: TAndroidFileDescPascalUnitWithResourceGDX;
-
-  AndroidGUIProjectDescriptor: TAndroidGUIProjectDescriptor;
-  AndroidGdxProjectDescriptor: TAndroidGdxProjectDescriptor;
-
-  AndroidNoGUIExeProjectDescriptor: TAndroidNoGUIExeProjectDescriptor;
-
-
-procedure Register;
-
 function SplitStr(var theString: string; delimiter: string): string;
 
 implementation
 
 uses
    {$ifdef unix}BaseUnix,{$endif}
-   LazFileUtils, uJavaParser, LamwSettings, LamwDesigner, SmartDesigner, IniFiles, PackageIntf;
+  LazFileUtils, uJavaParser, LamwSettings, LamwDesigner, SmartDesigner,
+  IniFiles;
 
-procedure Register;
-begin
-  FormEditingHook.RegisterDesignerMediator(TAndroidWidgetMediator);
-  AndroidFileDescriptor := TAndroidFileDescPascalUnitWithResource.Create;
-  AndroidFileDescriptorGDX := TAndroidFileDescPascalUnitWithResourceGDX.Create;
-
-  RegisterProjectFileDescriptor(AndroidFileDescriptor);
-  RegisterProjectFileDescriptor(AndroidFileDescriptorGDX);
-
-  AndroidProjectDescriptor:= TAndroidProjectDescriptor.Create;
-  RegisterProjectDescriptor(AndroidProjectDescriptor);
-
-  AndroidGUIProjectDescriptor:= TAndroidGUIProjectDescriptor.Create;
-  RegisterProjectDescriptor(AndroidGUIProjectDescriptor);
-
-  AndroidGdxProjectDescriptor:= TAndroidGdxProjectDescriptor.Create;
-  RegisterProjectDescriptor(AndroidGdxProjectDescriptor);
-
-  AndroidNoGUIExeProjectDescriptor:= TAndroidNoGUIExeProjectDescriptor.Create;
-  RegisterProjectDescriptor(AndroidNoGUIExeProjectDescriptor);
-
-  FormEditingHook.RegisterDesignerBaseClass(TAndroidModule);
-  FormEditingHook.RegisterDesignerBaseClass(TGdxModule);
-
-  FormEditingHook.RegisterDesignerBaseClass(TNoGUIAndroidModule);
-  FormEditingHook.RegisterDesignerBaseClass(TAndroidConsoleDataForm);
-
-  LamwSmartDesigner.Init;
-end;
 
 { TAndroidGdxProjectDescriptor }
 
@@ -500,24 +334,7 @@ begin
       end;
 
       //AndroidManifest.xml creation:
-      with TStringList.Create do
-      try
 
-        LoadFromFile(FPathToJavaTemplates + DirectorySeparator + 'gdx'+DirectorySeparator+'androidmanifest.txt');
-        strAfterReplace  := StringReplace(Text, 'dummyPackage',strPackName, [rfReplaceAll, rfIgnoreCase]);
-        strPackName:= strPackName+'.'+FMainActivity; {gApp}
-        strAfterReplace  := StringReplace(strAfterReplace, 'dummyAppName',strPackName, [rfReplaceAll, rfIgnoreCase]);
-
-        strAfterReplace  := StringReplace(strAfterReplace, 'dummySdkApi', FMinApi, [rfReplaceAll, rfIgnoreCase]);
-        strAfterReplace  := StringReplace(strAfterReplace, 'dummyTargetApi', FTargetApi, [rfReplaceAll, rfIgnoreCase]);
-
-        Clear;
-        Text:= strAfterReplace;
-        SaveToFile(FAndroidProjectName+DirectorySeparator+'AndroidManifest.xml');
-
-      finally
-        Free;
-      end;
 
       Result := mrOK
     end else
