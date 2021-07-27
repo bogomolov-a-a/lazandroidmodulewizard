@@ -106,19 +106,13 @@ type
     FGradleVersion: string;
 
     FMaxSdkPlatform: integer;
-    FMaxNdkPlatform: integer;
-    FCandidateSdkPlatform: integer;
-    FHasSdkToolsAnt: boolean;
+
     FIniFileSection: string;
     FIniFileName: string;
-    FInstructionSetIndex: integer;
-    FNDKRelease: string;
     FNDKVersion: integer;
 
     function GetBuildSystem: string;
-    function HasBuildTools(platform: integer; out outBuildTool: string): boolean;
     function GetGradleVersion(out tagVersion: integer): string;
-    function IsSdkToolsAntEnable: boolean;
     procedure WriteIniString(Key, Value: string);
     function DoPathToSmartDesigner(): string;
     function DoNewPathToJavaTemplate(): string;
@@ -129,17 +123,11 @@ type
     procedure SaveSettings(const pFilename: string);
     function GetTextByListIndex(index: integer): string;
 
-    function GetCodeNameByApi(api: string): string;
 
     function GetFullJavaSrcPath(fullProjectName: string): string;
-    function GetPrebuiltDirectory: string;
     procedure LoadPathsSettings(const fileName: string);
     function GetEventSignature(nativeMethod: string): string;
 
-    function GetMaxSdkPlatform(): integer;
-    function GetBuildTool(sdkApi: integer): string;
-
-    function GetMaxNdkPlatform(ndkVer: integer): integer; //new
     function TryGetNDKRelease(pathNDK: string): string;
     function GetNDKVersion(ndkRelease: string): integer;
 
@@ -210,19 +198,6 @@ implementation
 
 { TWorkspaceProjectMainForm }
 
-//C:\adt32\ndk10e\platforms\
-
-
-function TWorkspaceProjectMainForm.GetMaxSdkPlatform(): integer;
-
-end;
-
-
-function TWorkspaceProjectMainForm.GetCodeNameByApi(api: string): string;
-begin
-
-end;
-
 //http://developer.android.com/about/dashboards/index.html
 function TWorkspaceProjectMainForm.GetTextByListIndex(index: integer): string;
 begin
@@ -260,7 +235,7 @@ var
   intNdkApi: integer;
 begin
 
-  if ListBoxNdkPlatform.ItemIndex >= 0 then
+ { if ListBoxNdkPlatform.ItemIndex >= 0 then
   begin
 
     api := ListBoxNdkPlatform.Items[ListBoxNdkPlatform.ItemIndex];
@@ -286,14 +261,14 @@ begin
     if (intNdkApi < 21) and (Self.RGInstruction.ItemIndex = 6) then
       ShowMessage('Warning: x86_64 nedd  NDK Api >= 21');
   end;
-
+  }
 end;
 
 procedure TWorkspaceProjectMainForm.ListBoxTargetAPIChange(Sender: TObject);
 var
   intTarqetApi: integer;
 begin
-  if ListBoxTargetAPI.ItemIndex >= 0 then
+  {if ListBoxTargetAPI.ItemIndex >= 0 then
   begin
     if ListBoxTargetAPI.Text <> '' then
       FTargetApi := ListBoxTargetAPI.Items[ListBoxTargetAPI.ItemIndex];
@@ -305,14 +280,14 @@ begin
     if intTarqetApi < 29 then
       ShowMessage('Warning: remember that "google play" store NOW requires Target Api >= 29 !');
 
-  end;
+  end;}
 end;
 
 procedure TWorkspaceProjectMainForm.ListBoxTargetAPICloseUp(Sender: TObject);
 var
   intApi: integer;
 begin
-  if (Pos('AppCompat', ComboBoxTheme.Text) > 0) then
+ { if (Pos('AppCompat', ComboBoxTheme.Text) > 0) then
   begin
     intApi := StrToInt(ListBoxTargetAPI.Text);
 
@@ -322,7 +297,7 @@ begin
         '[android-sdk/platforms/android-29]');
     end;
 
-  end;
+  end;}
 end;
 
 procedure TWorkspaceProjectMainForm.PathToProjectEditChange(Sender: TObject);
@@ -334,7 +309,7 @@ procedure TWorkspaceProjectMainForm.RGInstructionClick(Sender: TObject);
 var
   minNdkApi: integer;
 begin
-  Self.FInstructionSetIndex := RGInstruction.ItemIndex;
+{  Self.FInstructionSetIndex := RGInstruction.ItemIndex;
   FInstructionSet := 'ARMV7A';
   FFPUSet := ''; //x86  or mipsel
   case FInstructionSetIndex of
@@ -401,7 +376,7 @@ begin
     if minNdkApi < 21 then
       ShowMessage('Warning: "x86_64" need NDK Api >= 21 ...');
   end;
-
+ }
 end;
 
 function TWorkspaceProjectMainForm.IsLaz4Android(): boolean;
@@ -445,44 +420,6 @@ begin
   strList.Free;
 end;
 
-function TWorkspaceProjectMainForm.GetPrebuiltDirectory: string;
-var
-  pathToNdkToolchains49: string;  //   [ARM or x86]
-begin
-  Result := '';
-  pathToNdkToolchains49 := FPathToAndroidNDK + DirectorySeparator +
-    'toolchains' + DirectorySeparator + 'arm-linux-androideabi-4.9' +
-    DirectorySeparator + 'prebuilt' + DirectorySeparator;
-    {$ifdef windows}
-     Result:=  'windows';
-     if DirectoryExists(pathToNdkToolchains49+ 'windows-x86_64') then Result:= 'windows-x86_64';
-   {$else}
-     {$ifdef darwin}
-        Result:=  '';
-        if DirectoryExists(pathToNdkToolchains49+ 'darwin-x86_64') then Result:= 'darwin-x86_64';
-     {$else}
-       {$ifdef linux}
-         Result:=  'linux-x86_32';
-         if DirectoryExists(pathToNdkToolchains49+ 'linux-x86_64') then Result:= 'linux-x86_64';
-       {$endif}
-     {$endif}
-   {$endif}
-
-  if Result = '' then
-  begin
-       {$ifdef WINDOWS}
-         Result:= 'windows-x86_64';
-       {$endif}
-       {$ifdef LINUX}
-           Result:= 'linux-x86_64';
-       {$endif}
-       {$ifdef darwin}
-           Result:= 'darwin-x86_64';
-       {$endif}
-  end;
-
-end;
-
 
 procedure TWorkspaceProjectMainForm.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
@@ -492,7 +429,7 @@ var
   path, tempStr: string;
   aList: TStringList;
 begin
-
+{
   if ModalResult = mrCancel then
     Exit;
 
@@ -711,7 +648,7 @@ begin
     end;
 
   end;
-
+  }
 end;
 
 function TWorkspaceProjectMainForm.DoPathToSmartDesigner(): string;
@@ -759,10 +696,10 @@ Var UserDir:String;
 
 begin
   UserDir:=GetUserDir;
-  UserDir+'projects';
+ { UserDir+'projects';
   if(not DirectoryExists())
   CreateDir();
-  SelDirDlgPathToWorkspace.InitialDir:=IncludeTrailingPathDelimiter(GetUserDir);
+  SelDirDlgPathToWorkspace.InitialDir:=IncludeTrailingPathDelimiter(GetUserDir);}
 end;
 
 procedure TWorkspaceProjectMainForm.ListBoxMinSDKChange(Sender: TObject);
@@ -771,7 +708,7 @@ var
   strTApi, strMApi: string;
 begin
 
-  strTApi := ListBoxTargetAPI.Items[ListBoxTargetAPI.ItemIndex];
+{  strTApi := ListBoxTargetAPI.Items[ListBoxTargetAPI.ItemIndex];
   if not IsAllCharNumber(PChar(strTApi)) then
     tApi := 29
   else
@@ -791,7 +728,7 @@ begin
   FMinApi := ListBoxMinSDK.Items[ListBoxMinSDK.ItemIndex];
 
   StatusBarInfo.Panels.Items[1].Text :=
-    '[MinSdk] ' + GetTextByListIndex(ListBoxMinSDK.ItemIndex);
+    '[MinSdk] ' + GetTextByListIndex(ListBoxMinSDK.ItemIndex);}
 end;
 
 function TWorkspaceProjectMainForm.GetEventSignature(nativeMethod: string): string;
@@ -914,7 +851,7 @@ var
   strIndexNdk: string;
 begin
 
-  if FileExists(fileName) then
+ { if FileExists(fileName) then
   begin
     with TIniFile.Create(fileName) do
       try
@@ -1088,57 +1025,7 @@ begin
         Free;
       end;
 
-  end;
-end;
-
-function TWorkspaceProjectMainForm.HasBuildTools(platform: integer;
-  out outBuildTool: string): boolean;
-var
-  lisDir: TStringList;
-  numberAsString, auxStr: string;
-  i, builderNumber: integer;
-begin
-  Result := False;
-  lisDir := TStringList.Create;   //C:\adt32\sdk\build-tools\19.1.0
-  FindAllDirectories(lisDir, IncludeTrailingPathDelimiter(FPathToAndroidSDK) +
-    'build-tools', False);
-  if lisDir.Count > 0 then
-  begin
-    for i := 0 to lisDir.Count - 1 do
-    begin
-      auxStr := ExtractFileName(lisDir.Strings[i]);
-      lisDir.Strings[i] := auxStr;
-    end;
-    lisDir.Sorted := True;
-    for i := 0 to lisDir.Count - 1 do
-    begin
-      auxStr := lisDir.Strings[i];
-      if auxStr <> '' then    //19.1.0
-      begin
-        numberAsString := Copy(auxStr, 1, 2);  //19
-        if IsAllCharNumber(PChar(numberAsString)) then
-        begin
-          builderNumber := StrToInt(numberAsString);
-          if platform <= builderNumber then
-          begin
-            outBuildTool := auxStr; //25.0.3
-            Result := True;
-            break;
-          end;
-        end;
-      end;
-    end;
-  end;
-  lisDir.Free;
-end;
-
-function TWorkspaceProjectMainForm.IsSdkToolsAntEnable: boolean;
-begin          //C:\adt32\sdk\tools\ant
-  Result := False;
-  if DirectoryExists(FPathToAndroidSDK + PathDelim + 'tools' + PathDelim + 'ant') then
-  begin
-    Result := True;
-  end;
+  end;}
 end;
 
 function TWorkspaceProjectMainForm.GetPathToSmartDesigner(): string;
@@ -1167,7 +1054,7 @@ var
   i, Count, p: integer;
 begin
 
-  EditPathToWorkspace.Left := 8; // try fix hidpi bug
+ { EditPathToWorkspace.Left := 8; // try fix hidpi bug
   ComboSelectProjectName.Left := 8;  // try fix hidpi bug
 
   ListBoxTargetAPI.Clear;  //SDK
@@ -1221,14 +1108,14 @@ begin
   end;
 
   FAndroidThemeColor := 'blue';
-  ComboBoxThemeColor.Enabled := False;
+  ComboBoxThemeColor.Enabled := False;}
 end;
 
 procedure TWorkspaceProjectMainForm.ComboBoxThemeChange(Sender: TObject);
 var
   index, intTargetApi: integer;
 begin
-
+{
   if Pos('AppCompat', ComboBoxTheme.Text) > 0 then
   begin
     ComboBoxThemeColor.Enabled := True;
@@ -1311,12 +1198,12 @@ begin
       cbBuildSystemCloseUp(Self);
     end;
   end;
-
+ }
 end;
 
 procedure TWorkspaceProjectMainForm.ComboBoxThemeColorChange(Sender: TObject);
 begin
-  case ComboBoxThemeColor.ItemIndex of
+  {case ComboBoxThemeColor.ItemIndex of
     1: FAndroidThemeColor := 'blue';
     2: FAndroidThemeColor := 'orange';
     3: FAndroidThemeColor := 'green';
@@ -1327,7 +1214,7 @@ begin
     8: FAndroidThemeColor := 'gray';
     9: FAndroidThemeColor := 'yellow';
     10: FAndroidThemeColor := 'black';
-  end;
+  end;}
 end;
 
 procedure TWorkspaceProjectMainForm.CheckBoxPIEClick(Sender: TObject);
@@ -1339,7 +1226,7 @@ procedure TWorkspaceProjectMainForm.CheckBoxSupportChange(Sender: TObject);
 var
   apiMin: integer;
 begin
-  if TCheckBox(Sender).Checked then
+ { if TCheckBox(Sender).Checked then
   begin
     apiMin := StrToInt(ListBoxMinSDK.Text);
     if apiMin < 18 then
@@ -1348,7 +1235,7 @@ begin
       ShowMessage('warning: Support Library need "Min. Device Api" >= 18');
       StatusBarInfo.Panels.Items[1].Text := '[MinSdk] JellyBean 4.3';
     end;
-  end;
+  end;}
 end;
 
 procedure TWorkspaceProjectMainForm.CheckBoxSupportClick(Sender: TObject);
@@ -1357,7 +1244,7 @@ var
   flag: boolean;
 begin
 
-  if Pos('AppCompat', FAndroidTheme) > 0 then
+  {if Pos('AppCompat', FAndroidTheme) > 0 then
     CheckBoxSupport.Checked := True;
 
   FSupport := TCheckBox(Sender).Checked;
@@ -1399,7 +1286,7 @@ begin
       cbBuildSystem.Text := 'Gradle';
       ShowMessage('Warning: Support Library need Gradle 6.6.1 and Target API >= 29');
     end;
-  end;
+  end;}
 end;
 
 procedure TWorkspaceProjectMainForm.CheckBoxLibraryClick(Sender: TObject);
@@ -1411,7 +1298,7 @@ procedure TWorkspaceProjectMainForm.cbBuildSystemCloseUp(Sender: TObject);
 var
   s: string;
 begin
-
+ {
   if (cbBuildSystem.Text = 'Gradle') then
     CheckBoxSupport.Checked := True //inner Supported!!!
   else
@@ -1423,24 +1310,24 @@ begin
     if Pos('1.7.', s) > 0 then
       MessageDlg('[LAMW 0.8.6.1] "AppCompat" [material] theme need JDK 1.8 + Gradle 6.6.1 [or up]!', mtWarning, [mbOK], 0);
   end;
-
+  }
 end;
 
 
 procedure TWorkspaceProjectMainForm.ComboSelectProjectNameKeyPress(Sender: TObject;
   var Key: char);
 begin
-  if (ComboSelectProjectName.Text <> '') and (Key = #13) then
+ { if (ComboSelectProjectName.Text <> '') and (Key = #13) then
   begin
     Key := #0;
     BitBtnOK.SetFocus;
-  end;
+  end;}
 end;
 
 
 procedure TWorkspaceProjectMainForm.EditPathToWorkspaceExit(Sender: TObject);
 begin
-  FPathToWorkspace := EditPathToWorkspace.Text;
+  {FPathToWorkspace := EditPathToWorkspace.Text;
   if EditPathToWorkspace.Text = '' then
   begin
     ShowMessage('Please,  enter path to projects [workspace] folder...');
@@ -1450,25 +1337,25 @@ begin
   begin
     ShowMessage('Warning: path to projects [workspace] contains space characters inside [not advised!]...');
   end;
-
+  }
 end;
 
 procedure TWorkspaceProjectMainForm.SpdBtnPathToWorkspaceClick(Sender: TObject);
 begin
-  if SelDirDlgPathToWorkspace.Execute then
+  {if SelDirDlgPathToWorkspace.Execute then
   begin
     EditPathToWorkspace.Text := SelDirDlgPathToWorkspace.FileName;
     FPathToWorkspace := SelDirDlgPathToWorkspace.FileName;
     ComboSelectProjectName.Items.Clear;
     FindAllDirectories(ComboSelectProjectName.Items, FPathToWorkspace, False);
-  end;
+  end;}
 end;
 
 procedure TWorkspaceProjectMainForm.SpdBtnRefreshProjectNameClick(Sender: TObject);
 begin
-  FPathToWorkspace := EditPathToWorkspace.Text;
+  {FPathToWorkspace := EditPathToWorkspace.Text;
   ComboSelectProjectName.Items.Clear;
-  FindAllDirectories(ComboSelectProjectName.Items, FPathToWorkspace, False);
+  FindAllDirectories(ComboSelectProjectName.Items, FPathToWorkspace, False);}
 end;
 
 procedure TWorkspaceProjectMainForm.SpeedButton1Click(Sender: TObject);
@@ -1492,7 +1379,7 @@ var
   strApi, outBuildTool: string;
   i, intApi: integer;
 begin
-  lisDir := TStringList.Create;
+{  lisDir := TStringList.Create;
   FindAllDirectories(lisDir, IncludeTrailingPathDelimiter(FPathToAndroidSDK) +
     'platforms', False);
 
@@ -1533,7 +1420,7 @@ begin
     ShowMessage('Fail! Folder ' + IncludeTrailingPathDelimiter(FPathToAndroidSDK) +
       'platforms is empty!');
   lisDir.Free;
-
+ }
 end;
 
 procedure TWorkspaceProjectMainForm.SpeedButtonHintThemeClick(Sender: TObject);
@@ -1551,7 +1438,7 @@ end;
 
 function TWorkspaceProjectMainForm.GetBuildSystem: string;
 begin
-  Result := cbBuildSystem.Text;
+ { Result := cbBuildSystem.Text;}
 end;
 
 function TWorkspaceProjectMainForm.GetGradleVersion(out tagVersion: integer): string;
@@ -1561,7 +1448,7 @@ var
   numberAsString: string;
   userString: string;
 begin
-  Result := '';
+  {Result := '';
   if FPathToGradle <> '' then
   begin
     strAux := ExcludeTrailingPathDelimiter(FPathToGradle);
@@ -1624,18 +1511,7 @@ begin
     end;
 
   end;
-
-end;
-
-function TWorkspaceProjectMainForm.GetBuildTool(sdkApi: integer): string;
-var
-  tempOutBuildTool: string;
-begin
-  Result := '';
-  if HasBuildTools(sdkApi, tempOutBuildTool) then
-  begin
-    Result := tempOutBuildTool;  //28.0.3
-  end;
+  }
 end;
 
 //run before "OnFormActive called by "AndroidWizard_inf.pas""
@@ -1646,7 +1522,7 @@ var
   i: integer;
 begin
 
-  //run before "OnFormActive"
+ { //run before "OnFormActive"
 
   FFileName := pFilename; //full filename
 
@@ -1759,13 +1635,13 @@ begin
     ListBoxNdkPlatform.ItemIndex := ListBoxNdkPlatform.Items.IndexOf('22');
     StatusBarInfo.Panels.Items[0].Text := '[NDK-' + IntToStr(FNDKVersion) + ' Api 22]';
   end;
-
+  }
 end;
 
 procedure TWorkspaceProjectMainForm.SaveSettings(const pFilename: string);
 //called by ... "AndroidWizard_intf.pas"
 begin
-  with TInifile.Create(pFilename) do
+  {with TInifile.Create(pFilename) do
     try
       if EditPathToWorkspace.Text <> '' then
         WriteString('NewProject', 'PathToWorkspace', EditPathToWorkspace.Text)
@@ -1820,6 +1696,7 @@ begin
     finally
       Free;
     end;
+    }
 end;
 
 function TrimChar(query: string; delimiter: char): string;

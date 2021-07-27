@@ -417,10 +417,14 @@ type
   public
   const
     PATH_TO_KIT = '.androidSdks';
+    BUIlD_TOOLS_DIR = 'build-tools';
+    ANT_TOOL_DIRECTORY = 'tools' + PathDelim + 'ant';
   public
     function GetMaxSdkPlatform(): word;
-
+    function IsAntEnable: boolean;
   end;
+
+  { TNdks }
 
   TNdks = class(TDevelopmentKits)
   strict protected
@@ -428,9 +432,19 @@ type
   public
   const
     PATH_TO_KIT = '.ndks';
+    TOOLCHAIN_DIRECTORY =
+      'toolchains' + PathDelim + 'arm-linux-androideabi-4.9' +
+      PathDelim + 'prebuilt' + PathDelim;
+  public
+    function GetPrebuiltDirectory: string;
+
   end;
 
+  { TJdks }
+
   TJdks = class(TDevelopmentKits)
+  strict private
+    function GetRelativePathToKit(): string; override;
   public
   const
     PATH_TO_KIT = '.jdks';
@@ -445,13 +459,66 @@ resourcestring
   PARAMETER_NOT_SPECIFIED = ' %s can''t be empty!';
 
 var
+  {Global object with information about all installed in system Android SDK}
   Sdks: TSdks;
+  {Global object with information about all installed in system Andorid NDK}
   Ndks: TNdks;
+  {Global object with information about all installed in system JDK}
   Jdks: TJdks;
 
 implementation
 
 uses fpjsonrtti, FileUtil;
+
+{ TJdks }
+
+function TJdks.GetRelativePathToKit(): string;
+begin
+  Result := PATH_TO_KIT;
+end;
+
+{ TNdks }
+
+function TNdks.GetRelativePathToKit(): string;
+begin
+  Result := PATH_TO_KIT;
+end;
+
+function TNdks.GetPrebuiltDirectory: string;
+var
+  pathToNdkToolchains49: string;  //   [ARM or x86]
+begin
+  Result := '';
+  pathToNdkToolchains49 := IncludeTrailingPathDelimiter(PathToKit) + TOOLCHAIN_DIRECTORY;
+    {$ifdef windows}
+     Result:=  'windows';
+     if DirectoryExists(pathToNdkToolchains49+ 'windows-x86_64') then Result:= 'windows-x86_64';
+   {$else}
+     {$ifdef darwin}
+        Result:=  '';
+        if DirectoryExists(pathToNdkToolchains49+ 'darwin-x86_64') then Result:= 'darwin-x86_64';
+     {$else}
+       {$ifdef linux}
+         Result:=  'linux-x86_32';
+         if DirectoryExists(pathToNdkToolchains49+ 'linux-x86_64') then Result:= 'linux-x86_64';
+       {$endif}
+     {$endif}
+   {$endif}
+
+  if Result = '' then
+  begin
+       {$ifdef WINDOWS}
+         Result:= 'windows-x86_64';
+       {$endif}
+       {$ifdef LINUX}
+           Result:= 'linux-x86_64';
+       {$endif}
+       {$ifdef darwin}
+           Result:= 'darwin-x86_64';
+       {$endif}
+  end;
+
+end;
 
 { TDevelopmentKits }
 
@@ -543,9 +610,10 @@ begin
       if strApi <> '' then
       begin
         strApi := Copy(strApi, LastDelimiter('-', strApi) + 1, MaxInt);
-        if IsAllCharNumber(PChar(strApi)) then  //skip last version android api
+        if TryStrToInt(strApi, intApi) then  {
+        skip last version android api,trying convert string to int.
+         }
         begin
-          intApi := StrToInt(strApi);
           if CandidateSdkPlatform < intApi then
             CandidateSdkPlatform := intApi;
           if Result < intApi then
@@ -562,18 +630,29 @@ begin
   end;
 end;
 
+function TSdks.IsAntEnable: boolean;
+begin
+  Result := False;
+  if DirectoryExists(IncludeTrailingPathDelimiter(PathToKit) + ANT_TOOL_DIRECTORY) then
+  begin
+    Result := True;
+  end;
+end;
+
 function TSdks.HasBuildTools(platform: integer; out outBuildTool: string): boolean;
 var
   lisDir: TStringList;
-  numberAsString, auxStr: string;
-  i, builderNumber: integer;
+  auxStr: string;
+  i: integer;
+  semanticVersion: TSemanticVersion;
 begin
   Result := False;
   lisDir := TStringList.Create;   //C:\adt32\sdk\build-tools\19.1.0
-  FindAllDirectories(lisDir, IncludeTrailingPathDelimiter(FPathToAndroidSDK) +
-    'build-tools', False);
-  if lisDir.Count > 0 then
-  begin
+  try
+    FindAllDirectories(lisDir, IncludeTrailingPathDelimiter(PathToKit) +
+      BUIlD_TOOLS_DIR, False);
+    if lisDir.Count = 0 then
+      exit;
     for i := 0 to lisDir.Count - 1 do
     begin
       auxStr := ExtractFileName(lisDir.Strings[i]);
@@ -582,24 +661,24 @@ begin
     lisDir.Sorted := True;
     for i := 0 to lisDir.Count - 1 do
     begin
-      auxStr := lisDir.Strings[i];
+      auxStr := lisDir.Strings[i].Trim;
       if auxStr <> '' then    //19.1.0
       begin
-        numberAsString := Copy(auxStr, 1, 2);  //19
-        if IsAllCharNumber(PChar(numberAsString)) then
+        semanticVersion := TSemanticVersion.FromString(auxStr);
+        //major:19,minor:1,path:0
+        if platform <= semanticVersion.Major then
         begin
-          builderNumber := StrToInt(numberAsString);
-          if platform <= builderNumber then
-          begin
-            outBuildTool := auxStr; //25.0.3
-            Result := True;
-            break;
-          end;
+          outBuildTool := auxStr; //25.0.3
+          Result := True;
         end;
+        FreeAndNil(semanticVersion);
+        if (Result) then
+          break;
       end;
     end;
+  finally
+    FreeAndNil(lisDir);
   end;
-  lisDir.Free;
 end;
 
 { TNdkInformation }
@@ -772,25 +851,31 @@ end;
 class function TSemanticVersion.FromString(Version: string): TSemanticVersion;
 var
   parts: TStringArray;
+  AMajor, AMinor, APath: longint;
 begin
   Result := nil;
   parts := Version.Split(['.']);
   if (length(parts) > 3) then
     raise EIntError.Create('Invalid semantic version string');
   Result := TSemanticVersion.Create;
-  if not (TryStrToInt(parts[0], Result.Major)) then
+  if not TryStrToInt(parts[0], Amajor) then
     raise EIntError.Create('Not valid major version');
-  if not (TryStrToInt(parts[1], Result.Minor)) then
+  Result.Major := Amajor;
+  if not TryStrToInt(parts[1], Aminor) then
     raise EIntError.Create('Not valid minor version');
-  if not (TryStrToInt(parts[2], Result.Path)) then
+  Result.Minor := Aminor;
+  if not TryStrToInt(parts[2], Apath) then
     raise EIntError.Create('Not valid path version');
+  Result.Path := Apath;
 end;
 
 initialization
   Sdks := TSdks.Create;
   Ndks := TNdks.Create;
+  Jdks := TJdks.Create;
 
 finalization
+  FreeAndNil(Jdks);
   FreeAndNil(Ndks);
   FreeAndNil(Sdks);
 end.
