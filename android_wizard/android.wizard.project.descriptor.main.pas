@@ -32,6 +32,7 @@ implementation
 
 uses
   SysUtils,
+  UITypes,
   Forms,
   ProjectIntf,
   NewItemIntf,
@@ -101,14 +102,17 @@ function TAndroidProjectDescriptor.DoInitDescriptor: TModalResult;
 var
   form: TWorkspaceProjectMainForm;
 begin
-  {Result := WorkspaceProjectMainForm.ShowModal;
-  if Result <> mrOk then
-    exit;
-  IDEMessagesWindow.AddCustomMessage(TMessageLineUrgency.mluNote,
-    'Project created!');}
-  form:=TWorkspaceProjectMainForm.Create(nil);
-  form.ShowModal;
-  form.Free;
+  form := TWorkspaceProjectMainForm.Create(nil);
+  try
+    Result := form.ShowModal;
+    if Result <> mrOk then
+      exit;
+    IDEMessagesWindow.AddCustomMessage(TMessageLineUrgency.mluNote,
+      'Project created!');
+  finally
+    FreeAndNil(form);
+  end;
+
 end;
 
 function TAndroidProjectDescriptor.InitProject(AProject: TLazProject): TModalResult;

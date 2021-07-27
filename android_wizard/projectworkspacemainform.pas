@@ -6,7 +6,7 @@ interface
 
 uses
   inifiles, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  LazIDEIntf, StdCtrls, Buttons, ExtCtrls, ComCtrls, ComboEx,
+  LazIDEIntf, StdCtrls, Buttons, ExtCtrls, ComCtrls, ComboEx, EditBtn,
   FormPathMissing, PackageIntf;
 
 type
@@ -19,39 +19,22 @@ type
     CheckBoxLibrary: TCheckBox;
     CheckBoxSupport: TCheckBox;
     CheckBoxPIE: TCheckBox;
-    cbBuildSystem: TComboBox;
     ComboBoxThemeColor: TComboBoxEx;
     ImageList1: TImageList;
     Label1: TLabel;
-    ListBoxNdkPlatform: TComboBox;
-    ListBoxMinSDK: TComboBox;
-    ListBoxTargetAPI: TComboBox;
     ComboBoxTheme: TComboBox;
-    ComboSelectProjectName: TComboBox;
-    EditPackagePrefaceName: TEdit;
-    EditPathToWorkspace: TEdit;
     edProjectName: TEdit;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
-    GroupBox3: TGroupBox;
-    GroupBox4: TGroupBox;
-    GroupBox5: TGroupBox;
     Image1: TImage;
+    PathToProjectEdit: TLabeledEdit;
     LabelTheme: TLabel;
-    LabelPathToWorkspace: TLabel;
-    LabelSelectProjectName: TLabel;
+    PageControl1: TPageControl;
     Panel1: TPanel;
-    Panel2: TPanel;
-    PanelPlatform: TPanel;
     PanelButtons: TPanel;
-    PanelRadioGroup: TPanel;
-    RGInstruction: TRadioGroup;
     SelDirDlgPathToWorkspace: TSelectDirectoryDialog;
-    SpdBtnPathToWorkspace: TSpeedButton;
-    SpdBtnRefreshProjectName: TSpeedButton;
     SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
     SpeedButtonHintTheme: TSpeedButton;
-    StatusBarInfo: TStatusBar;
+    ProjectGeneralInformationSheet: TTabSheet;
 
     procedure cbBuildSystemCloseUp(Sender: TObject);
     procedure CheckBoxLibraryClick(Sender: TObject);  // raw library
@@ -70,6 +53,7 @@ type
     procedure ListBoxNdkPlatformChange(Sender: TObject);
     procedure ListBoxTargetAPIChange(Sender: TObject);
     procedure ListBoxTargetAPICloseUp(Sender: TObject);
+    procedure PathToProjectEditChange(Sender: TObject);
     procedure RGInstructionClick(Sender: TObject);
 
     procedure SpdBtnPathToWorkspaceClick(Sender: TObject);
@@ -228,108 +212,15 @@ implementation
 
 //C:\adt32\ndk10e\platforms\
 
-function TWorkspaceProjectMainForm.GetMaxNdkPlatform(ndkVer: integer): integer;
-begin
-  Result := 22;
-  case ndkVer of
-    10: Result := 21;
-    11: Result := 24;
-    12: Result := 24;
-    13: Result := 24;
-    14: Result := 24;
-    15: Result := 26;
-    16: Result := 27;
-    17: Result := 28;
-    18: Result := 28;
-    19: Result := 28;
-    20: Result := 29;
-    21: Result := 30;
-    22: Result := 30; //The deprecated "platforms" directories have been removed....
-    23: Result := 30;
-  end;
-end;
 
 function TWorkspaceProjectMainForm.GetMaxSdkPlatform(): integer;
-var
-  lisDir: TStringList;
-  strApi: string;
-  i, intApi: integer;
-  outBuildTool: string;
-begin
-  Result := 0;
-  FCandidateSdkPlatform := 0;
 
-  lisDir := TStringList.Create;
-  FindAllDirectories(lisDir, IncludeTrailingPathDelimiter(FPathToAndroidSDK) +
-    'platforms', False);
-
-  if lisDir.Count > 0 then
-  begin
-    for i := 0 to lisDir.Count - 1 do
-    begin
-      strApi := ExtractFileName(lisDir.Strings[i]);
-      if strApi <> '' then
-      begin
-        strApi := Copy(strApi, LastDelimiter('-', strApi) + 1, MaxInt);
-        if IsAllCharNumber(PChar(strApi)) then  //skip android-P
-        begin
-          intApi := StrToInt(strApi);
-          if FCandidateSdkPlatform < intApi then
-            FCandidateSdkPlatform := intApi;
-          if Result < intApi then
-          begin
-            FCandidateSdkPlatform := intApi;
-            if HasBuildTools(intApi, outBuildTool) then
-              Result := intApi;
-          end;
-        end;
-      end;
-    end;
-  end;
-
-  lisDir.Free;
 end;
 
 
 function TWorkspaceProjectMainForm.GetCodeNameByApi(api: string): string;
 begin
-  Result := 'Unknown';
-  if api = '13' then
-    Result := 'Honeycomb 3.2'
-  else if api = '14' then
-    Result := 'IceCream 4.0'
-  else if api = '15' then
-    Result := 'IceCream 4.0x'
-  else if api = '16' then
-    Result := 'JellyBean 4.1'
-  else if api = '17' then
-    Result := 'JellyBean 4.2'
-  else if api = '18' then
-    Result := 'JellyBean 4.3'
-  else if api = '19' then
-    Result := 'KitKat 4.4'
-  else if api = '20' then
-    Result := 'KitKat 4.4x'
-  else if api = '21' then
-    Result := 'Lollipop 5.0'
-  else if api = '22' then
-    Result := 'Lollipop 5.1'
-  else if api = '23' then
-    Result := 'Marshmallow 6.0'
-  else if api = '24' then
-    Result := 'Nougat 7.0'
-  else if api = '25' then
-    Result := 'Nougat 7.1'
-  else if api = '26' then
-    Result := 'Oreo 8.0'
-  else if api = '27' then
-    Result := 'Oreo 8.1'
-  else if api = '28' then
-    Result := 'Pie 9.0'
-  else if api = '29' then
-    Result := 'Android 10'
-  else if api = '30' then
-    Result := 'Android 11';
+
 end;
 
 //http://developer.android.com/about/dashboards/index.html
@@ -432,6 +323,11 @@ begin
     end;
 
   end;
+end;
+
+procedure TWorkspaceProjectMainForm.PathToProjectEditChange(Sender: TObject);
+begin
+
 end;
 
 procedure TWorkspaceProjectMainForm.RGInstructionClick(Sender: TObject);
@@ -859,23 +755,14 @@ begin
 end;
 
 procedure TWorkspaceProjectMainForm.FormCreate(Sender: TObject);
+Var UserDir:String;
+
 begin
-  if not FileExists(IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath) +
-    'LAMW.ini') then
-  begin
-    if FileExists(IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath) +
-      'JNIAndroidProject.ini') then
-    begin
-      FIniFileName := 'LAMW.ini';
-      FIniFileSection := 'NewProject';
-      CopyFile(IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath) +
-        'JNIAndroidProject.ini',
-        IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath) +
-        'LAMW.ini');
-      //DeleteFile(IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath) + 'JNIAndroidProject.ini');
-      Self.DoNewPathToJavaTemplate();
-    end;
-  end;
+  UserDir:=GetUserDir;
+  UserDir+'projects';
+  if(not DirectoryExists())
+  CreateDir();
+  SelDirDlgPathToWorkspace.InitialDir:=IncludeTrailingPathDelimiter(GetUserDir);
 end;
 
 procedure TWorkspaceProjectMainForm.ListBoxMinSDKChange(Sender: TObject);

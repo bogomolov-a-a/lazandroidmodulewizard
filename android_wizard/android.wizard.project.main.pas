@@ -15,8 +15,8 @@ type
 
   IBuildSystemBuildFileBuilder = interface(IModuleDependentFileBuilder)
 
-    function BuildAntProjectBuildXml(AndroidProjectName: string): boolean;
-    function BuildGradleBuildGradleFile(AndroidProjectName: string): boolean;
+    function BuildAntProjectBuildXml(AProjectInformation: TProjectInformation): boolean;
+    function BuildGradleBuildGradleFile(AProjectInformation: TProjectInformation): boolean;
   end;
 
   { TBuildSystemBuildFileBuilderFactory }
@@ -45,7 +45,7 @@ function GetAbsolutePathForPackageResouces(RelativePath: string): string;
 implementation
 
 uses
-  Classes, SysUtils,PackageIntf;
+  Classes, SysUtils, PackageIntf;
 
 const
   ANDROID_MANIFIST_XML_FILE_NAME = 'AndroidManifest.xml';
@@ -76,8 +76,8 @@ type
     property BasicTemplateDirectoryPath: string
       read FBasicTemplateDirectoryPath write FBasicTemplateDirectoryPath;
   public
-    function BuildAntProjectBuildXml(AndroidProjectName: string): boolean;
-    function BuildGradleBuildGradleFile(AndroidProjectName: string): boolean;
+    function BuildAntProjectBuildXml(AProjectInformation: TProjectInformation): boolean;
+    function BuildGradleBuildGradleFile(AProjectInformation: TProjectInformation): boolean;
   end;
 
   { TAndroidManifestBuilder }
@@ -92,7 +92,8 @@ type
     DUMMY_TARGET_SDK_API_LOCATION: string = 'dummyTargetApi';
   public
     function BuildManifest(AndroidProjectName: string; PackageName: string;
-      AppActivityClassName: string; MinSdkVersion: Integer; TargetSdkVersion: Integer): boolean;
+      AppActivityClassName: string; MinSdkVersion: integer;
+      TargetSdkVersion: integer): boolean;
   end;
 
 function GetAbsolutePathForPackageResouces(RelativePath: string): string;
@@ -124,9 +125,10 @@ end;
 { TAndroidManifestBuilder }
 
 function TAndroidManifestBuilder.BuildManifest(AndroidProjectName: string;
-  PackageName: string; AppActivityClassName: string; MinSdkVersion: Integer;
-  TargetSdkVersion: Integer): boolean;
-Var strAfterReplace:String;
+  PackageName: string; AppActivityClassName: string; MinSdkVersion: integer;
+  TargetSdkVersion: integer): boolean;
+var
+  strAfterReplace: string;
 begin
   Result := False;
   with TStringList.Create do
@@ -139,9 +141,10 @@ begin
         PackageName + '.' + AppActivityClassName, [rfReplaceAll, rfIgnoreCase]);
 
       strAfterReplace := StringReplace(strAfterReplace, DUMMY_MIN_SDK_API_LOCATION,
-        intToStr(MinSdkVersion), [rfReplaceAll, rfIgnoreCase]);
+        IntToStr(MinSdkVersion), [rfReplaceAll, rfIgnoreCase]);
       strAfterReplace := StringReplace(strAfterReplace,
-        DUMMY_TARGET_SDK_API_LOCATION, intToStr(TargetSdkVersion), [rfReplaceAll, rfIgnoreCase]);
+        DUMMY_TARGET_SDK_API_LOCATION, IntToStr(TargetSdkVersion),
+        [rfReplaceAll, rfIgnoreCase]);
       Clear;
       Text := strAfterReplace;
       SaveToFile(IncludeTrailingPathDelimiter(AndroidProjectName) +
@@ -157,19 +160,19 @@ end;
 class function TAndroidManifestBuilderFactory.CreateBuilder(
   moduleType: TModuleType): IAndroidManifestFileBuilder;
 begin
-
+  Result := TAndroidManifestBuilder.Create(moduleType);
 end;
 
 function TBuildSystemBuildFileBuilder.BuildAntProjectBuildXml(
-  AndroidProjectName: string): boolean;
+ AProjectInformation: TProjectInformation): boolean;
 begin
-
+  //deprecated
 end;
 
 function TBuildSystemBuildFileBuilder.BuildGradleBuildGradleFile(
-  AndroidProjectName: string): boolean;
+  AProjectInformation: TProjectInformation): boolean;
 begin
-
+  Result := False;
 end;
 
 
@@ -183,5 +186,4 @@ class function TBuildSystemBuildFileBuilderFactory.CreateBuilder(
 begin
 
 end;
-
 end.
