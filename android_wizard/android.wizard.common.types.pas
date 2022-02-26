@@ -353,14 +353,16 @@ type
     FJdkInformation: TJdkInformation;
     FNdkInformation: TNdkInformation;
     FSdkInformation: TSdkInformation;
+    function GetProjectPath: string;
   public
     constructor Create;
     destructor Destroy; override;
     function ToJsonString(): string;
     class function FromJsonString(Data: string): TProjectInformation;
+    function IsAndroidApplication(): boolean;
   published
     property Name: string read FName write FName;
-    property ProjectPath: string read FProjectPath write FProjectPath;
+    property ProjectPath: string read GetProjectPath write FProjectPath;
     property Version: TSemanticVersion read FVersion write FVersion;
     property VersionName: string read FVersionName write FVersionName;
     property SyntaxMode: TSyntaxMode read FSyntaxMode write FSyntaxMode;
@@ -443,7 +445,7 @@ type
   { TJdks }
 
   TJdks = class(TDevelopmentKits)
-  strict private
+  strict protected
     function GetRelativePathToKit(): string; override;
   public
   const
@@ -736,6 +738,13 @@ end;
 
 { TProjectInformation }
 
+function TProjectInformation.GetProjectPath: string;
+begin
+  Result := FProjectPath;
+  if (ModuleType = mtGUI) or (ModuleType = mtGDX) then
+    Result := Result + 'jni';
+end;
+
 constructor TProjectInformation.Create;
 begin
 
@@ -769,6 +778,11 @@ begin
   finally
     FreeAndNil(destreamer);
   end;
+end;
+
+function TProjectInformation.IsAndroidApplication(): boolean;
+begin
+  Result := (FModuleType = mtGDX) or (FModuleType = mtGUI);
 end;
 
 { TBuildSystemInformation }

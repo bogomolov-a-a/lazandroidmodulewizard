@@ -4,6 +4,12 @@ unit android.wizard.project.descriptor.gui;
 
 interface
 
+uses
+  android.wizard.common.types,
+  android.wizard.project.descriptor.main,
+  Android.Wizard.Project.Main,
+  ProjectIntf;
+
 type
 
   { TGUIAndroidModuleFactory }
@@ -13,6 +19,12 @@ type
     class procedure RegisterGUIAndroidModuleResources();
   end;
 
+  { TGUIAndroidJniPascalProjectFileBuilder }
+
+  TGUIAndroidJniPascalProjectFileBuilder = class(TAbstractPascalProjectFileBuilder)
+
+  end;
+
 const
   GUI_ANDROID_ACTIVITY_FORM_NAME = 'LAMW GUI App main activity form';
 
@@ -20,9 +32,7 @@ implementation
 
 uses
   AndroidWidget,
-  FormEditingIntf,
-  ProjectIntf,
-  android.wizard.project.descriptor.main;
+  FormEditingIntf;
 
 type
   TGUIAndroidModule = class(jForm)            //support to Android Bridges [components]

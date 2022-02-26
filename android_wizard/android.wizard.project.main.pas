@@ -36,7 +36,18 @@ type
   TAndroidManifestBuilderFactory = class
     class function CreateBuilder(moduleType: TModuleType): IAndroidManifestFileBuilder;
   end;
+  TModuleDependentFileBuilder =  class abstract(TInterfacedObject, IModuleDependentFileBuilder)
+  strict private
+    FAppModuleType: TModuleType;
+    FResourceLocationPath: string;
+  protected
+    function GetModuleType: TModuleType;
+    property AppModuleType: TModuleType read GetModuleType;
+    property ResourceLocationPath: string read FResourceLocationPath;
 
+  public
+    constructor Create(AAppModuleType: TModuleType);
+  end;
 {
 Returns full path for 'lamw' package resource
 }
@@ -54,19 +65,7 @@ type
 
   { TModuleDependentFileBuilder }
 
-  TModuleDependentFileBuilder = class(TInterfacedObject, IModuleDependentFileBuilder)
-  strict private
-    FAppModuleType: TModuleType;
-    FResourceLocationPath: string;
 
-  protected
-    function GetModuleType: TModuleType;
-    property AppModuleType: TModuleType read GetModuleType;
-    property ResourceLocationPath: string read FResourceLocationPath;
-
-  public
-    constructor Create(AAppModuleType: TModuleType);
-  end;
 
   TBuildSystemBuildFileBuilder = class(TModuleDependentFileBuilder,
     IBuildSystemBuildFileBuilder)

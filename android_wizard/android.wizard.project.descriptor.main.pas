@@ -6,15 +6,37 @@ interface
 
 uses
   Android.wizard.project.Main,
-  Android.wizard.common.types;
+  Android.wizard.common.types,
+  ProjectIntf;
 
 type
-  IJniPascalProjectFileBuilder = interface(IModuleDependentFileBuilder)
-    function BuildFiles(): boolean;
+  IPascalProjectFileBuilder = interface(IModuleDependentFileBuilder)
+    procedure CreateProjectFiles(AProject: TLazProject;
+      AProjectInformation: TProjectInformation);
+    procedure AddMainFile(AProject: TLazProject;
+      AProjectInformation: TProjectInformation);
   end;
 
   IJavaProjectFileBuilder = interface(IModuleDependentFileBuilder)
-    function BuildFiles(): boolean;
+    function CreateFiles(AProject: TLazProject;
+      AProjectInformation: TProjectInformation): boolean;
+  end;
+
+  { TAbstractPascalProjectFileBuilder }
+
+  TAbstractPascalProjectFileBuilder = class abstract (TModuleDependentFileBuilder,
+    IPascalProjectFileBuilder)
+  strict private
+    function GetMainProjectFileName(AProjectInformation: TProjectInformation): string;
+    function CreateProjectMainFile(AProject: TLazProject;
+      AProjectInformation: TProjectInformation): TLazProjectFile;
+    function GenerateMainFileSourceCode(): string;
+    function GetProgramHeader(): string; virtual; abstract;
+  public
+    procedure CreateProjectFiles(AProject: TLazProject;
+      AProjectInformation: TProjectInformation);
+    procedure AddMainFile(AProject: TLazProject;
+      AProjectInformation: TProjectInformation);
   end;
 
   { TAndroidProjectDescriptorFactory }
@@ -34,12 +56,12 @@ uses
   SysUtils,
   UITypes,
   Forms,
-  ProjectIntf,
   NewItemIntf,
   LazIDEIntf,
   ProjectWorkspaceMainForm,
   IDEMsgIntf,
-  IDEExternToolIntf;
+  IDEExternToolIntf,
+  Classes;
 
 type
   {UPD 12.07.2021
@@ -52,7 +74,7 @@ type
   TAndroidProjectDescriptor = class(TProjectDescriptor)
   strict private
     FPascalJNIInterfaceCode: string;
-    FJniPascalProjectFileBuilder: IJniPascalProjectFileBuilder;
+    FPascalProjectFileBuilder: IPascalProjectFileBuilder;
     FJavaProjectFileBuilder: IJavaProjectFileBuilder;
     FManifestFileBuilder: IAndroidManifestFileBuilder;
     FBuildSystemBuildBuilder: IBuildSystemBuildFileBuilder;
@@ -68,6 +90,61 @@ type
     function InitProject(AProject: TLazProject): TModalResult; override;
     function CreateStartFiles(AProject: TLazProject): TModalResult; override;
   end;
+
+{ TAbstractPascalProjectFileBuilder }
+
+function TAbstractPascalProjectFileBuilder.GetMainProjectFileName(
+  AProjectInformation: TProjectInformation): string;
+begin
+  Result := AProjectInformation.Name + '.lpr';
+end;
+
+function TAbstractPascalProjectFileBuilder.CreateProjectMainFile(AProject: TLazProject;
+  AProjectInformation: TProjectInformation): TLazProjectFile;
+var
+  projFileName: string;
+  resultSourceCode: string;
+begin
+  projFileName := GetMainProjectFileName(AProjectInformation);
+  Result := AProject.CreateProjectFile(IncludeTrailingPathDelimiter(
+    AProjectInformation.ProjectPath) + projFileName);
+  Result.IsPartOfProject := True;
+  resultSourceCode := GenerateMainFileSourceCode();
+  {write with formatting}
+  Result.SetSourceText(resultSourceCode, True);
+end;
+
+function TAbstractPascalProjectFileBuilder.GenerateMainFileSourceCode(): string;
+var
+  SourceCodeLineList: TStringList;
+begin
+  SourceCodeLineList := TStringList.Create;
+  {Linux syle by default}
+  SourceCodeLineList.TextLineBreakStyle := tlbsLF;
+  try
+    Result := SourceCodeLineList.Text;
+    SourceCodeLineList.Append(GetProgramHeader());
+  finally
+    FreeAndNil(SourceCodeLineList);
+  end;
+
+end;
+
+procedure TAbstractPascalProjectFileBuilder.CreateProjectFiles(AProject: TLazProject;
+  AProjectInformation: TProjectInformation);
+begin
+
+end;
+
+procedure TAbstractPascalProjectFileBuilder.AddMainFile(AProject: TLazProject;
+  AProjectInformation: TProjectInformation);
+var
+  MainFile: TLazProjectFile;
+begin
+  MainFile := CreateProjectMainFile(AProject, AProjectInformation);
+  AProject.AddFile(MainFile, False);
+  AProject.MainFileID := 0;
+end;
 
 { TAndroidProjectDescriptorFactory }
 
@@ -86,6 +163,8 @@ constructor TAndroidProjectDescriptor.Create;
 begin
   inherited Create;
   Name := PROJECT_LAMW_DESCRIPTOR_NAME;
+  FBuildSystemBuildBuilder := TBuildSystemBuildFileBuilderFactory.CreateBuilder(
+    FProjectInformation.ModuleType);
 end;
 
 function TAndroidProjectDescriptor.GetLocalizedName: string;
@@ -116,13 +195,22 @@ begin
 end;
 
 function TAndroidProjectDescriptor.InitProject(AProject: TLazProject): TModalResult;
+var
+  MainFile: TLazProjectFile;
 begin
   Result := inherited InitProject(AProject);
+  AProject.CustomData['ProjectInformation'] := FProjectInformation.ToJsonString();
+  FPascalProjectFileBuilder.AddMainFile(AProject, FProjectInformation);
+  LazarusIDE.DoSaveProject([]);
+  Result := mrOk;
 end;
 
 function TAndroidProjectDescriptor.CreateStartFiles(AProject: TLazProject): TModalResult;
 begin
   Result := inherited CreateStartFiles(AProject);
+  FPascalProjectFileBuilder.CreateProjectFiles(AProject, FProjectInformation);
+  LazarusIDE.DoSaveProject([]);
+  Result := mrOk;
 end;
 
 end.
